@@ -211,27 +211,29 @@
       border: 1px solid var(--border-color);
     }
 
-    /* === SOLUCIÓN: GALERIA CON FLEXBOX Y CÁLCULO PRECISO === */
+    /* === GALERIA CON FLEXBOX Y CÁLCULO PRECISO (JUSTIFIED GRID) === */
     .gallery-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px; /* Flexbox maneja la separación perfecta sin espacios extra */
+      gap: 8px;
       width: 100%;
+      align-content: flex-start;
     }
     
     .gallery-grid img, .gallery-grid video {
       display: block;
-      /* Como calculamos el tamaño exacto en JS, cover no cortará NADA de la imagen */
       object-fit: cover; 
       border-radius: 6px;
       border: 1px solid var(--border-color);
       cursor: zoom-in;
-      transition: border-color 0.2s;
-      margin: 0 !important; /* Blindaje contra espacios extra */
+      transition: border-color 0.15s, transform 0.15s;
+      margin: 0 !important;
+      background: var(--bg-surface-hover);
     }
-    
+
     .gallery-grid img:hover, .gallery-grid video:hover {
       border-color: var(--accent-green);
+      transform: scale(1.01);
     }
 
     .empty-state {
@@ -253,7 +255,7 @@
       max-width: 95vw; max-height: 95vh; 
       border-radius: var(--radius); 
       border: 1px solid var(--border-color); 
-      object-fit: contain; /* En pantalla completa siempre se respeta la escala original */
+      object-fit: contain;
     }
 
     /* ---------- RESPONSIVE ---------- */
@@ -264,11 +266,12 @@
       body { height: auto; overflow: auto; }
       .app-container { grid-template-columns: 1fr; height: auto; padding: 1rem; display: flex; flex-direction: column; }
       .panel { max-height: none; overflow: visible; }
-      .sidebar { position: sticky; top: 1rem; z-index: 100; padding: 1rem; }
+      .sidebar { position: static; padding: 1rem; }
       .nav-menu { flex-direction: row; overflow-x: auto; }
       .nav-btn { white-space: nowrap; }
       .nav-btn.active::before { display: none; }
-      .gallery-panel { min-height: 400px; }
+      .pane-header { position: static; }
+      .gallery-panel { min-height: 300px; }
       .scrollable { padding-bottom: 1rem; overflow: visible; }
     }
   </style>
@@ -879,13 +882,20 @@
       return Promise.all(promises);
     }
 
-    // ALGORITMO SIN CORTES (Cálculo exacto para Flexbox)
+    // ALGORITMO DE GALERIA JUSTIFICADA (estilo Google Fotos) — filas llenas, sin cortes bruscos
     function layoutExactGallery() {
-      const GAP = 8; 
+      const GAP = 8;
       const containerWidth = galleryContainer.clientWidth;
       if (!containerWidth) return;
 
-      const targetHeight = 180; // Altura ideal
+      // Altura objetivo adaptada al ancho disponible (columnas angostas -> filas más bajas)
+      let targetHeight = 190;
+      if (containerWidth < 340) targetHeight = 130;
+      else if (containerWidth < 520) targetHeight = 150;
+      else if (containerWidth < 760) targetHeight = 170;
+
+      const MIN_HEIGHT = targetHeight * 0.55;
+      const MAX_HEIGHT = targetHeight * 1.7;
 
       const items = Array.from(galleryContainer.children).filter(el => el.tagName === 'IMG' || el.tagName === 'VIDEO');
       if (!items.length) return;
@@ -895,20 +905,24 @@
 
       const renderRow = (isLastRow) => {
         if (row.length === 0) return;
-        
-        let rowHeight = targetHeight;
-        let availableWidth = containerWidth - (row.length - 1) * GAP;
 
-        if (!isLastRow || (rowRatioSum * targetHeight > availableWidth)) {
-            rowHeight = availableWidth / rowRatioSum;
+        const availableWidth = containerWidth - (row.length - 1) * GAP;
+        let rowHeight;
+
+        if (isLastRow && rowRatioSum * targetHeight <= availableWidth) {
+          // Última fila incompleta: usa la altura objetivo sin estirar de más
+          rowHeight = targetHeight;
         } else {
-            rowHeight = Math.min(targetHeight, availableWidth / rowRatioSum); 
+          // Fila completa: estira/encoge para llenar el ancho exactamente
+          rowHeight = availableWidth / rowRatioSum;
         }
 
+        // Evita filas absurdamente altas (1 sola imagen muy vertical) o muy bajas (1 panorámica)
+        rowHeight = Math.max(MIN_HEIGHT, Math.min(MAX_HEIGHT, rowHeight));
+
         row.forEach((item) => {
-          let exactWidth = item.ratio * rowHeight;
-          // Setear exactFlex a la imagen garantiza que object-fit: cover mantenga todo el contenido original
-          item.el.style.flex = `0 0 ${exactWidth}px`; 
+          const exactWidth = item.ratio * rowHeight;
+          item.el.style.flex = `0 0 ${exactWidth}px`;
           item.el.style.width = `${exactWidth}px`;
           item.el.style.height = `${rowHeight}px`;
         });
@@ -918,23 +932,25 @@
       };
 
       items.forEach(el => {
-        let ratio = 1.33; 
+        let ratio = 1.33;
         if (el.tagName === 'IMG' && el.naturalWidth) {
           ratio = el.naturalWidth / el.naturalHeight;
         } else if (el.tagName === 'VIDEO' && el.videoWidth) {
           ratio = el.videoWidth / el.videoHeight;
         }
-        
+        // Clamp de relación de aspecto para que un extremo no rompa la fila
+        ratio = Math.max(0.5, Math.min(2.6, ratio));
+
         const projectedWidth = (rowRatioSum + ratio) * targetHeight + (row.length * GAP);
         if (projectedWidth > containerWidth && row.length > 0) {
-          renderRow(false); 
+          renderRow(false);
         }
-        
-        row.push({el, ratio});
+
+        row.push({ el, ratio });
         rowRatioSum += ratio;
       });
 
-      renderRow(true); 
+      renderRow(true);
     }
 
     // Visor Modal
