@@ -7,28 +7,28 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     /* ============================================================
-       TOKENS — GitHub Dark Theme (Green Accent)
+       TOKENS — "Notion Verde" (Warm light theme, sage green accent)
     ============================================================ */
     :root {
-      --bg-base:          #0d1117;   
-      --bg-surface:       #161b22;   
-      --bg-surface-hover: #21262d;   
+      --bg-base:          #ffffff;   
+      --bg-surface:       #faf8f3;   
+      --bg-surface-hover: #f1ece1;   
       
-      --border-color:     #30363d;   
+      --border-color:     #e6e1d5;   
       
-      --text-main:        #c9d1d9;   
-      --text-muted:       #8b949e;   
+      --text-main:        #37352f;   
+      --text-muted:       #79766c;   
       
-      --accent-blue:      #58a6ff;   
-      --accent-green:     #3fb950;   
-      --accent-green-bg:  rgba(63, 185, 80, 0.1); 
-      --accent-green-border: #238636;
+      --accent-blue:      #4a7c59;   
+      --accent-green:     #4a7c59;   
+      --accent-green-bg:  rgba(74, 124, 89, 0.09); 
+      --accent-green-border: #4a7c59;
       
-      --radius:           8px;       
+      --radius:           12px;       
       --ease:             cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -49,10 +49,10 @@
     img, video { max-width: 100%; }
 
     /* ---------- TIPOGRAFÍA Y UTILIDADES ---------- */
-    h1, h2, h3, h4 { font-weight: 600; line-height: 1.3; color: #ffffff; }
+    h1, h2, h3, h4 { font-weight: 600; line-height: 1.3; color: #21201c; }
     
     a { color: var(--accent-blue); text-decoration: none; transition: color 0.2s, text-decoration 0.2s; }
-    a:hover { text-decoration: underline; }
+    a:hover { text-decoration: underline; color: #375f45; }
     
     ul { padding-left: 1.5rem; margin-top: 0.5rem; color: var(--text-muted); }
     li { margin-bottom: 0.4rem; }
@@ -66,11 +66,12 @@
       font-weight: 500;
       border: 1px solid var(--border-color);
       color: var(--text-muted);
-      background: transparent;
+      background: var(--bg-surface);
     }
     .badge.success {
-      border-color: rgba(63, 185, 80, 0.4);
+      border-color: rgba(74, 124, 89, 0.35);
       color: var(--accent-green);
+      background: var(--accent-green-bg);
     }
 
     /* ---------- LAYOUT PRINCIPAL (3 COLUMNAS) ---------- */
@@ -92,6 +93,7 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      box-shadow: 0 1px 2px rgba(55, 53, 47, 0.04);
     }
 
     .scrollable { 
@@ -101,7 +103,7 @@
     .scrollable::-webkit-scrollbar { width: 8px; }
     .scrollable::-webkit-scrollbar-track { background: transparent; }
     .scrollable::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
-    .scrollable::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+    .scrollable::-webkit-scrollbar-thumb:hover { background: #c9c2ae; }
 
     /* ---------- COLUMNA 1: SIDEBAR ---------- */
     .sidebar { padding: 1.5rem; }
@@ -115,6 +117,7 @@
       border: 2px solid var(--border-color);
       padding: 4px;
       margin-bottom: 1rem;
+      background: #ffffff;
     }
     .profile-section h2 { font-size: 1.25rem; margin-bottom: 0.2rem; }
     .profile-section h3 { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; margin-bottom: 1rem; }
@@ -123,11 +126,11 @@
       display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; font-size: 0.85rem;
     }
     .contact-links a {
-      background: var(--bg-surface-hover); padding: 0.4rem 0.8rem; 
+      background: #ffffff; padding: 0.4rem 0.8rem; 
       border-radius: var(--radius); border: 1px solid var(--border-color);
       color: var(--text-main);
     }
-    .contact-links a:hover { border-color: var(--accent-green); text-decoration: none; }
+    .contact-links a:hover { border-color: var(--accent-green); color: var(--accent-green); text-decoration: none; }
 
     .nav-menu { display: flex; flex-direction: column; gap: 0.4rem; }
     .nav-btn {
@@ -161,21 +164,24 @@
     .pane-header h1 { font-size: 1.5rem; }
 
     .card {
-      background: var(--bg-surface);
+      background: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
       padding: 1.5rem;
       margin-bottom: 1rem;
       cursor: pointer;
       transition: all 0.2s var(--ease);
+      box-shadow: 0 1px 2px rgba(55, 53, 47, 0.05);
     }
     .card:hover {
-      background: var(--bg-surface-hover);
-      border-color: #8b949e;
+      border-color: #cfc8b8;
+      box-shadow: 0 4px 14px rgba(55, 53, 47, 0.08);
+      transform: translateY(-1px);
     }
     .card.active-card {
       border-color: var(--accent-green-border);
       background: var(--accent-green-bg);
+      box-shadow: 0 2px 10px rgba(74, 124, 89, 0.12);
     }
     
     .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;}
@@ -187,7 +193,7 @@
     .hidden-gallery { display: none; }
 
     .bio-card { cursor: default; }
-    .bio-card:hover { background: var(--bg-surface); border-color: var(--border-color); }
+    .bio-card:hover { border-color: var(--border-color); box-shadow: 0 1px 2px rgba(55, 53, 47, 0.05); transform: none; }
     .bio-card p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem; }
 
     .two-col-grid {
@@ -221,7 +227,7 @@
     .fullscreen-note {
       font-size: 0.75rem;
       color: var(--text-muted);
-      background: var(--bg-surface-hover);
+      background: #ffffff;
       padding: 0.2rem 0.6rem;
       border-radius: 12px;
       border: 1px solid var(--border-color);
@@ -239,7 +245,7 @@
     .gallery-grid img, .gallery-grid video {
       display: block;
       object-fit: cover; 
-      border-radius: 6px;
+      border-radius: 8px;
       border: 1px solid var(--border-color);
       cursor: zoom-in;
       transition: border-color 0.15s, transform 0.15s;
@@ -262,7 +268,7 @@
     /* Modal Visor */
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(13, 17, 23, 0.95); z-index: 9999;
+      background: rgba(33, 32, 28, 0.92); z-index: 9999;
       align-items: center; justify-content: center; cursor: zoom-out;
       opacity: 0; transition: opacity 0.2s;
     }
@@ -270,7 +276,7 @@
     .modal img { 
       max-width: 95vw; max-height: 95vh; 
       border-radius: var(--radius); 
-      border: 1px solid var(--border-color); 
+      border: 1px solid rgba(255,255,255,0.15); 
       object-fit: contain;
     }
 
