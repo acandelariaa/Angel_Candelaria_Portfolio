@@ -1,461 +1,495 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Angel Candelaria - Portfolio</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <title>Angel Candelaria — Engineering Portfolio</title>
+
   <style>
     /* ============================================================
-       TOKENS — "Notion Verde" (Warm light theme, sage green accent)
+       TOKENS — "Drafting Sheet" (paper, ink, one rust-red stamp accent)
+       Grounded in mechanical-engineering drawing conventions:
+       title blocks, revision marks, hairline rules, figure plates.
     ============================================================ */
     :root {
-      --bg-base:          #ffffff;   
-      --bg-surface:       #faf8f3;   
-      --bg-surface-hover: #f1ece1;   
-      
-      --border-color:     #e6e1d5;   
-      
-      --text-main:        #37352f;   
-      --text-muted:       #79766c;   
-      
-      --accent-blue:      #4a7c59;   
-      --accent-green:     #4a7c59;   
-      --accent-green-bg:  rgba(74, 124, 89, 0.09); 
-      --accent-green-border: #4a7c59;
-      
-      --radius:           12px;       
-      --ease:             cubic-bezier(0.4, 0, 0.2, 1);
+      --paper:        #f7f5ee;
+      --paper-panel:  #fffefa;
+      --paper-sunken: #efece1;
+
+      --ink:          #1a1a17;
+      --ink-soft:     #55534a;
+      --ink-faint:    #8a8779;
+
+      --rule:         #c9c4b2;
+      --rule-strong:  #1a1a17;
+
+      --stamp:        #8c2f1c;
+      --stamp-bg:     rgba(140, 47, 28, 0.07);
+      --stamp-border: rgba(140, 47, 28, 0.4);
+
+      --serif: 'Times New Roman', Times, Georgia, 'Liberation Serif', serif;
+      --mono:  'Courier New', Courier, 'Liberation Mono', monospace;
+
+      --radius: 0px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    ::selection { background: var(--accent-green); color: #ffffff; }
+    ::selection { background: var(--ink); color: var(--paper); }
     html { scroll-behavior: smooth; }
     html, body { max-width: 100%; overflow-x: hidden; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'Inter', Helvetica, Arial, sans-serif;
-      background-color: var(--bg-base);
-      color: var(--text-main);
+      font-family: var(--serif);
+      background-color: var(--paper);
+      background-image:
+        repeating-linear-gradient(0deg, rgba(26,26,23,0.035) 0px, rgba(26,26,23,0.035) 1px, transparent 1px, transparent 24px),
+        repeating-linear-gradient(90deg, rgba(26,26,23,0.035) 0px, rgba(26,26,23,0.035) 1px, transparent 1px, transparent 24px);
+      color: var(--ink);
       line-height: 1.6;
       height: 100vh;
-      overflow: hidden; 
+      overflow: hidden;
+      font-size: 16.5px;
     }
 
     img, video { max-width: 100%; }
 
-    /* ---------- TIPOGRAFÍA Y UTILIDADES ---------- */
-    h1, h2, h3, h4 { font-weight: 600; line-height: 1.3; color: #21201c; }
-    
-    a { color: var(--accent-blue); text-decoration: none; transition: color 0.2s, text-decoration 0.2s; }
-    a:hover { text-decoration: underline; color: #375f45; }
-    
-    ul { padding-left: 1.5rem; margin-top: 0.5rem; color: var(--text-muted); }
-    li { margin-bottom: 0.4rem; }
-    li strong, li b { color: var(--text-main); font-weight: 600; }
+    h1, h2, h3, h4 { font-weight: 700; line-height: 1.25; color: var(--ink); font-family: var(--serif); }
 
-    .badge {
+    a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; transition: color 0.15s, text-decoration-color 0.15s; }
+    a:hover { color: var(--stamp); text-decoration-color: var(--stamp); }
+
+    ul { padding-left: 1.35rem; margin-top: 0.5rem; color: var(--ink-soft); }
+    li { margin-bottom: 0.42rem; }
+    li strong, li b { color: var(--ink); font-weight: 700; }
+    li::marker { content: "— "; color: var(--ink-faint); }
+
+    /* Monospace "stamped" tag — used for dates, doc metadata, figure numbers */
+    .tag {
       display: inline-block;
-      padding: 0.15rem 0.5rem;
-      border-radius: 2em;
-      font-size: 0.75rem;
-      font-weight: 500;
-      border: 1px solid var(--border-color);
-      color: var(--text-muted);
-      background: var(--bg-surface);
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.03em;
+      padding: 0.22rem 0.55rem;
+      border: 1px solid var(--rule-strong);
+      color: var(--ink);
+      background: var(--paper-panel);
+      white-space: nowrap;
     }
-    .badge.success {
-      border-color: rgba(74, 124, 89, 0.35);
-      color: var(--accent-green);
-      background: var(--accent-green-bg);
+    .tag.live {
+      border-color: var(--stamp-border);
+      color: var(--stamp);
+      background: var(--stamp-bg);
     }
 
-    /* ---------- LAYOUT PRINCIPAL (3 COLUMNAS) ---------- */
+    /* ============================================================
+       MASTHEAD — styled as an engineering drawing title block
+    ============================================================ */
+    .masthead {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: stretch;
+      gap: 0;
+      border-bottom: 3px double var(--rule-strong);
+      background: var(--paper-panel);
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .masthead-photo {
+      display: flex;
+      align-items: center;
+      padding: 0.85rem 1.25rem 0.85rem 0;
+      border-right: 1px solid var(--rule);
+    }
+    .masthead-photo img {
+      width: 68px; height: 68px;
+      object-fit: cover;
+      border: 1px solid var(--rule-strong);
+      filter: grayscale(100%) contrast(1.05);
+    }
+    .masthead-id {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0.7rem 1.25rem;
+      min-width: 0;
+    }
+    .masthead-id .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--stamp);
+      margin-bottom: 0.15rem;
+    }
+    .masthead-id h1 {
+      font-size: 1.5rem;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .masthead-id .subline {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      margin-top: 0.1rem;
+    }
+    .masthead-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(78px, auto));
+      border-left: 1px solid var(--rule);
+    }
+    .meta-cell {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0.6rem 0.9rem;
+      border-left: 1px solid var(--rule);
+      text-align: left;
+    }
+    .meta-cell:first-child { border-left: none; }
+    .meta-cell .meta-label {
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+      color: var(--ink-faint); text-transform: uppercase;
+    }
+    .meta-cell .meta-value {
+      font-family: var(--mono); font-size: 0.86rem; color: var(--ink); margin-top: 0.15rem;
+    }
+    .masthead-links {
+      grid-column: 1 / -1;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      padding: 0 0 0.7rem 0;
+      border-top: 1px solid var(--rule);
+      margin-top: 0;
+    }
+    .masthead-links a {
+      font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.03em;
+      text-decoration: none; color: var(--ink-soft); padding-top: 0.55rem;
+    }
+    .masthead-links a:hover { color: var(--stamp); }
+    .masthead-links a::before { content: "[ "; color: var(--ink-faint); }
+    .masthead-links a::after { content: " ]"; color: var(--ink-faint); }
+
+    /* ============================================================
+       LAYOUT — 3 columns (index / content / figure plates)
+    ============================================================ */
     .app-container {
       display: grid;
-      grid-template-columns: 280px minmax(400px, 1fr) 480px; 
-      gap: 1.5rem;
-      height: 100vh;
-      padding: 1.5rem;
+      grid-template-columns: 250px minmax(400px, 1fr) 460px;
+      gap: 1.25rem;
+      height: calc(100vh - 128px);
+      padding: 1.25rem 1.5rem;
       max-width: 1800px;
       margin: 0 auto;
       transition: grid-template-columns 0.22s var(--ease);
     }
     .app-container.sidebar-collapsed {
-      grid-template-columns: 76px minmax(400px, 1fr) 480px;
+      grid-template-columns: 60px minmax(400px, 1fr) 460px;
     }
 
-    /* Paneles Base */
     .panel {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
+      background: var(--paper-panel);
+      border: 1px solid var(--rule-strong);
       border-radius: var(--radius);
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 1px 2px rgba(55, 53, 47, 0.04);
     }
 
-    .scrollable { 
-      overflow-y: auto; 
-      padding-bottom: 4rem; 
-    }
-    .scrollable::-webkit-scrollbar { width: 8px; }
+    .scrollable { overflow-y: auto; padding-bottom: 3rem; }
+    .scrollable::-webkit-scrollbar { width: 7px; }
     .scrollable::-webkit-scrollbar-track { background: transparent; }
-    .scrollable::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
-    .scrollable::-webkit-scrollbar-thumb:hover { background: #c9c2ae; }
+    .scrollable::-webkit-scrollbar-thumb { background: var(--rule); }
+    .scrollable::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
 
-    /* ---------- COLUMNA 1: SIDEBAR ---------- */
-    .sidebar { padding: 1.5rem; transition: padding 0.22s var(--ease); }
-    .sidebar .scrollable { padding-bottom: 2rem; }
+    /* ---------- COLUMN 1 — INDEX / NAVIGATION ---------- */
+    .sidebar { padding: 0; }
+    .sidebar .scrollable { padding: 1rem 0; }
 
-    /* Toggle (thrower) */
-    .sidebar-toggle-row { display: flex; justify-content: flex-end; margin-bottom: 0.75rem; }
+    .sidebar-toggle-row {
+      display: flex; justify-content: flex-end;
+      padding: 0.75rem 0.85rem 0.5rem;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 0.4rem;
+    }
     .sidebar-toggle {
       display: flex; align-items: center; justify-content: center;
-      width: 32px; height: 32px; flex-shrink: 0;
-      background: transparent; border: 1px solid var(--border-color); border-radius: 8px;
-      color: var(--text-muted); cursor: pointer;
-      transition: all 0.2s var(--ease);
+      width: 28px; height: 28px; flex-shrink: 0;
+      background: transparent; border: 1px solid var(--rule-strong); border-radius: 0;
+      color: var(--ink); cursor: pointer; font-family: var(--mono); font-size: 0.85rem;
+      transition: all 0.15s var(--ease);
     }
-    .sidebar-toggle:hover { background: var(--bg-surface-hover); color: var(--accent-green); border-color: var(--accent-green); }
-    .sidebar-toggle svg { width: 16px; height: 16px; transition: transform 0.22s var(--ease); }
-    .app-container.sidebar-collapsed .sidebar-toggle svg { transform: rotate(180deg); }
-    .app-container.sidebar-collapsed .sidebar-toggle-row { justify-content: center; }
+    .sidebar-toggle:hover { background: var(--ink); color: var(--paper-panel); }
 
-    .profile-section { text-align: center; margin-bottom: 2rem; transition: margin 0.22s var(--ease); }
-    .profile-section img {
-      width: 140px; height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--border-color);
-      padding: 4px;
-      margin-bottom: 1rem;
-      background: #ffffff;
-      transition: width 0.22s var(--ease), height 0.22s var(--ease), margin 0.22s var(--ease);
+    .index-title {
+      font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em;
+      color: var(--ink-faint); padding: 0 1rem 0.6rem; text-transform: uppercase;
     }
-    .profile-section h2 { font-size: 1.25rem; margin-bottom: 0.2rem; }
-    .profile-section h3 { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; margin-bottom: 1rem; }
+    .app-container.sidebar-collapsed .index-title { display: none; }
 
-    .profile-text, .contact-links { transition: opacity 0.15s var(--ease), max-height 0.22s var(--ease); overflow: hidden; }
-
-    .contact-links {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; font-size: 0.85rem;
-    }
-    .contact-links a {
-      background: #ffffff; padding: 0.4rem 0.8rem; 
-      border-radius: var(--radius); border: 1px solid var(--border-color);
-      color: var(--text-main);
-    }
-    .contact-links a:hover { border-color: var(--accent-green); color: var(--accent-green); text-decoration: none; }
-
-    /* Collapsed profile: shrink photo, hide name/subtitle/links */
-    .app-container.sidebar-collapsed .profile-section { margin-bottom: 1.25rem; }
-    .app-container.sidebar-collapsed .profile-section img { width: 40px; height: 40px; margin-bottom: 0; }
-    .app-container.sidebar-collapsed .profile-text,
-    .app-container.sidebar-collapsed .contact-links {
-      opacity: 0; max-height: 0; margin: 0; pointer-events: none;
-    }
-
-    .nav-menu { display: flex; flex-direction: column; gap: 0.4rem; }
+    .nav-menu { display: flex; flex-direction: column; }
     .nav-btn {
-      background: transparent; border: 1px solid transparent; color: var(--text-muted);
-      padding: 0.6rem 1rem; border-radius: var(--radius); text-align: left;
-      font-family: inherit; font-size: 0.95rem; font-weight: 500; cursor: pointer;
-      transition: all 0.2s var(--ease);
-      display: flex; align-items: center; gap: 0.7rem;
-      position: relative;
+      background: transparent; border: none; border-left: 3px solid transparent;
+      color: var(--ink-soft); font-family: var(--serif);
+      padding: 0.62rem 1rem; text-align: left;
+      font-size: 0.98rem; cursor: pointer;
+      transition: all 0.15s var(--ease);
+      display: flex; align-items: baseline; gap: 0.65rem;
     }
-    .nav-btn:hover { background: var(--bg-surface-hover); color: var(--text-main); }
+    .nav-btn:hover { background: var(--paper-sunken); color: var(--ink); }
     .nav-btn.active {
-      background: var(--accent-green-bg); color: var(--accent-green);
+      background: var(--stamp-bg); color: var(--ink); border-left-color: var(--stamp);
     }
-    .nav-btn.active::before {
-      content: ''; position: absolute; left: -1.5rem; width: 4px; height: 1.5rem;
-      background: var(--accent-green); border-radius: 0 4px 4px 0;
+    .nav-num {
+      font-family: var(--mono); font-size: 0.78rem; color: var(--ink-faint); flex-shrink: 0;
     }
-    .nav-icon { width: 18px; height: 18px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-    .nav-icon svg { width: 100%; height: 100%; }
+    .nav-btn.active .nav-num { color: var(--stamp); }
     .nav-label {
       white-space: nowrap; overflow: hidden;
       opacity: 1; max-width: 220px;
       transition: opacity 0.15s var(--ease), max-width 0.22s var(--ease);
     }
-
-    /* Collapsed nav: icons only, centered */
-    .app-container.sidebar-collapsed .nav-btn { justify-content: center; padding: 0.65rem; }
-    .app-container.sidebar-collapsed .nav-btn.active::before { display: none; }
+    .app-container.sidebar-collapsed .nav-btn { justify-content: center; padding: 0.62rem 0.4rem; }
     .app-container.sidebar-collapsed .nav-label { opacity: 0; max-width: 0; }
 
-    /* ---------- COLUMNA 2: ÁREA DE CONTENIDO ---------- */
-    .content-area { padding: 0 0.5rem; }
-    
-    .tab-pane { display: none; animation: fadeIn 0.3s var(--ease); }
+    /* ---------- COLUMN 2 — CONTENT ---------- */
+    .content-area { padding: 0 0.6rem; }
+
+    .tab-pane { display: none; }
     .tab-pane.active { display: block; }
-    
+
     .pane-header {
-      position: sticky; top: 0; background: var(--bg-base);
-      padding: 1rem 0; margin-bottom: 1rem; z-index: 10;
-      border-bottom: 1px solid var(--border-color);
+      position: sticky; top: 0; background: var(--paper);
+      padding: 1.1rem 0 0.75rem; margin-bottom: 1rem; z-index: 10;
+      border-bottom: 2px solid var(--rule-strong);
     }
-    .pane-header h1 { font-size: 1.5rem; }
+    .pane-eyebrow {
+      display: block; font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.14em; color: var(--stamp); margin-bottom: 0.3rem;
+    }
+    .pane-header h1 { font-size: 1.4rem; }
 
     .card {
-      background: #ffffff;
-      border: 1px solid var(--border-color);
+      background: var(--paper-panel);
+      border: 1px solid var(--rule);
       border-radius: var(--radius);
-      padding: 1.5rem;
+      padding: 1.35rem 1.5rem;
       margin-bottom: 1rem;
       cursor: pointer;
-      transition: all 0.2s var(--ease);
-      box-shadow: 0 1px 2px rgba(55, 53, 47, 0.05);
+      transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
     }
-    .card:hover {
-      border-color: #cfc8b8;
-      box-shadow: 0 4px 14px rgba(55, 53, 47, 0.08);
-      transform: translateY(-1px);
-    }
+    .card:hover { border-color: var(--ink); }
     .card.active-card {
-      border-color: var(--accent-green-border);
-      background: var(--accent-green-bg);
-      box-shadow: 0 2px 10px rgba(74, 124, 89, 0.12);
+      border-color: var(--stamp);
+      background: var(--stamp-bg);
     }
-    
-    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;}
-    .card-title { font-size: 1.1rem; color: var(--text-main); }
-    .card-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.8rem; }
-    .card-links { margin-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap; }
-    .card-links a { font-size: 0.9rem; }
-    
+
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.5rem; }
+    .card-title { font-size: 1.08rem; color: var(--ink); }
+    .card-subtitle { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 0.75rem; letter-spacing: 0.01em; }
+    .card-links { margin-top: 1rem; display: flex; gap: 0.4rem 1.1rem; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 0.75rem; }
+    .card-links a { font-family: var(--mono); font-size: 0.78rem; text-decoration: none; }
+    .card-links a::before { content: "→ "; color: var(--ink-faint); }
+
     .hidden-gallery { display: none; }
 
     .bio-card { cursor: default; }
-    .bio-card:hover { border-color: var(--border-color); box-shadow: 0 1px 2px rgba(55, 53, 47, 0.05); transform: none; }
-    .bio-card p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .bio-card:hover { border-color: var(--rule); }
+    .bio-card p { font-size: 0.98rem; color: var(--ink-soft); margin-bottom: 1rem; }
 
-    .two-col-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+    .two-col-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .two-col-grid.bordered { margin-top: 1.4rem; border-top: 1px solid var(--rule); padding-top: 1rem; }
+    .two-col-grid h4 {
+      color: var(--ink); font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem;
     }
-    .two-col-grid.bordered {
-      margin-top: 1.5rem;
-      border-top: 1px solid var(--border-color);
-      padding-top: 1rem;
-    }
-    .two-col-grid h4 { color: var(--text-main); font-size: 0.85rem; margin-bottom: 0.5rem; }
-    .two-col-grid ul { font-size: 0.9rem; }
+    .two-col-grid ul { font-size: 0.92rem; }
 
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    /* ---------- COLUMN 3 — FIGURE PLATES (GALLERY) ---------- */
+    .gallery-panel { padding: 1.1rem 1.25rem; display: flex; flex-direction: column; }
 
-    /* ---------- COLUMNA 3: GALERÍA DINÁMICA ---------- */
-    .gallery-panel { padding: 1.5rem; display: flex; flex-direction: column;}
-    
-    .gallery-header { 
-      margin-bottom: 1rem; 
-      padding-bottom: 1rem; 
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
+    .gallery-header {
+      margin-bottom: 0.9rem; padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--rule-strong);
+      display: flex; justify-content: space-between; align-items: baseline; flex-shrink: 0;
     }
-    .gallery-header h2 { font-size: 1.1rem; }
+    .gallery-header h2 { font-size: 1rem; }
+    .gallery-header .pane-eyebrow { margin-bottom: 0.1rem; }
     .fullscreen-note {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      background: #ffffff;
-      padding: 0.2rem 0.6rem;
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
+      font-family: var(--mono); font-size: 0.68rem; color: var(--ink-faint);
     }
 
-    /* === GALERIA CON FLEXBOX Y CÁLCULO PRECISO (JUSTIFIED GRID) === */
-    .gallery-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      width: 100%;
-      align-content: flex-start;
-    }
-    
-    .gallery-grid img, .gallery-grid video {
+    .gallery-grid { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; align-content: flex-start; }
+
+    .fig-frame {
+      position: relative;
       display: block;
-      object-fit: cover; 
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--rule-strong);
+      overflow: hidden;
       cursor: zoom-in;
-      transition: border-color 0.15s, transform 0.15s;
-      margin: 0 !important;
-      background: var(--bg-surface-hover);
+      background: var(--paper-sunken);
     }
-
-    .gallery-grid img:hover, .gallery-grid video:hover {
-      border-color: var(--accent-green);
-      transform: scale(1.01);
+    .fig-frame img, .fig-frame video {
+      width: 100%; height: 100%; display: block; object-fit: cover; margin: 0 !important;
+      filter: grayscale(15%);
+      transition: filter 0.15s;
+    }
+    .fig-frame:hover img { filter: grayscale(0%); }
+    .fig-tag {
+      position: absolute; left: 0; bottom: 0;
+      background: rgba(26,26,23,0.82); color: var(--paper-panel);
+      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.04em;
+      padding: 0.14rem 0.4rem; pointer-events: none;
     }
 
     .empty-state {
-      text-align: center; color: var(--text-muted); font-size: 0.9rem;
-      padding: 3rem 1rem; border: 1px dashed var(--border-color); border-radius: var(--radius);
-      width: 100%;
-      display: block;
+      text-align: center; color: var(--ink-faint); font-family: var(--mono); font-size: 0.82rem;
+      padding: 3rem 1rem; border: 1px dashed var(--rule); width: 100%; display: block;
     }
 
-    /* Modal Visor */
+    /* Modal viewer */
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(33, 32, 28, 0.92); z-index: 9999;
+      background: rgba(26, 26, 23, 0.94); z-index: 9999;
       align-items: center; justify-content: center; cursor: zoom-out;
       opacity: 0; transition: opacity 0.2s;
     }
     .modal.show { display: flex; opacity: 1; }
-    .modal img { 
-      max-width: 95vw; max-height: 95vh; 
-      border-radius: var(--radius); 
-      border: 1px solid rgba(255,255,255,0.15); 
+    .modal img {
+      max-width: 95vw; max-height: 95vh;
+      border: 1px solid rgba(247,245,238,0.3);
       object-fit: contain;
     }
 
     /* ---------- RESPONSIVE ---------- */
     @media (max-width: 1200px) {
-      .app-container { grid-template-columns: 240px 1fr 350px; }
+      .app-container { grid-template-columns: 220px 1fr 340px; }
+      .masthead-meta { grid-template-columns: repeat(4, minmax(64px, auto)); }
     }
 
-    /* Tablet / mobile: stack panels, nothing stays fixed, nothing can overflow width */
     @media (max-width: 992px) {
       body { height: auto; overflow: auto; }
 
-      .app-container {
-        display: flex;
-        flex-direction: column;
-        height: auto;
-        padding: 0.85rem;
-        gap: 0.85rem;
-        width: 100%;
-      }
+      .masthead { grid-template-columns: auto 1fr; padding: 0 1rem; }
+      .masthead-meta { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); border-left: none; border-top: 1px solid var(--rule); }
+      .meta-cell:nth-child(4n+1) { border-left: none; }
 
+      .app-container {
+        display: flex; flex-direction: column; height: auto;
+        padding: 0.85rem; gap: 0.85rem; width: 100%;
+      }
       .panel { max-height: none; overflow: visible; width: 100%; }
 
-      /* Order: nav first, gallery right after (so a tapped card's media is visible
-         without scrolling past the whole tab), full write-up last */
-      .sidebar { order: 1; position: static; padding: 1rem; }
-      .gallery-panel { order: 2; min-height: 220px; padding: 1rem; }
+      .sidebar { order: 1; position: static; }
+      .gallery-panel { order: 2; min-height: 200px; }
       .content-area { order: 3; padding: 0; }
 
-      /* Top title is redundant with the profile name + section headers on mobile */
-      #main-content > div:first-child { display: none; }
-
-      .nav-menu { flex-direction: row; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 0.25rem; }
-      .nav-btn { white-space: nowrap; flex-shrink: 0; }
-      .nav-btn.active::before { display: none; }
-
-      /* Collapse toggle is a desktop-only convenience; keep mobile nav always expanded */
+      .nav-menu { flex-direction: row; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .nav-btn { white-space: nowrap; flex-shrink: 0; border-left: none; border-bottom: 3px solid transparent; }
+      .nav-btn.active { border-left: none; border-bottom-color: var(--stamp); }
       .sidebar-toggle-row { display: none; }
       .app-container.sidebar-collapsed { grid-template-columns: unset; }
-      .app-container.sidebar-collapsed .profile-section img { width: 96px; height: 96px; margin-bottom: 0.75rem; }
-      .app-container.sidebar-collapsed .profile-text,
-      .app-container.sidebar-collapsed .contact-links { opacity: 1; max-height: none; margin: revert; pointer-events: auto; }
-      .app-container.sidebar-collapsed .nav-btn { justify-content: flex-start; padding: 0.6rem 1rem; }
+      .app-container.sidebar-collapsed .nav-btn { justify-content: flex-start; padding: 0.62rem 1rem; }
       .app-container.sidebar-collapsed .nav-label { opacity: 1; max-width: 220px; }
 
       .pane-header { position: static; padding: 0.25rem 0 0.75rem; }
-      .pane-header h1 { font-size: 1.25rem; }
-
       .scrollable { padding-bottom: 0.5rem; overflow: visible; }
-
       .card { padding: 1.1rem; }
       .two-col-grid { gap: 1rem; }
     }
 
-    /* Small phones: single-column info blocks, tighter type, smaller profile photo */
     @media (max-width: 600px) {
-      .app-container { padding: 0.65rem; gap: 0.65rem; }
-      .sidebar { padding: 0.85rem; }
-      .profile-section img { width: 96px; height: 96px; margin-bottom: 0.75rem; }
-      .profile-section { margin-bottom: 1.25rem; }
+      .masthead-id h1 { font-size: 1.15rem; white-space: normal; }
+      .masthead-photo img { width: 52px; height: 52px; }
+      .masthead-meta { grid-template-columns: repeat(2, 1fr); }
+      .meta-cell:nth-child(2n+1) { border-left: none; }
 
+      .app-container { padding: 0.65rem; gap: 0.65rem; }
       .card { padding: 1rem; }
       .card-title { font-size: 1rem; }
-
       .two-col-grid { grid-template-columns: 1fr; gap: 1.25rem; }
-
-      .gallery-header { padding-bottom: 0.75rem; margin-bottom: 0.75rem; }
-      .fullscreen-note { font-size: 0.7rem; }
     }
   </style>
 </head>
 <body>
 
+  <!-- ================= MASTHEAD / TITLE BLOCK ================= -->
+  <header class="masthead">
+    <div class="masthead-photo">
+      <img src="CV_photo.png" alt="Angel Candelaria">
+    </div>
+    <div class="masthead-id">
+      <span class="eyebrow">MECHANICAL &amp; ADMINISTRATIVE ENGINEERING — PORTFOLIO</span>
+      <h1>Angel Candelaria</h1>
+      <span class="subline">Juan Ángel Candelaria Rodríguez — Universidad de Monterrey</span>
+    </div>
+    <div class="masthead-meta">
+      <div class="meta-cell">
+        <span class="meta-label">Doc. No.</span>
+        <span class="meta-value">AC&#8209;PORT&#8209;01</span>
+      </div>
+      <div class="meta-cell">
+        <span class="meta-label">Rev.</span>
+        <span class="meta-value">A</span>
+      </div>
+      <div class="meta-cell">
+        <span class="meta-label">Scale</span>
+        <span class="meta-value">N.T.S.</span>
+      </div>
+      <div class="meta-cell">
+        <span class="meta-label">Sheet</span>
+        <span class="meta-value" id="sheet-indicator">01 / 05</span>
+      </div>
+    </div>
+    <div class="masthead-links">
+      <a href="https://www.linkedin.com/in/juan-angel-candelaria-rodriguez-888777361" target="_blank">LinkedIn</a>
+      <a href="https://github.com/acandelariaa" target="_blank">GitHub</a>
+      <a href="mailto:juan.candelaria@udem.edu">juan.candelaria@udem.edu</a>
+      <a href="tel:+528129539138">+52 (81) 29 53 91 38</a>
+    </div>
+  </header>
+
   <div class="app-container">
-    
-    <!-- COLUMNA 1: SIDEBAR -->
+
+    <!-- COLUMN 1: INDEX -->
     <aside class="panel sidebar">
       <div class="scrollable">
         <div class="sidebar-toggle-row">
-          <button class="sidebar-toggle" onclick="toggleSidebar()" title="Colapsar / expandir menú" aria-label="Colapsar o expandir menú">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          </button>
+          <button class="sidebar-toggle" onclick="toggleSidebar()" title="Collapse / expand index" aria-label="Collapse or expand index">&#8676;</button>
         </div>
-
-        <div class="profile-section">
-          <img src="CV_photo.png" alt="Angel Candelaria">
-          <div class="profile-text">
-            <h2>Angel Candelaria</h2>
-            <p>Juan Angel Candelaria Rodriguez</p>
-            <h3>Mechanical Engineering | UDEM</h3>
-          </div>
-          <div class="contact-links">
-            <a href="https://www.linkedin.com/in/juan-angel-candelaria-rodriguez-888777361" target="_blank">LinkedIn</a>
-            <a href="https://github.com/acandelariaa" target="_blank">GitHub</a>
-          </div>
-        </div>
-
+        <span class="index-title">Index</span>
         <nav class="nav-menu">
-          <button class="nav-btn active" onclick="switchTab('tab-overview')" title="Overview & Skills">
-            <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
-            <span class="nav-label">Overview & Skills</span>
+          <button class="nav-btn active" onclick="switchTab('tab-overview', this)" title="Overview & Skills">
+            <span class="nav-num">01</span><span class="nav-label">Overview &amp; Skills</span>
           </button>
-          <button class="nav-btn" onclick="switchTab('tab-education')" title="Education">
-            <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"></path><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"></path></svg></span>
-            <span class="nav-label">Education</span>
+          <button class="nav-btn" onclick="switchTab('tab-education', this)" title="Education">
+            <span class="nav-num">02</span><span class="nav-label">Education</span>
           </button>
-          <button class="nav-btn" onclick="switchTab('tab-projects')" title="Tech Projects">
-            <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></span>
-            <span class="nav-label">Tech Projects</span>
+          <button class="nav-btn" onclick="switchTab('tab-projects', this)" title="Technical Projects">
+            <span class="nav-num">03</span><span class="nav-label">Technical Projects</span>
           </button>
-          <button class="nav-btn" onclick="switchTab('tab-activities')" title="Activities">
-            <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span>
-            <span class="nav-label">Activities</span>
+          <button class="nav-btn" onclick="switchTab('tab-activities', this)" title="Activities">
+            <span class="nav-num">04</span><span class="nav-label">Activities</span>
           </button>
-          <button class="nav-btn" onclick="switchTab('tab-experience')" title="Experience & Certs">
-            <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></span>
-            <span class="nav-label">Experience & Certs</span>
+          <button class="nav-btn" onclick="switchTab('tab-experience', this)" title="Experience & Certs">
+            <span class="nav-num">05</span><span class="nav-label">Experience &amp; Certs</span>
           </button>
         </nav>
       </div>
     </aside>
 
-    <!-- COLUMNA 2: CONTENIDO PRINCIPAL -->
+    <!-- COLUMN 2: CONTENT -->
     <main class="content-area scrollable" id="main-content">
-      <div>
-        <h1>Angel Candelaria's Portfolio</h1>
-      </div>
 
-      
       <!-- TAB: OVERVIEW -->
       <section id="tab-overview" class="tab-pane active">
-        <div class="pane-header"><h1>Overview</h1></div>
-        
+        <div class="pane-header"><span class="pane-eyebrow">SECTION 01</span><h1>Overview &amp; Skills</h1></div>
+
         <div class="card bio-card">
-          <h3 class="card-title" style="margin-bottom: 0.5rem;">About Me</h3>
+          <h3 class="card-title" style="margin-bottom: 0.6rem;">About</h3>
           <p>My name is Angel. I'm a Mechanical Engineering student at Universidad de Monterrey (UDEM), currently on my way to my 7th semester. I'm mostly interested in multiple topics of engineering, such as: data science, physics, applied math, AI development, electronics, materials, CAD design, manufacturing processes and project management.</p>
           <p>I'm currently covering my studies at this private university on a 100% scholarship awarded for outstanding academic performance. I've participated in several projects and activities during all my academic path, this portfolio is an extension of the CV to sustent the content described on it.</p>
-          
+
           <div class="two-col-grid bordered">
             <div>
               <h4>Personal Info</h4>
@@ -470,11 +504,11 @@
             <div>
               <h4>Scientific Interests</h4>
               <ul>
-                <li>Physics & rocket propulsion</li>
-                <li>Astrophysics & exoplanetary science</li>
-                <li>Advanced materials & metallurgy</li>
+                <li>Physics &amp; rocket propulsion</li>
+                <li>Astrophysics &amp; exoplanetary science</li>
+                <li>Advanced materials &amp; metallurgy</li>
                 <li>Machine learning applied to scientific data</li>
-                <li>Mechanical design & manufacturing processes</li>
+                <li>Mechanical design &amp; manufacturing processes</li>
                 <li>Electronics</li>
               </ul>
             </div>
@@ -482,13 +516,13 @@
         </div>
 
         <div class="card bio-card">
-          <h3 class="card-title" style="margin-bottom: 1rem;">Skills & Hobbies</h3>
+          <h3 class="card-title" style="margin-bottom: 1rem;">Skills &amp; Hobbies</h3>
           <div class="two-col-grid">
             <div>
               <h4>Hard Skills</h4>
               <ul>
                 <li><b>CAD / Design:</b> Siemens NX, SolidWorks, Autodesk Inventor, Fusion 360, HyperMesh (Optistruct)</li>
-                <li><b>Programming & Data Analysis:</b> Basic Python coding, Google Colab, VS Code — Machine Learning models, data visualization</li>
+                <li><b>Programming &amp; Data Analysis:</b> Basic Python coding, Google Colab, VS Code — Machine Learning models, data visualization</li>
                 <li><b>Manufacturing:</b> Industrial lathes, precision measurement, layout reading, material testing</li>
                 <li><b>Office / Docs:</b> Microsoft 365 (Word, PPT, Excel)</li>
                 <li><b>Languages:</b> Spanish (Native) | English (C1 Advanced, EFSET)</li>
@@ -504,8 +538,8 @@
               </ul>
               <h4 style="margin-top: 1rem;">Hobbies</h4>
               <ul>
-                <li>Fencing, Mountain hikes, Running & gym</li>
-                <li>Drawing & oil painting, Cooking, Fantasy books</li>
+                <li>Fencing, Mountain hikes, Running &amp; gym</li>
+                <li>Drawing &amp; oil painting, Cooking, Fantasy books</li>
               </ul>
             </div>
           </div>
@@ -514,24 +548,24 @@
 
       <!-- TAB: EDUCATION -->
       <section id="tab-education" class="tab-pane">
-        <div class="pane-header"><h1>Education & Achievements</h1></div>
+        <div class="pane-header"><span class="pane-eyebrow">SECTION 02</span><h1>Education &amp; Achievements</h1></div>
 
         <div class="card bio-card" style="margin-bottom: 1rem;">
-          <h3 class="card-title">General Achievements & Scholarships</h3>
-          <ul style="font-size: 0.9rem;">
-            <li>100% merit scholarship Universidad de Monterrey (UDEM), 2023-present</li>
-            <li>100% merit scholarship - Preparatoria Politécnica Santa Catarina Fama, 2020-2023</li>
+          <h3 class="card-title">General Achievements &amp; Scholarships</h3>
+          <ul style="font-size: 0.92rem;">
+            <li>100% merit scholarship — Universidad de Monterrey (UDEM), 2023-present</li>
+            <li>100% merit scholarship — Preparatoria Politécnica Santa Catarina Fama, 2020-2023</li>
             <li>Secondary school merit scholarship awarded for academic excellence</li>
-            <li>Valedictorian highest GPA of technical speciality cohort, 2023</li>
-            <li>Global Nominee Team - NASA Space Apps Challenge 2025</li>
+            <li>Valedictorian, highest GPA of technical speciality cohort, 2023</li>
+            <li>Global Nominee Team — NASA Space Apps Challenge 2025</li>
             <li>Full scholarship awarded for International Summer Programme — Universidad Complutense de Madrid (2026)</li>
           </ul>
         </div>
-        
+
         <div class="card" onclick="selectCard(this)">
           <div class="card-header">
             <h3 class="card-title">B. Eng. Mechanical and Administrative Engineering (IMA)</h3>
-            <span class="badge success">2023 - Present</span>
+            <span class="tag live">2023 — PRESENT</span>
           </div>
           <div class="card-subtitle">Universidad de Monterrey (UDEM), San Pedro Garza García, NL.</div>
           <ul>
@@ -540,7 +574,7 @@
             <li><b>Relevant coursework:</b> Mechanics of Materials, Thermodynamics, Electronics CAD/CAM, FEA Analysis, Manufacturing Processes, Engineering Data Analysis and Machine Learning.</li>
           </ul>
           <div class="card-links">
-            <a href="GPA_courses.pdf" target="_blank">📄 GPA and Courses (PDF)</a>
+            <a href="GPA_courses.pdf" target="_blank">GPA and Courses (PDF)</a>
           </div>
           <div class="hidden-gallery">
             <img src="UDEM_campus.jpg" alt="UDEM Campus">
@@ -555,8 +589,8 @@
 
         <div class="card" onclick="selectCard(this)">
           <div class="card-header">
-            <h3 class="card-title">Project Management - International Summer Programme</h3>
-            <span class="badge">Jul 2026 (completed)</span>
+            <h3 class="card-title">Project Management — International Summer Programme</h3>
+            <span class="tag">JUL 2026 — COMPLETED</span>
           </div>
           <div class="card-subtitle">Universidad Complutense de Madrid, UCM, Madrid, Spain.</div>
           <ul>
@@ -565,8 +599,8 @@
             <li>Awarded a full scholarship covering all travel and programme expenses.</li>
           </ul>
           <div class="card-links">
-            <a href="Summer_program_acceptance.pdf" target="_blank">📄 Summer Program (PDF)</a>
-            <a href="aceptación_fundación_complutense.pdf" target="_blank">📄 Financial Aid (PDF)</a>
+            <a href="Summer_program_acceptance.pdf" target="_blank">Summer Program (PDF)</a>
+            <a href="aceptación_fundación_complutense.pdf" target="_blank">Financial Aid (PDF)</a>
           </div>
           <div class="hidden-gallery">
             <img src="IMG_1339.jpg" alt="Summer Programme">
@@ -579,7 +613,7 @@
         <div class="card" onclick="selectCard(this)">
           <div class="card-header">
             <h3 class="card-title">High School + Technician Degree on Industrial Machinery and Tools</h3>
-            <span class="badge">2020 - 2023</span>
+            <span class="tag">2020 — 2023</span>
           </div>
           <div class="card-subtitle">Preparatoria Politécnica Santa Catarina Fama</div>
           <ul>
@@ -587,8 +621,8 @@
             <li>Full 100% private benefactor scholarship (Martinez Sada Foundation) throughout the entire programme (2020-2023).</li>
           </ul>
           <div class="card-links">
-            <a href="valedictorian_certificate.pdf" target="_blank">📄 Valedictorian Certificate (PDF)</a>
-            <a href="https://www.udem.edu.mx/es/institucional/noticia/exhortan-graduados-de-preparatoria-politecnica-santa-catarina-servir-la" target="_blank">🔗 UDEM / HighSchool - Prom 2023</a>
+            <a href="valedictorian_certificate.pdf" target="_blank">Valedictorian Certificate (PDF)</a>
+            <a href="https://www.udem.edu.mx/es/institucional/noticia/exhortan-graduados-de-preparatoria-politecnica-santa-catarina-servir-la" target="_blank">UDEM / High School — Prom 2023</a>
           </div>
           <div class="hidden-gallery">
             <img src="Valedictorian_highschool.jpg" alt="Valedictorian">
@@ -602,12 +636,12 @@
 
       <!-- TAB: PROJECTS -->
       <section id="tab-projects" class="tab-pane">
-        <div class="pane-header"><h1>Research & Technical Projects</h1></div>
-        
+        <div class="pane-header"><span class="pane-eyebrow">SECTION 03</span><h1>Research &amp; Technical Projects</h1></div>
+
         <div class="card" onclick="selectCard(this)">
           <div class="card-header">
-            <h3 class="card-title">Undergraduate Research Assistant - Cerebral Palsy Risk Prediction</h3>
-            <span class="badge">Jan 2025 - May 2026</span>
+            <h3 class="card-title">Undergraduate Research Assistant — Cerebral Palsy Risk Prediction</h3>
+            <span class="tag">JAN 2025 — MAY 2026</span>
           </div>
           <div class="card-subtitle">UDEM / Instituto Nuevo Amanecer</div>
           <ul>
@@ -616,7 +650,7 @@
             <li>Performed data cleaning, processing, feature engineering and model evaluation using python language on a Google Colab Space.</li>
           </ul>
           <div class="card-links">
-            <a href="Research_participation_certificate.pdf" target="_blank">📄 AI Research Certificate (PDF)</a>
+            <a href="Research_participation_certificate.pdf" target="_blank">AI Research Certificate (PDF)</a>
           </div>
           <div class="hidden-gallery">
             <img src="desertion_probability.png" alt="Desertion Probability">
@@ -628,19 +662,19 @@
 
         <div class="card" onclick="selectCard(this)">
           <div class="card-header">
-            <h3 class="card-title">Artificial Intelligence 1 - Course Portfolios</h3>
-            <span class="badge">Machine Learning</span>
+            <h3 class="card-title">Artificial Intelligence 1 — Course Portfolios</h3>
+            <span class="tag">MACHINE LEARNING</span>
           </div>
-          <div class="card-subtitle">Data Analysis - Python + Machine Learning</div>
+          <div class="card-subtitle">Data Analysis — Python + Machine Learning</div>
           <ul>
             <li>Development of comprehensive evidence portfolios for the complete Artificial Intelligence course (1st, 2nd, and 3rd periods, plus Final Project).</li>
             <li>Focus on Data Analysis, implementation of supervised/unsupervised learning algorithms, dimensionality reduction (PCA), and recommendation systems.</li>
             <li>Integration of a complete Machine Learning pipeline using Python, from Exploratory Data Analysis (EDA) to metric evaluation.</li>
           </ul>
           <div class="card-links">
-            <a href="https://acandelariaa.github.io/Portafolio_evidencias_primer_parcial/" target="_blank">🔗 1st Partial Portfolio</a>
-            <a href="https://acandelariaa.github.io/Portafolio-evidencias_segundo_parcial_IA/" target="_blank">🔗 2nd Partial Portfolio</a>
-            <a href="https://acandelariaa.github.io/Tercer_Parcial_Inteligencia_Artificial_1/" target="_blank">🔗 3rd Partial & Final Project</a>
+            <a href="https://acandelariaa.github.io/Portafolio_evidencias_primer_parcial/" target="_blank">1st Partial Portfolio</a>
+            <a href="https://acandelariaa.github.io/Portafolio-evidencias_segundo_parcial_IA/" target="_blank">2nd Partial Portfolio</a>
+            <a href="https://acandelariaa.github.io/Tercer_Parcial_Inteligencia_Artificial_1/" target="_blank">3rd Partial &amp; Final Project</a>
           </div>
           <div class="hidden-gallery">
             <img src="Felicidad_vs_pib_log (1).png" alt="Third period evidence">
@@ -655,13 +689,12 @@
             <img src="survival_plt.png" alt="Third period evidence">
             <img src="KMmad.png" alt="Third period evidence">
           </div>
-
         </div>
 
         <div class="card" onclick="selectCard(this)">
           <div class="card-header">
             <h3 class="card-title">NASA Space Apps Challenge 2025</h3>
-            <span class="badge">Oct 2025</span>
+            <span class="tag">OCT 2025</span>
           </div>
           <div class="card-subtitle">Global Hackathon</div>
           <ul>
@@ -671,9 +704,9 @@
             <li>Developing a model using unsupervised learning, markov chains and montecarlo simulations.</li>
           </ul>
           <div class="card-links">
-            <a href="https://github.com/Isaac24-Y/Sharkmageddon" target="_blank">🔗 See Documentation (Github) Repository</a>
-            <a href="global_nominee_NASA_space_apps_2025.pdf" target="_blank">📄 Global Nominee (PDF)</a>
-            <a href="NASA_SPACE_APPS_Registration.pdf" target="_blank">📄 Team Registration (PDF)</a>
+            <a href="https://github.com/Isaac24-Y/Sharkmageddon" target="_blank">See Documentation (GitHub) Repository</a>
+            <a href="global_nominee_NASA_space_apps_2025.pdf" target="_blank">Global Nominee (PDF)</a>
+            <a href="NASA_SPACE_APPS_Registration.pdf" target="_blank">Team Registration (PDF)</a>
           </div>
           <div class="hidden-gallery">
             <img src="montecarlo_plots.png" alt="Montecarlo Plots">
@@ -685,17 +718,17 @@
         <div class="card" onclick="selectCard(this)">
           <div class="card-header">
             <h3 class="card-title">Exoplanet Equilibrium Temperature Predictor</h3>
-            <span class="badge">Jan 2026</span>
+            <span class="tag">JAN 2026</span>
           </div>
-          <div class="card-subtitle">Academic Project - Machine Learning & Astrophysics</div>
+          <div class="card-subtitle">Academic Project — Machine Learning &amp; Astrophysics</div>
           <ul>
             <li>Built a regression model in Python to predict the equilibrium temperature of exoplanets using stellar and orbital parameters.</li>
             <li>Applied supervised learning techniques (Non-Linear Regression, Multiple Linear Regression) with NASA exoplanet archive data.</li>
             <li>Motivated by personal interest in space sciences and planetary physics.</li>
-            <li>Achieved 90.7% percentage of explained variance R^2 for non_linear model.</li>
+            <li>Achieved 90.7% percentage of explained variance R² for non-linear model.</li>
           </ul>
           <div class="card-links">
-            <a href="https://acandelariaa.github.io/Proyecto_primer_parcial_IA/" target="_blank">🔗 See Documentation (Github Page)</a>
+            <a href="https://acandelariaa.github.io/Proyecto_primer_parcial_IA/" target="_blank">See Documentation (GitHub Page)</a>
           </div>
           <div class="hidden-gallery">
             <img src="distribution_var.png" alt="Distribution Var">
@@ -708,20 +741,20 @@
 
         <div class="card" onclick="selectCard(this)">
           <div class="card-header">
-            <h3 class="card-title">Customer Churn Prediction Using AI models</h3>
-            <span class="badge">Apr 2026</span>
+            <h3 class="card-title">Customer Churn Prediction Using AI Models</h3>
+            <span class="tag">APR 2026</span>
           </div>
-          <div class="card-subtitle">Personal Project - Machine Learning & Company Applications</div>
+          <div class="card-subtitle">Personal Project — Machine Learning &amp; Company Applications</div>
           <ul>
-            <li>Develop a full guide proyect using Telco Customer - kaggle Database for churn prediction.</li>
+            <li>Develop a full guide project using Telco Customer — Kaggle Database for churn prediction.</li>
             <li>Full EDA documentation on IPY-notebook explaining data processing, Principal Component Analysis and more.</li>
-            <li>Created multiple ML models (XGboost, Support Vector Machine, Logistic Regression + PCA) with different approaches and ideal usage cases.</li>
+            <li>Created multiple ML models (XGBoost, Support Vector Machine, Logistic Regression + PCA) with different approaches and ideal usage cases.</li>
             <li>Reported confusion matrix, significance metrics, ROC curves and mathematical concepts applied in ML and data analysis.</li>
             <li>Published Online opensource project for free.</li>
           </ul>
           <div class="card-links">
-            <a href="Customer_Churn_ML_full PDF.pdf" target="_blank">📄 Full Documentation (PDF)</a>
-            <a href="https://payhip.com/b/AKxdE" target="_blank">🔗 Online Documentation (Web)</a>
+            <a href="Customer_Churn_ML_full PDF.pdf" target="_blank">Full Documentation (PDF)</a>
+            <a href="https://payhip.com/b/AKxdE" target="_blank">Online Documentation (Web)</a>
           </div>
           <div class="hidden-gallery">
             <img src="features_churn.png" alt="Features">
@@ -736,15 +769,15 @@
         <div class="card" onclick="selectCard(this)">
           <div class="card-header">
             <h3 class="card-title">Tribological Testing of Theoretical Synthetic Lubricants vs Real Vegetable Oils</h3>
-            <span class="badge">Apr 2025</span>
+            <span class="tag">APR 2025</span>
           </div>
-          <div class="card-subtitle">Academic Project - Tribology & Materials Engineering</div>
+          <div class="card-subtitle">Academic Project — Tribology &amp; Materials Engineering</div>
           <ul>
-            <li>Executed tribological tests on a four-ball tester, comparing biodegradable vegetable lubricants against theorical synthetic alternatives.</li>
+            <li>Executed tribological tests on a four-ball tester, comparing biodegradable vegetable lubricants against theoretical synthetic alternatives.</li>
             <li>Analyzed friction coefficients and wear patterns; reported findings, friction plots, and recommended optimal use cases.</li>
           </ul>
           <div class="card-links">
-            <a href="Bio_lubricant_test.pdf" target="_blank">📄 Full Documentation (PDF)</a>
+            <a href="Bio_lubricant_test.pdf" target="_blank">Full Documentation (PDF)</a>
           </div>
           <div class="hidden-gallery">
             <video controls><source src="tribo_test.mp4" type="video/mp4"></video>
@@ -759,10 +792,10 @@
 
         <div class="card" onclick="selectCard(this)">
           <div class="card-header">
-            <h3 class="card-title">Case-Hardened process to Low Carbon Steel for Fatigue Resistance Upgrade</h3>
-            <span class="badge">May 2025</span>
+            <h3 class="card-title">Case-Hardened Process to Low Carbon Steel for Fatigue Resistance Upgrade</h3>
+            <span class="tag">MAY 2025</span>
           </div>
-          <div class="card-subtitle">Academic Project - Metallurgy & Mechanical Testing</div>
+          <div class="card-subtitle">Academic Project — Metallurgy &amp; Mechanical Testing</div>
           <ul>
             <li>Designed fatigue samples on CAD software and manufactured based on previous design.</li>
             <li>Created sealed environment for evening case-hardened and avoid outside contamination.</li>
@@ -770,7 +803,7 @@
             <li>Reported maximum cyclical performance before failure, microstructure analysis and hardness analysis on Rockwell scale.</li>
           </ul>
           <div class="card-links">
-            <a href="case_hardened_steel.pdf" target="_blank">📄 Full Documentation (PDF)</a>
+            <a href="case_hardened_steel.pdf" target="_blank">Full Documentation (PDF)</a>
           </div>
           <div class="hidden-gallery">
             <img src="cad_design_specimen.png" alt="CAD Design">
@@ -789,10 +822,10 @@
 
       <!-- TAB: ACTIVITIES -->
       <section id="tab-activities" class="tab-pane">
-        <div class="pane-header"><h1>Competitions & Extracurricular Activities</h1></div>
+        <div class="pane-header"><span class="pane-eyebrow">SECTION 04</span><h1>Competitions &amp; Extracurricular Activities</h1></div>
 
         <div class="card" onclick="selectCard(this)">
-          <div class="card-header"><h3 class="card-title">Astro-UDEM, Astronomy Club Member</h3><span class="badge success">2022 - Present</span></div>
+          <div class="card-header"><h3 class="card-title">Astro-UDEM, Astronomy Club Member</h3><span class="tag live">2022 — PRESENT</span></div>
           <div class="card-subtitle">Universidad de Monterrey (UDEM)</div>
           <ul>
             <li>Participated as an active member of Astro-UDEM, delivering educational talks, participating in science fairs and "science jams," and organizing club movie nights.</li>
@@ -813,8 +846,8 @@
         </div>
 
         <div class="card" onclick="selectCard(this)">
-          <div class="card-header"><h3 class="card-title">Robo-sumo Competition</h3><span class="badge">May 2024</span></div>
-          <div class="card-subtitle">Local Competition - UDEM (2nd Place)</div>
+          <div class="card-header"><h3 class="card-title">Robo-sumo Competition</h3><span class="tag">MAY 2024</span></div>
+          <div class="card-subtitle">Local Competition — UDEM (2nd Place)</div>
           <ul>
             <li>Designed, built, and programmed a fully functional robot as part of a multidisciplinary team.</li>
             <li>Secured 2nd place demonstrating skills in mechanical design, embedded systems, and teamwork under pressure.</li>
@@ -828,8 +861,8 @@
         </div>
 
         <div class="card" onclick="selectCard(this)">
-          <div class="card-header"><h3 class="card-title">Municipal Education Initiative</h3><span class="badge">2019 - 2020</span></div>
-          <div class="card-subtitle">Community Engagement - San Pedro Garza García</div>
+          <div class="card-header"><h3 class="card-title">Municipal Education Initiative</h3><span class="tag">2019 — 2020</span></div>
+          <div class="card-subtitle">Community Engagement — San Pedro Garza García</div>
           <ul>
             <li>Participated in a municipal programme aimed at improving education access in local schools.</li>
             <li>Collaborated with local authorities and educators to propose and implement educational improvements on elementary school.</li>
@@ -838,10 +871,10 @@
         </div>
 
         <div class="card" onclick="selectCard(this)">
-          <div class="card-header"><h3 class="card-title">United Nations General Assembly Model</h3><span class="badge">2022 - 2023</span></div>
+          <div class="card-header"><h3 class="card-title">United Nations General Assembly Model</h3><span class="tag">2022 — 2023</span></div>
           <div class="card-subtitle">UDEM-UN Local Simulation</div>
           <ul>
-            <li>Participated as delegate in two consecutive editions (2022 & 2023), representing assigned nations in structured multilateral debate.</li>
+            <li>Participated as delegate in two consecutive editions (2022 &amp; 2023), representing assigned nations in structured multilateral debate.</li>
             <li>2023 edition: proposed infrastructure development, education access expansion, and unemployment reduction strategies.</li>
             <li>2022 edition: developed and coordinated security and logistical frameworks addressing Middle East regional conflicts.</li>
           </ul>
@@ -858,10 +891,10 @@
 
       <!-- TAB: EXPERIENCE & CERTS -->
       <section id="tab-experience" class="tab-pane">
-        <div class="pane-header"><h1>Experience, Certifications & Diplomas</h1></div>
+        <div class="pane-header"><span class="pane-eyebrow">SECTION 05</span><h1>Experience, Certifications &amp; Diplomas</h1></div>
 
         <div class="card" onclick="selectCard(this)">
-          <div class="card-header"><h3 class="card-title">FRISA Aerospace</h3><span class="badge">Oct 2022 - Jun 2023</span></div>
+          <div class="card-header"><h3 class="card-title">FRISA Aerospace</h3><span class="tag">OCT 2022 — JUN 2023</span></div>
           <div class="card-subtitle">Technical Internship (Santa Catarina, NL)</div>
           <ul>
             <li>Recommended by High School to a technical internship on company.</li>
@@ -870,7 +903,7 @@
             <li>Read and interpreted technical engineering drawings; performed tooling changes under engineer supervision.</li>
           </ul>
           <div class="card-links">
-            <a href="https://www.frisa.com/es/welcome" target="_blank">🔗 Official Website</a>
+            <a href="https://www.frisa.com/es/welcome" target="_blank">Official Website</a>
           </div>
           <div class="hidden-gallery">
             <img src="IMG_FRISA.jpg" alt="FRISA">
@@ -880,7 +913,7 @@
         </div>
 
         <div class="card" onclick="selectCard(this)">
-          <div class="card-header"><h3 class="card-title">Academic Peer Tutor - Mathematics & Engineering Sciences</h3><span class="badge success">2025 - Present</span></div>
+          <div class="card-header"><h3 class="card-title">Academic Peer Tutor — Mathematics &amp; Engineering Sciences</h3><span class="tag live">2025 — PRESENT</span></div>
           <div class="card-subtitle">Universidad de Monterrey (UDEM)</div>
           <ul>
             <li>Selected by the university to provide academic tutoring to fellow students in advanced mathematics and engineering subjects, including Differential Equations, Integral Calculus, Linear Algebra, Statics and related disciplines.</li>
@@ -892,7 +925,7 @@
         </div>
 
         <div class="card" onclick="selectCard(this)">
-          <div class="card-header"><h3 class="card-title">Grafik Spot (Local printing Shop)</h3><span class="badge">Oct 2022 - Jun 2023</span></div>
+          <div class="card-header"><h3 class="card-title">Grafik Spot (Local Printing Shop)</h3><span class="tag">OCT 2022 — JUN 2023</span></div>
           <div class="card-subtitle">General Employee</div>
           <ul>
             <li>Big scale canvas and vinyl printing for panoramic and local advertisement.</li>
@@ -903,7 +936,7 @@
         </div>
 
         <div class="card" onclick="selectCard(this)">
-          <div class="card-header"><h3 class="card-title">Cinepolis (VIP Movie theater)</h3><span class="badge">Jul 2025</span></div>
+          <div class="card-header"><h3 class="card-title">Cinepolis (VIP Movie Theater)</h3><span class="tag">JUL 2025</span></div>
           <div class="card-subtitle">Waiter</div>
           <ul>
             <li>Food runner, waiter, and customer service.</li>
@@ -914,15 +947,15 @@
         </div>
 
         <div class="card" onclick="selectCard(this)">
-          <div class="card-header"><h3 class="card-title">Certifications & Diplomas</h3></div>
+          <div class="card-header"><h3 class="card-title">Certifications &amp; Diplomas</h3></div>
           <ul>
-            <li><b>Project Management</b> - Universidad Complutense de Madrid, Madrid, Spain. <br><i>learned organizational skills, effective communication, leadership, and management concepts.</i></li>
-            <li><b>Machine Learning Specialization</b> - Stanford University / DeepLearning.AI (Coursera, 2026). <br><i>Covering Supervised Learning, Advanced Learning Algorithms, Unsupervised Learning, Recommenders, and Reinforcement Learning.</i></li>
-            <li><b>Research & AI Product Development (Semilleros de Investigación)</b> - Universidad de Monterrey (2025-2026). <br><i>Recognition for active participation, critical analysis, and contribution to Artificial Intelligence research.</i></li>
-            <li><b>SolidWorks Basic Course</b> - Intelligy Authorized Training Center (2022).</li>
-            <li><b>EF SET English Certificate (C1 Advanced)</b> - EF Standard English Test (2024). <br><i>Score: 64/100 (Proficient C2 in Listening, C1 in Writing).</i></li>
-            <li><b>Distinguished High School Graduate (Valedictorian)</b> - Preparatoria Politécnica Santa Catarina (2023). <br><i>Awarded for achieving the highest GPA in the Industrial Machinery and Tools specialty.</i></li>
-            <li><b>UDEMUN 2022 Delegate</b> - United Nations Simulation, UDEM (2022).</li>
+            <li><b>Project Management</b> — Universidad Complutense de Madrid, Madrid, Spain. <br><i>Learned organizational skills, effective communication, leadership, and management concepts.</i></li>
+            <li><b>Machine Learning Specialization</b> — Stanford University / DeepLearning.AI (Coursera, 2026). <br><i>Covering Supervised Learning, Advanced Learning Algorithms, Unsupervised Learning, Recommenders, and Reinforcement Learning.</i></li>
+            <li><b>Research &amp; AI Product Development (Semilleros de Investigación)</b> — Universidad de Monterrey (2025-2026). <br><i>Recognition for active participation, critical analysis, and contribution to Artificial Intelligence research.</i></li>
+            <li><b>SolidWorks Basic Course</b> — Intelligy Authorized Training Center (2022).</li>
+            <li><b>EF SET English Certificate (C1 Advanced)</b> — EF Standard English Test (2024). <br><i>Score: 64/100 (Proficient C2 in Listening, C1 in Writing).</i></li>
+            <li><b>Distinguished High School Graduate (Valedictorian)</b> — Preparatoria Politécnica Santa Catarina (2023). <br><i>Awarded for achieving the highest GPA in the Industrial Machinery and Tools specialty.</i></li>
+            <li><b>UDEMUN 2022 Delegate</b> — United Nations Simulation, UDEM (2022).</li>
           </ul>
           <div class="hidden-gallery">
             <img src="PMP_Madrid_certificado_pages-to-jpg-0001.jpg" alt="PMP Cert">
@@ -938,39 +971,49 @@
 
     </main>
 
-    <!-- COLUMNA 3: GALERÍA DINÁMICA -->
+    <!-- COLUMN 3: FIGURE PLATES -->
     <aside class="panel gallery-panel">
       <div class="gallery-header">
-        <h2>Gallery Viewer</h2>
-        <span class="fullscreen-note">Click image to fullscreen</span>
+        <div>
+          <span class="pane-eyebrow" style="margin-bottom:0.1rem;">APPENDIX</span>
+          <h2>Figure Plates</h2>
+        </div>
+        <span class="fullscreen-note">CLICK TO ENLARGE</span>
       </div>
       <div class="scrollable" style="flex:1;">
         <div id="dynamic-gallery" class="gallery-grid">
-          <div class="empty-state">Select a card from the center to view related media.</div>
+          <div class="empty-state">Select an entry from the index to view related figures.</div>
         </div>
       </div>
     </aside>
 
   </div>
 
-  <!-- Modal Visor -->
+  <!-- Modal viewer -->
   <div id="image-modal" class="modal" onclick="closeModal()">
     <img id="modal-img" src="" alt="Fullscreen">
   </div>
 
-  <!-- SCRIPT DE CÁLCULO ALGEBRAICO Y FLEXBOX -->
   <script>
     function toggleSidebar() {
       document.querySelector('.app-container').classList.toggle('sidebar-collapsed');
     }
 
-    function switchTab(tabId) {
+    const TAB_ORDER = ['tab-overview', 'tab-education', 'tab-projects', 'tab-activities', 'tab-experience'];
+    const sheetIndicator = document.getElementById('sheet-indicator');
+
+    function switchTab(tabId, btnEl) {
       document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-      
+
       document.getElementById(tabId).classList.add('active');
-      event.currentTarget.classList.add('active');
+      if (btnEl) btnEl.classList.add('active');
       document.getElementById('main-content').scrollTop = 0;
+
+      const idx = TAB_ORDER.indexOf(tabId);
+      if (idx >= 0 && sheetIndicator) {
+        sheetIndicator.textContent = String(idx + 1).padStart(2, '0') + ' / 05';
+      }
 
       const firstCard = document.querySelector(`#${tabId} .card:not(.bio-card)`);
       if (firstCard) {
@@ -989,10 +1032,11 @@
       const hiddenGallery = cardElement.querySelector('.hidden-gallery');
       if (hiddenGallery && hiddenGallery.children.length > 0) {
         galleryContainer.innerHTML = hiddenGallery.innerHTML;
+        wrapGalleryItems();
         bindModalEvents();
-        
+
         waitForMediaToLoad().then(() => {
-            layoutExactGallery();
+          layoutExactGallery();
         });
       } else {
         clearGallery();
@@ -1000,12 +1044,26 @@
     }
 
     function clearGallery() {
-      galleryContainer.innerHTML = '<div class="empty-state">No media available for this section.</div>';
+      galleryContainer.innerHTML = '<div class="empty-state">No figures available for this entry.</div>';
     }
 
-    // Esperar a que las imágenes lean sus dimensiones reales
+    // Wrap each raw img/video in a numbered "figure plate" frame
+    function wrapGalleryItems() {
+      const rawItems = Array.from(galleryContainer.children).filter(el => el.tagName === 'IMG' || el.tagName === 'VIDEO');
+      rawItems.forEach((el, i) => {
+        const frame = document.createElement('span');
+        frame.className = 'fig-frame';
+        el.parentNode.insertBefore(frame, el);
+        frame.appendChild(el);
+        const tag = document.createElement('span');
+        tag.className = 'fig-tag';
+        tag.textContent = 'FIG. ' + String(i + 1).padStart(2, '0');
+        frame.appendChild(tag);
+      });
+    }
+
     function waitForMediaToLoad() {
-      const mediaElements = Array.from(galleryContainer.children).filter(el => el.tagName === 'IMG' || el.tagName === 'VIDEO');
+      const mediaElements = Array.from(galleryContainer.querySelectorAll('img, video'));
       const promises = mediaElements.map(el => {
         return new Promise((resolve) => {
           if (el.tagName === 'IMG') {
@@ -1020,13 +1078,12 @@
       return Promise.all(promises);
     }
 
-    // ALGORITMO DE GALERIA JUSTIFICADA (estilo Google Fotos) — filas llenas, sin cortes bruscos
+    // Justified figure-plate grid — rows fill the available width exactly
     function layoutExactGallery() {
-      const GAP = 8;
+      const GAP = 6;
       const containerWidth = galleryContainer.clientWidth;
       if (!containerWidth) return;
 
-      // Altura objetivo adaptada al ancho disponible (columnas angostas -> filas más bajas)
       let targetHeight = 190;
       if (containerWidth < 340) targetHeight = 130;
       else if (containerWidth < 520) targetHeight = 150;
@@ -1035,7 +1092,7 @@
       const MIN_HEIGHT = targetHeight * 0.55;
       const MAX_HEIGHT = targetHeight * 1.7;
 
-      const items = Array.from(galleryContainer.children).filter(el => el.tagName === 'IMG' || el.tagName === 'VIDEO');
+      const items = Array.from(galleryContainer.children).filter(el => el.classList && el.classList.contains('fig-frame'));
       if (!items.length) return;
 
       let row = [];
@@ -1048,14 +1105,11 @@
         let rowHeight;
 
         if (isLastRow && rowRatioSum * targetHeight <= availableWidth) {
-          // Última fila incompleta: usa la altura objetivo sin estirar de más
           rowHeight = targetHeight;
         } else {
-          // Fila completa: estira/encoge para llenar el ancho exactamente
           rowHeight = availableWidth / rowRatioSum;
         }
 
-        // Evita filas absurdamente altas (1 sola imagen muy vertical) o muy bajas (1 panorámica)
         rowHeight = Math.max(MIN_HEIGHT, Math.min(MAX_HEIGHT, rowHeight));
 
         row.forEach((item) => {
@@ -1069,14 +1123,13 @@
         rowRatioSum = 0;
       };
 
-      items.forEach(el => {
+      items.forEach(frame => {
+        const media = frame.querySelector('img, video');
         let ratio = 1.33;
-        if (el.tagName === 'IMG' && el.naturalWidth) {
-          ratio = el.naturalWidth / el.naturalHeight;
-        } else if (el.tagName === 'VIDEO' && el.videoWidth) {
-          ratio = el.videoWidth / el.videoHeight;
+        if (media) {
+          if (media.tagName === 'IMG' && media.naturalWidth) ratio = media.naturalWidth / media.naturalHeight;
+          else if (media.tagName === 'VIDEO' && media.videoWidth) ratio = media.videoWidth / media.videoHeight;
         }
-        // Clamp de relación de aspecto para que un extremo no rompa la fila
         ratio = Math.max(0.5, Math.min(2.6, ratio));
 
         const projectedWidth = (rowRatioSum + ratio) * targetHeight + (row.length * GAP);
@@ -1084,14 +1137,13 @@
           renderRow(false);
         }
 
-        row.push({ el, ratio });
+        row.push({ el: frame, ratio });
         rowRatioSum += ratio;
       });
 
       renderRow(true);
     }
 
-    // Visor Modal
     const modal = document.getElementById('image-modal');
     const modalImg = document.getElementById('modal-img');
 
@@ -1115,9 +1167,9 @@
       window.resizeTimer = setTimeout(layoutExactGallery, 150);
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const activeBtn = document.querySelector('.nav-btn.active');
-      if(activeBtn) activeBtn.click();
+    document.addEventListener('DOMContentLoaded', () => {
+      const firstCard = document.querySelector('#tab-overview .card:not(.bio-card)');
+      if (firstCard) selectCard(firstCard);
     });
   </script>
 </body>
