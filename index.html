@@ -11,14 +11,14 @@
       margin: 0;
       padding: 0;
       font-family: "Times New Roman", Times, serif !important;
-      font-weight: normal !important;
+      font-weight: normal !important; /* Force NO BOLD anywhere */
     }
 
     body {
       background-color: #ffffff;
       color: #000000;
       line-height: 1.6;
-      font-size: 16px;
+      font-size: 16.5px;
     }
 
     /* Navigation Banner */
@@ -70,7 +70,7 @@
 
     /* Main Content */
     main {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 160px auto 40px auto; /* Space for the fixed navbar */
       padding: 0 20px;
     }
@@ -88,7 +88,7 @@
     .masthead img {
       width: 180px;
       height: 180px;
-      object-fit: cover;
+      object-fit: cover; /* Keeps it perfectly square */
       border: 1px solid #000000;
       flex-shrink: 0;
     }
@@ -104,10 +104,18 @@
       line-height: 1.5;
     }
 
+    .contact-links {
+      font-size: 16px;
+    }
+
     .contact-links a {
-      margin-right: 15px;
       color: #000000;
       text-decoration: underline;
+    }
+
+    .contact-links span.separator {
+      margin: 0 10px;
+      color: #000000;
     }
 
     /* Section Control */
@@ -117,7 +125,7 @@
 
     .tab-content.active {
       display: block;
-      animation: fadeIn 0.4s ease-in-out;
+      animation: fadeIn 0.3s ease-in-out;
     }
 
     @keyframes fadeIn {
@@ -139,28 +147,46 @@
     }
 
     .card-title {
-      font-size: 18px;
+      font-size: 19px;
       text-decoration: underline;
       margin-bottom: 5px;
     }
 
     .card-subtitle {
-      font-size: 14px;
+      font-size: 15px;
       margin-bottom: 10px;
-      color: #333333;
+      color: #222222;
     }
 
     ul {
       margin-left: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     li {
       margin-bottom: 8px;
     }
 
-    a {
+    /* Document Links Section */
+    .doc-links {
+      margin: 15px 0;
+      padding: 10px 0;
+      border-top: 1px solid #e0e0e0;
+      border-bottom: 1px dashed #000000;
+    }
+
+    .doc-links a {
       color: #000000;
+      margin-right: 20px;
+      text-decoration: underline;
+      font-size: 15px;
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+
+    .doc-links a::before {
+      content: "📄 ";
+      text-decoration: none;
     }
 
     /* Grids */
@@ -171,19 +197,24 @@
       margin-bottom: 20px;
     }
 
-    /* Image Gallery */
+    /* Image Gallery - Flexbox for left-to-right flow and proportional width */
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 15px;
-      margin-top: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
     }
 
     .gallery img, .gallery video {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
+      height: 180px; /* Fixed height for all media */
+      width: auto; /* Allows width to adjust to original ratio */
+      max-width: 100%; /* Prevents very wide images from breaking the layout */
       border: 1px solid #000000;
+      object-fit: contain;
+      background-color: #f9f9f9;
+    }
+
+    .gallery img {
       cursor: pointer;
     }
 
@@ -196,15 +227,15 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.95);
       overflow: auto;
     }
 
     .modal-content {
-      margin: 5% auto;
+      margin: 2% auto;
       display: block;
-      max-width: 90%;
-      max-height: 80vh;
+      max-width: 95%;
+      max-height: 95vh;
       object-fit: contain;
       border: 1px solid #000000;
     }
@@ -213,7 +244,7 @@
       position: absolute;
       top: 20px;
       right: 30px;
-      font-size: 35px;
+      font-size: 40px;
       cursor: pointer;
       color: #000000;
     }
@@ -232,6 +263,9 @@
       }
       main {
         margin-top: 180px;
+      }
+      .gallery img, .gallery video {
+        height: 120px; /* Smaller height on mobile */
       }
     }
   </style>
@@ -255,12 +289,15 @@
     <section class="masthead">
       <img src="CV_photo.png" alt="Angel Candelaria">
       <div class="masthead-text">
-        <p class="quote">"My name is Angel. I'm a Mechanical Engineering student at Universidad de Monterrey (UDEM), currently on my way to my 7th semester. I'm mostly interested in multiple topics of engineering, such as: data science, physics, applied math, AI development, electronics, materials, CAD design, manufacturing processes and project management. I'm currently covering my studies on a 100% scholarship awarded for outstanding academic performance."</p>
+        <p class="quote">"My name is Angel. I'm a Mechanical Engineering student at Universidad de Monterrey (UDEM), currently on my way to my 7th semester. I'm mostly interested in multiple topics of engineering, such as: data science, physics, applied math, AI development, electronics, materials, CAD design, manufacturing processes and project management. I'm currently covering my studies at this private university on a 100% scholarship awarded for outstanding academic performance."</p>
         <div class="contact-links">
           <a href="https://www.linkedin.com/in/juan-angel-candelaria-rodriguez-888777361" target="_blank">LinkedIn</a>
+          <span class="separator">|</span>
           <a href="https://github.com/acandelariaa" target="_blank">GitHub</a>
-          <a href="mailto:juan.candelaria@udem.edu">Email</a>
-          <a href="tel:+528129539138">Phone</a>
+          <span class="separator">|</span>
+          <span>juan.candelaria@udem.edu</span>
+          <span class="separator">|</span>
+          <span>+52 (81) 29 53 91 38</span>
         </div>
       </div>
     </section>
@@ -295,6 +332,7 @@
             <li>Languages: Spanish (Native) | English (C1 Advanced, EFSET)</li>
             <li>Active listening and clear verbal communication</li>
             <li>Adaptability to multidisciplinary environments</li>
+            <li>Collaborative, reliable and easy to work with</li>
           </ul>
         </div>
       </div>
@@ -312,10 +350,17 @@
           <li>Full 100% merit scholarship awarded for outstanding academic performance during high school.</li>
           <li>Relevant coursework: Mechanics of Materials, Thermodynamics, Electronics CAD/CAM, FEA Analysis, Manufacturing Processes, Engineering Data Analysis and Machine Learning.</li>
         </ul>
-        <a href="GPA_courses.pdf" target="_blank">View GPA and Courses (PDF)</a>
+        <div class="doc-links">
+          <a href="GPA_courses.pdf" target="_blank">GPA and Courses (PDF)</a>
+        </div>
         <div class="gallery">
           <img src="UDEM_campus.jpg" alt="UDEM Campus" onclick="openModal(this)">
           <img src="IMG_1085.jpg" alt="UDEM Campus" onclick="openModal(this)">
+          <img src="IMG_1216.jpg" alt="UDEM Campus" onclick="openModal(this)">
+          <img src="IMG_2288.jpg" alt="UDEM Campus" onclick="openModal(this)">
+          <img src="IMG_5604.jpg" alt="UDEM Campus" onclick="openModal(this)">
+          <img src="IMG_7557.jpg" alt="UDEM Campus" onclick="openModal(this)">
+          <img src="campus_life.jpg" alt="UDEM Campus" onclick="openModal(this)">
         </div>
       </div>
 
@@ -327,8 +372,14 @@
           <li>Selected by UDEM due to distinguished academic performance during college.</li>
           <li>Awarded a full scholarship covering all travel and programme expenses.</li>
         </ul>
+        <div class="doc-links">
+          <a href="Summer_program_acceptance.pdf" target="_blank">Summer Program Acceptance (PDF)</a>
+          <a href="aceptación_fundación_complutense.pdf" target="_blank">Financial Aid (PDF)</a>
+        </div>
         <div class="gallery">
           <img src="IMG_1339.jpg" alt="Summer Programme" onclick="openModal(this)">
+          <img src="6d542e87-ad3c-4d86-8d85-af8dacfc7505.jpg" alt="Summer Programme" onclick="openModal(this)">
+          <img src="d05fbdca-61ed-4c17-84e2-92a2b6178f17.jpg" alt="Summer Programme" onclick="openModal(this)">
           <img src="UCM.png" alt="Summer Programme" onclick="openModal(this)">
         </div>
       </div>
@@ -340,8 +391,15 @@
           <li>Graduated as a valedictorian, highest GPA of the entire technical specialty cohort (2023).</li>
           <li>Full 100% private benefactor scholarship (Martinez Sada Foundation) throughout the entire programme.</li>
         </ul>
+        <div class="doc-links">
+          <a href="valedictorian_certificate.pdf" target="_blank">Valedictorian Certificate (PDF)</a>
+          <a href="https://www.udem.edu.mx/es/institucional/noticia/exhortan-graduados-de-preparatoria-politecnica-santa-catarina-servir-la" target="_blank">UDEM / High School — Prom 2023 (Web)</a>
+        </div>
         <div class="gallery">
           <img src="Valedictorian_highschool.jpg" alt="Valedictorian" onclick="openModal(this)">
+          <img src="high_school_technician.jpg" alt="Technician" onclick="openModal(this)">
+          <img src="valedictorian_photo_certificate.jpg" alt="Certificate" onclick="openModal(this)">
+          <img src="valedictorian_photos.jpg" alt="Valedictorian Photos" onclick="openModal(this)">
           <video src="valedictorian_prom.mp4" controls></video>
         </div>
       </div>
@@ -359,9 +417,42 @@
           <li>Realized a statistical analysis to find desertion causes and risk factors.</li>
           <li>Performed data cleaning, processing, feature engineering and model evaluation in Google Colab.</li>
         </ul>
+        <div class="doc-links">
+          <a href="Research_participation_certificate.pdf" target="_blank">AI Research Certificate (PDF)</a>
+        </div>
         <div class="gallery">
           <img src="desertion_probability.png" alt="Desertion Probability" onclick="openModal(this)">
           <img src="model_performance.png" alt="Model Performance" onclick="openModal(this)">
+          <img src="feature_importance.png" alt="Feature Importance" onclick="openModal(this)">
+          <img src="desertion_over_time.png" alt="Desertion Over Time" onclick="openModal(this)">
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Artificial Intelligence 1 — Course Portfolios</h3>
+        <p class="card-subtitle">Data Analysis — Python + Machine Learning</p>
+        <ul>
+          <li>Development of comprehensive evidence portfolios for the complete Artificial Intelligence course.</li>
+          <li>Focus on Data Analysis, implementation of supervised/unsupervised learning algorithms, dimensionality reduction (PCA), and recommendation systems.</li>
+          <li>Integration of a complete Machine Learning pipeline using Python, from Exploratory Data Analysis (EDA) to metric evaluation.</li>
+        </ul>
+        <div class="doc-links">
+          <a href="https://acandelariaa.github.io/Portafolio_evidencias_primer_parcial/" target="_blank">1st Partial Portfolio (Web)</a>
+          <a href="https://acandelariaa.github.io/Portafolio-evidencias_segundo_parcial_IA/" target="_blank">2nd Partial Portfolio (Web)</a>
+          <a href="https://acandelariaa.github.io/Tercer_Parcial_Inteligencia_Artificial_1/" target="_blank">3rd Partial & Final Project (Web)</a>
+        </div>
+        <div class="gallery">
+          <img src="Felicidad_vs_pib_log (1).png" alt="Evidence" onclick="openModal(this)">
+          <img src="Matriz_correlación.png" alt="Evidence" onclick="openModal(this)">
+          <img src="MC_RF.png" alt="Evidence" onclick="openModal(this)">
+          <img src="acc_loss_RN.png" alt="Evidence" onclick="openModal(this)">
+          <img src="DSTLDA.png" alt="Evidence" onclick="openModal(this)">
+          <img src="VRBST.png" alt="Evidence" onclick="openModal(this)">
+          <img src="heatmap_valores_faltantes.png" alt="Evidence" onclick="openModal(this)">
+          <img src="top50km.png" alt="Evidence" onclick="openModal(this)">
+          <img src="dendogram.png" alt="Evidence" onclick="openModal(this)">
+          <img src="survival_plt.png" alt="Evidence" onclick="openModal(this)">
+          <img src="KMmad.png" alt="Evidence" onclick="openModal(this)">
         </div>
       </div>
 
@@ -372,8 +463,14 @@
           <li>Tackled the challenge of identifying shark migration trajectories from space using geographic, atmospheric, and oceanographic datasets.</li>
           <li>Developing a model using unsupervised learning, markov chains and montecarlo simulations.</li>
         </ul>
+        <div class="doc-links">
+          <a href="https://github.com/Isaac24-Y/Sharkmageddon" target="_blank">Documentation Repository (GitHub)</a>
+          <a href="global_nominee_NASA_space_apps_2025.pdf" target="_blank">Global Nominee (PDF)</a>
+          <a href="NASA_SPACE_APPS_Registration.pdf" target="_blank">Team Registration (PDF)</a>
+        </div>
         <div class="gallery">
           <img src="montecarlo_plots.png" alt="Montecarlo Plots" onclick="openModal(this)">
+          <img src="shark_probability_presence.png" alt="Shark Probability" onclick="openModal(this)">
           <video src="sharkmagedon.mp4" controls></video>
         </div>
       </div>
@@ -385,21 +482,80 @@
           <li>Applied supervised learning techniques with NASA exoplanet archive data.</li>
           <li>Achieved 90.7% percentage of explained variance R squared for non-linear model.</li>
         </ul>
+        <div class="doc-links">
+          <a href="https://acandelariaa.github.io/Proyecto_primer_parcial_IA/" target="_blank">Documentation (GitHub Page)</a>
+        </div>
         <div class="gallery">
+          <img src="distribution_var.png" alt="Distribution Var" onclick="openModal(this)">
           <img src="eqt_pol.png" alt="Regression Pol" onclick="openModal(this)">
+          <img src="eqt_non_pol.png" alt="Regression Non Pol" onclick="openModal(this)">
           <img src="correlation_matrix.png" alt="Correlation Matrix" onclick="openModal(this)">
+          <img src="eqt_metrics.png" alt="Metrics" onclick="openModal(this)">
         </div>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Tribological Testing & Metallurgy</h3>
+        <h3 class="card-title">Customer Churn Prediction Using AI Models (Apr 2026)</h3>
+        <ul>
+          <li>Develop a full guide project using Telco Customer — Kaggle Database for churn prediction.</li>
+          <li>Full EDA documentation on IPY-notebook explaining data processing, Principal Component Analysis and more.</li>
+          <li>Created multiple ML models (XGBoost, Support Vector Machine, Logistic Regression + PCA).</li>
+        </ul>
+        <div class="doc-links">
+          <a href="Customer_Churn_ML_full PDF.pdf" target="_blank">Full Documentation (PDF)</a>
+          <a href="https://payhip.com/b/AKxdE" target="_blank">Online Documentation (Web)</a>
+        </div>
+        <div class="gallery">
+          <img src="features_churn.png" alt="Features" onclick="openModal(this)">
+          <img src="ROC_curve_cust_churn.png" alt="ROC Curve" onclick="openModal(this)">
+          <img src="scatter_plot_churn.png" alt="Scatter Plot" onclick="openModal(this)">
+          <img src="confusion_matrix_ROC.png" alt="Confusion Matrix" onclick="openModal(this)">
+          <img src="PCA_plot.png" alt="PCA Plot" onclick="openModal(this)">
+          <img src="churn_distribution.png" alt="Churn Distribution" onclick="openModal(this)">
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Tribological Testing of Theoretical Synthetic Lubricants vs Real Vegetable Oils (Apr 2025)</h3>
         <ul>
           <li>Executed tribological tests on a four-ball tester, comparing biodegradable vegetable lubricants against theoretical synthetic alternatives.</li>
-          <li>Designed and manufactured fatigue samples on CAD software to test case-hardened processes on low carbon steel for fatigue resistance.</li>
+          <li>Analyzed friction coefficients and wear patterns; reported findings, friction plots, and recommended optimal use cases.</li>
         </ul>
+        <div class="doc-links">
+          <a href="Bio_lubricant_test.pdf" target="_blank">Full Documentation (PDF)</a>
+        </div>
         <div class="gallery">
+          <video src="tribo_test.mp4" controls></video>
           <img src="four_ball_test.jpg" alt="Four-ball tester" onclick="openModal(this)">
-          <img src="micro_structure.mp4" alt="Microstructure" onclick="openModal(this)">
+          <img src="wear_pattern.jpg" alt="Wear Pattern" onclick="openModal(this)">
+          <img src="microscope_wear.jpg" alt="Microscope" onclick="openModal(this)">
+          <img src="tribo_lub_wears.png" alt="Tribo Wears" onclick="openModal(this)">
+          <img src="wear_pattern.png" alt="Wear Pattern" onclick="openModal(this)">
+          <img src="tribo_friction_plots.png" alt="Friction Plots" onclick="openModal(this)">
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Case-Hardened Process to Low Carbon Steel for Fatigue Resistance Upgrade (May 2025)</h3>
+        <ul>
+          <li>Designed fatigue samples on CAD software and manufactured based on previous design.</li>
+          <li>Created sealed environment for evening case-hardened and avoid outside contamination.</li>
+          <li>Fatigue tests on a low carbon steel specimen to evaluate the effect of surface treatment on fatigue life.</li>
+        </ul>
+        <div class="doc-links">
+          <a href="case_hardened_steel.pdf" target="_blank">Full Documentation (PDF)</a>
+        </div>
+        <div class="gallery">
+          <img src="cad_design_specimen.png" alt="CAD Design" onclick="openModal(this)">
+          <img src="web_failure_simulator.png" alt="Failure Sim" onclick="openModal(this)">
+          <img src="lathe_manufacturing.jpg" alt="Lathe" onclick="openModal(this)">
+          <img src="hardened.jpg" alt="Hardened" onclick="openModal(this)">
+          <img src="sealed_box.jpg" alt="Sealed Box" onclick="openModal(this)">
+          <img src="rockwell_hardness.jpg" alt="Hardness" onclick="openModal(this)">
+          <video src="furnace.mp4" controls></video>
+          <video src="micro_structure.mp4" controls></video>
+          <img src="martensite.jpg" alt="Martensite" onclick="openModal(this)">
+          <img src="structure1.jpg" alt="Structure" onclick="openModal(this)">
         </div>
       </div>
     </section>
@@ -411,24 +567,59 @@
       <div class="card">
         <h3 class="card-title">Astro-UDEM, Astronomy Club Member (2022 — Present)</h3>
         <ul>
-          <li>Delivering educational talks, participating in science fairs and organizing club events.</li>
-          <li>Co-organized an astronomical camping trip at the Tlapiani Observatory in Iturbide, NL, conducting stargazing sessions.</li>
+          <li>Participated as an active member of Astro-UDEM, delivering educational talks, participating in science fairs and organizing club movie nights.</li>
+          <li>Co-organized and attended an astronomical camping trip at the Tlapiani Observatory in Iturbide, NL, conducting stargazing sessions to observe stars and galaxies using the observatory's professional telescope.</li>
+          <li>Collaborated with the Laniakea astronomy club from UANL to foster inter-university scientific outreach.</li>
         </ul>
         <div class="gallery">
           <img src="IMG_0505.jpg" alt="Astro-UDEM" onclick="openModal(this)">
+          <img src="IMG_4943.jpg" alt="Astro-UDEM" onclick="openModal(this)">
+          <img src="IMG_5756.jpg" alt="Astro-UDEM" onclick="openModal(this)">
+          <img src="IMG_5822.jpg" alt="Astro-UDEM" onclick="openModal(this)">
+          <img src="IMG_5807.jpg" alt="Astro-UDEM" onclick="openModal(this)">
           <img src="galaxy_gaze.jpg" alt="Observatory" onclick="openModal(this)">
+          <img src="IMG_7564.jpg" alt="Observatory" onclick="openModal(this)">
+          <img src="IMG_7569.jpg" alt="Observatory" onclick="openModal(this)">
+          <img src="IMG_7575.jpg" alt="Observatory" onclick="openModal(this)">
         </div>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Robo-sumo Competition (May 2024) & UN Model (2022 — 2023)</h3>
+        <h3 class="card-title">Robo-sumo Competition (May 2024)</h3>
         <ul>
-          <li>Designed, built, and programmed a fully functional robot securing 2nd place in UDEM's local competition.</li>
-          <li>Participated as delegate in two consecutive editions of UDEM-UN, developing logistical frameworks for multilateral debate.</li>
+          <li>Designed, built, and programmed a fully functional robot as part of a multidisciplinary team.</li>
+          <li>Secured 2nd place demonstrating skills in mechanical design, embedded systems, and teamwork under pressure.</li>
         </ul>
         <div class="gallery">
           <img src="robo_sumo.jpeg" alt="Robo-sumo" onclick="openModal(this)">
+          <img src="robo_sumo_event.jpg" alt="Event" onclick="openModal(this)">
+          <img src="robo_sumo2.jpg" alt="Event" onclick="openModal(this)">
+          <video src="sumo_car.mp4" controls></video>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Municipal Education Initiative (2019 — 2020)</h3>
+        <ul>
+          <li>Participated in a municipal programme aimed at improving education access in local schools.</li>
+          <li>Collaborated with local authorities and educators to propose and implement educational improvements on elementary school.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">United Nations General Assembly Model (2022 — 2023)</h3>
+        <ul>
+          <li>Participated as delegate in two consecutive editions representing assigned nations in structured multilateral debate.</li>
+          <li>2023 edition: proposed infrastructure development, education access expansion, and unemployment reduction strategies.</li>
+          <li>2022 edition: developed and coordinated security and logistical frameworks addressing Middle East regional conflicts.</li>
+        </ul>
+        <div class="gallery">
           <img src="UN1.jpg" alt="UN Debate" onclick="openModal(this)">
+          <img src="UN2.jpg" alt="UN Debate" onclick="openModal(this)">
+          <img src="UN3.jpg" alt="UN Debate" onclick="openModal(this)">
+          <img src="UN4.jpg" alt="UN Debate" onclick="openModal(this)">
+          <img src="UN5.jpg" alt="UN Debate" onclick="openModal(this)">
+          <img src="UN6.jpg" alt="UN Debate" onclick="openModal(this)">
         </div>
       </div>
     </section>
@@ -440,32 +631,67 @@
       <div class="card">
         <h3 class="card-title">FRISA Aerospace — Technical Internship (Oct 2022 — Jun 2023)</h3>
         <ul>
+          <li>Recommended by High School to a technical internship on company.</li>
           <li>Operated industrial lathes and CNC-adjacent equipment in an aerospace manufacturing environment.</li>
           <li>Used precision measurement tools: vernier, calipers, micrometers, and Mueller gauges.</li>
-          <li>Read and interpreted technical engineering drawings.</li>
+          <li>Read and interpreted technical engineering drawings; performed tooling changes under engineer supervision.</li>
+        </ul>
+        <div class="doc-links">
+          <a href="https://www.frisa.com/es/welcome" target="_blank">Official Website</a>
+        </div>
+        <div class="gallery">
+          <img src="IMG_FRISA.jpg" alt="FRISA" onclick="openModal(this)">
+          <img src="IMG_FRISA1.jpg" alt="FRISA" onclick="openModal(this)">
+          <img src="IMG_FRISA2.jpg" alt="FRISA" onclick="openModal(this)">
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Academic Peer Tutor — Mathematics & Engineering Sciences (2025 — Present)</h3>
+        <ul>
+          <li>Selected by the university to provide academic tutoring to fellow students in advanced mathematics and engineering subjects, including Differential Equations, Integral Calculus, Linear Algebra, Statics and related disciplines.</li>
+          <li>Recognized by the institution through a formal compensation scheme for consistent tutoring performance over 2+ semesters.</li>
+          <li>Ranked top 3 peer tutors in the program due to effective teaching and solid subject domain.</li>
         </ul>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Academic Peer Tutor (2025 — Present)</h3>
+        <h3 class="card-title">Grafik Spot (Local Printing Shop) (Oct 2022 — Jun 2023)</h3>
         <ul>
-          <li>Selected by UDEM to provide academic tutoring in Differential Equations, Integral Calculus, Linear Algebra, and Statics.</li>
-          <li>Ranked top 3 peer tutors in the program due to effective teaching.</li>
+          <li>Big scale canvas and vinyl printing for panoramic and local advertisement.</li>
+          <li>Precise cutting of presentation cards.</li>
+          <li>Laminated documents and tabloids.</li>
         </ul>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Certifications</h3>
+        <h3 class="card-title">Cinepolis (VIP Movie Theater) (Jul 2025)</h3>
         <ul>
-          <li>Project Management — Universidad Complutense de Madrid, Madrid, Spain.</li>
+          <li>Food runner, waiter, and customer service.</li>
+          <li>Cook.</li>
+          <li>General Intendancy.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Certifications & Diplomas</h3>
+        <ul>
+          <li>Project Management — Universidad Complutense de Madrid, Madrid, Spain. Learned organizational skills, effective communication, leadership, and management concepts.</li>
           <li>Machine Learning Specialization — Stanford University / DeepLearning.AI (Coursera, 2026).</li>
-          <li>Research & AI Product Development — Universidad de Monterrey (2025-2026).</li>
+          <li>Research & AI Product Development (Semilleros de Investigación) — Universidad de Monterrey (2025-2026).</li>
           <li>SolidWorks Basic Course — Intelligy Authorized Training Center (2022).</li>
           <li>EF SET English Certificate (C1 Advanced) — EF Standard English Test (2024).</li>
+          <li>Distinguished High School Graduate (Valedictorian) — Preparatoria Politécnica Santa Catarina (2023).</li>
+          <li>UDEMUN 2022 Delegate — United Nations Simulation, UDEM (2022).</li>
         </ul>
         <div class="gallery">
           <img src="PMP_Madrid_certificado_pages-to-jpg-0001.jpg" alt="PMP Cert" onclick="openModal(this)">
           <img src="Coursera 8OZUFBAPIP3A.jpeg" alt="Stanford ML" onclick="openModal(this)">
+          <img src="Diploma SEMILLEROS DE INVESTIGACIÓN Juan Ángel.jpeg" alt="Semilleros AI" onclick="openModal(this)">
+          <img src="Solidworks certificate (1).jpeg" alt="SolidWorks" onclick="openModal(this)">
+          <img src="EF SET Certificate (2).jpeg" alt="EF SET" onclick="openModal(this)">
+          <img src="Bachiller distinguido (1).jpeg" alt="Valedictorian" onclick="openModal(this)">
+          <img src="UDEMUN - Juan Angel Candelaria (1).jpeg" alt="UDEMUN Delegate" onclick="openModal(this)">
         </div>
       </div>
     </section>
@@ -511,7 +737,7 @@
       if (prevScrollPos > currentScrollPos || currentScrollPos < 50) {
         navbar.style.top = "0";
       } else {
-        // If scrolling down, hide the navbar (adjust pixel value based on height)
+        // If scrolling down, hide the navbar
         navbar.style.top = "-150px"; 
       }
       prevScrollPos = currentScrollPos;
