@@ -3,391 +3,573 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Angel Candelaria's Portfolio</title>
-  <style>
-    /* Reset and Typography - Times New Roman, Notion-inspired softness */
+  <title>Angel Candelaria — Mechanical Engineering</title>
 
-    * {
+  <!-- SEO + Open Graph -->
+  <meta name="description" content="Portfolio of Angel Candelaria, Mechanical Engineering student at UDEM. Full-scholarship, ML researcher, NASA Space Apps Global Nominee.">
+  <meta property="og:title" content="Angel Candelaria — Mechanical Engineering · UDEM">
+  <meta property="og:description" content="Portfolio and extended CV of Angel Candelaria, 7th-semester engineering student at Universidad de Monterrey. ML research, materials science, aerospace internship.">
+  <meta property="og:image" content="CV_photo.png">
+  <meta property="og:type" content="website">
+
+  <style>
+    /* ============================================================
+       RESET  —  no !important on font-weight (that was the bug)
+    ============================================================ */
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: "Times New Roman", Times, serif !important;
-      font-weight: normal !important; /* Force NO BOLD anywhere */
-      font-family: "Times New Roman", Times, serif;
     }
 
+    /* ============================================================
+       BASE TYPOGRAPHY
+    ============================================================ */
     body {
+      font-family: "Times New Roman", Times, serif;
       background-color: #ffffff;
       color: #2e2e2c;
-      line-height: 1.65;
-      font-size: 16.5px;
+      line-height: 1.7;
+      font-size: 16px;
       font-weight: normal;
     }
 
-    /* Navigation Banner */
+    h1, h2, h3, h4 {
+      font-family: "Times New Roman", Times, serif;
+      font-weight: normal;       /* intentionally light — hierarchy via size, not weight */
+      color: #1a1a18;
+      line-height: 1.25;
+    }
+
+    /* ============================================================
+       NAVIGATION  —  single compact row, 54 px tall
+    ============================================================ */
     #navbar {
       position: fixed;
       top: 0;
       width: 100%;
-      background-color: #ffffff;
-      border-bottom: 1px solid #eae8e3;
-      transition: top 0.3s;
+      background-color: rgba(255, 255, 255, 0.97);
+      border-bottom: 1px solid #e8e6e0;
       z-index: 1000;
-      padding: 18px 20px;
-      text-align: center;
+      height: 54px;
+      padding: 0 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      transition: top 0.3s ease;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
 
-    #navbar h1 {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 14px;
-      letter-spacing: 0.3px;
-      color: #232320;
+    /* Elegant wordmark — replaces the old h1 "Angel Candelaria's Portfolio" */
+    .navbar-brand {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 13.5px;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: #1a1a18;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-decoration: none;
     }
 
     .nav-links {
       display: flex;
-      justify-content: center;
-      gap: 6px;
-      flex-wrap: wrap;
+      gap: 4px;
+      flex-wrap: nowrap;
     }
 
     .nav-links button {
       background: none;
       border: 1px solid transparent;
-      border-radius: 6px;
-      font-size: 15.5px;
+      border-radius: 5px;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 14px;
       cursor: pointer;
-      color: #55534d;
-      padding: 6px 14px;
+      color: #5a5852;
+      padding: 5px 12px;
       transition: background-color 0.15s ease, color 0.15s ease;
+      white-space: nowrap;
     }
 
     .nav-links button:hover {
       background-color: #f4f3ef;
-      color: #232320;
+      color: #1a1a18;
     }
 
     .nav-links button.active {
-      background-color: #edece7;
-      color: #1f1f1c;
-      font-weight: bold;
+      background-color: #eceae4;
+      color: #1a1a18;
+      border-color: #d8d5ce;
     }
 
-    /* Main Content */
+    /* ============================================================
+       MAIN CONTENT
+    ============================================================ */
     main {
-      max-width: 1100px;
-      margin: 150px auto 60px auto; /* Space for the fixed navbar */
-      padding: 0 24px;
+      max-width: 1060px;
+      margin: 80px auto 80px auto;
+      padding: 0 28px;
     }
 
-    /* Masthead (Photo & Quote) */
+    /* ============================================================
+       MASTHEAD  —  photo + headline + bio + highlights + contacts
+    ============================================================ */
     .masthead {
       display: flex;
-      gap: 32px;
-      margin-bottom: 46px;
-      align-items: center;
+      gap: 36px;
+      padding: 44px 0 40px;
       border-bottom: 1px solid #eae8e3;
-      padding-bottom: 34px;
+      margin-bottom: 48px;
+      align-items: flex-start;
     }
 
-    .masthead img {
-      width: 170px;
-      height: 170px;
+    .masthead-photo {
+      width: 158px;
+      height: 158px;
       object-fit: cover;
-      border-radius: 10px; /* Softly rounded, gallery-view style */
-      border: 1px solid #e4e2dc;
+      border-radius: 8px;
+      border: 1px solid #e0ddd6;
       flex-shrink: 0;
     }
 
     .masthead-text {
       flex: 1;
+      padding-top: 2px;
     }
 
-    .quote {
-      font-size: 18px;
+    /* Name as the display heading */
+    .masthead-name {
+      font-size: 30px;
+      font-weight: normal;
+      letter-spacing: 0.4px;
+      color: #1a1a18;
+      margin-bottom: 4px;
+    }
+
+    /* Title / programme line */
+    .masthead-role {
+      font-size: 14.5px;
+      color: #8a8880;
+      letter-spacing: 0.2px;
       font-style: italic;
-      margin-bottom: 16px;
-      line-height: 1.6;
-      color: #3a3a37;
+      margin-bottom: 18px;
     }
 
-    .contact-links {
+    /* Professional bio — 3 sentences max, factual, impactful */
+    .masthead-bio {
       font-size: 15.5px;
+      color: #3a3a37;
+      line-height: 1.74;
+      margin-bottom: 22px;
+      max-width: 580px;
+    }
+
+    /* ── Key highlights strip ── */
+    .highlights {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin-bottom: 22px;
+      border: 1px solid #e8e5de;
+      border-radius: 7px;
+      overflow: hidden;
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .highlight-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10px 18px;
+      gap: 2px;
+      border-right: 1px solid #e8e5de;
+    }
+
+    .highlight-item:last-child { border-right: none; }
+
+    .highlight-val {
+      font-size: 14px;
+      color: #1a1a18;
+      white-space: nowrap;
+    }
+
+    .highlight-lbl {
+      font-size: 10.5px;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: #a8a59d;
+      white-space: nowrap;
+    }
+
+    /* ── Contact links ── */
+    .contact-links {
+      font-size: 14px;
+      color: #5a5852;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0;
     }
 
     .contact-links a {
       color: #2e2e2c;
       text-decoration: none;
-      border-bottom: 1px solid #cdcbc4;
+      border-bottom: 1px solid #ccc9c0;
+      transition: border-color 0.15s;
     }
 
-    .contact-links a:hover {
-      border-bottom-color: #2e2e2c;
-    }
+    .contact-links a:hover { border-bottom-color: #2e2e2c; }
 
-    .contact-links span.separator {
+    .contact-links .sep {
       margin: 0 10px;
-      color: #bcbab2;
+      color: #c8c6be;
     }
 
-    /* Section Control */
+    /* ============================================================
+       SECTIONS / TABS
+    ============================================================ */
     .tab-content {
       display: none;
     }
 
     .tab-content.active {
       display: block;
-      animation: fadeIn 0.3s ease-in-out;
+      animation: fadeIn 0.25s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(7px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* Section heading — left border accent */
     .section-title {
-      font-size: 23px;
-      font-weight: bold;
+      font-size: 19.5px;
+      font-weight: normal;
+      letter-spacing: 0.4px;
       border-bottom: 1px solid #eae8e3;
-      margin-bottom: 28px;
-      padding-bottom: 10px;
-      padding-left: 12px;
-      border-left: 3px solid #2e2e2c;
-      color: #1f1f1c;
+      margin-bottom: 32px;
+      padding-bottom: 12px;
+      padding-left: 14px;
+      border-left: 2.5px solid #1a1a18;
+      color: #1a1a18;
     }
 
-    /* Card Layouts */
+    /* ============================================================
+       CARDS
+    ============================================================ */
     .card {
-      margin-bottom: 44px;
+      margin-bottom: 50px;
     }
 
     .card-title {
-      font-size: 19px;
-      font-weight: bold;
-      margin-bottom: 6px;
-      color: #1f1f1c;
+      font-size: 17px;
+      font-weight: normal;
+      color: #1a1a18;
+      margin-bottom: 5px;
+      line-height: 1.4;
     }
 
     .card-subtitle {
-      font-size: 15px;
+      font-size: 14px;
       font-style: italic;
-      margin-bottom: 10px;
-      color: #6f6d66;
+      color: #7a7870;
+      margin-bottom: 12px;
     }
 
     ul {
       margin-left: 20px;
-      margin-bottom: 15px;
+      margin-bottom: 16px;
     }
 
     li {
-      margin-bottom: 8px;
+      margin-bottom: 7px;
       color: #333330;
+      font-size: 15.5px;
     }
 
-    /* Document Links Section */
+    /* ============================================================
+       GRID
+    ============================================================ */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 24px;
+    }
+
+    /* ============================================================
+       DOC LINKS  —  ↗ instead of 📄 emoji
+    ============================================================ */
     .doc-links {
       margin: 16px 0;
-      padding: 10px 0;
-      border-top: 1px solid #f1efea;
-      border-bottom: 1px solid #f1efea;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .doc-links a {
       color: #2e2e2c;
-      margin-right: 14px;
       text-decoration: none;
-      font-size: 14.5px;
-      display: inline-block;
-      margin-bottom: 6px;
-      padding: 4px 10px;
+      font-size: 13.5px;
+      padding: 5px 11px;
       background-color: #f7f6f2;
-      border: 1px solid #ece9e3;
-      border-radius: 6px;
+      border: 1px solid #e8e5de;
+      border-radius: 5px;
       transition: background-color 0.15s ease;
-    }
-
-    .doc-links a:hover {
-      background-color: #efece5;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .doc-links a::before {
-      content: "📄 ";
-      text-decoration: none;
+      content: "↗";
+      font-size: 11px;
+      opacity: 0.55;
     }
 
-    /* Grids */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 34px;
-      margin-bottom: 20px;
+    .doc-links a:hover {
+      background-color: #eeece6;
     }
 
-    /* Image Gallery - Flexbox for left-to-right flow and proportional width */
+    /* ============================================================
+       GALLERY
+    ============================================================ */
     .gallery {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 22px;
+      gap: 10px;
+      margin-top: 20px;
     }
 
-    .gallery img, .gallery video {
-      height: 180px; /* Fixed height for all media */
-      width: auto; /* Allows width to adjust to original ratio */
-      max-width: 100%; /* Prevents very wide images from breaking the layout */
-      border: 1px solid #e6e3dc;
-      border-radius: 8px; /* Notion gallery-view style rounded corners */
+    .gallery img,
+    .gallery video {
+      height: 175px;
+      width: auto;
+      max-width: 100%;
+      border: 1px solid #e4e2dc;
+      border-radius: 7px;
       object-fit: contain;
-      background-color: #fbfaf8;
+      background-color: #faf9f7;
       transition: box-shadow 0.15s ease;
-    }
-
-    .gallery img, .gallery video {
-      cursor: default;
+      display: block;
     }
 
     .gallery img {
-      cursor: pointer;
+      cursor: zoom-in;
     }
 
-    .gallery img:hover, .gallery video:hover {
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    .gallery img:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
     }
 
-    /* Fullscreen Modal */
+    /* ============================================================
+       FULLSCREEN MODAL  —  with backdrop-filter
+    ============================================================ */
     .modal {
       display: none;
       position: fixed;
       z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.95);
+      inset: 0;
+      background-color: rgba(252, 251, 249, 0.93);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       overflow: auto;
     }
 
     .modal-content {
-      margin: 2% auto;
       display: block;
-      max-width: 95%;
-      max-height: 95vh;
+      margin: 2.5% auto;
+      max-width: 92%;
+      max-height: 92vh;
       object-fit: contain;
       border-radius: 8px;
-      border: 1px solid #e4e2dc;
+      border: 1px solid #e0ddd6;
     }
 
     .close {
-      position: absolute;
-      top: 20px;
+      position: fixed;
+      top: 22px;
       right: 30px;
-      font-size: 36px;
+      font-size: 28px;
       cursor: pointer;
-      color: #333330;
+      color: #555350;
+      line-height: 1;
+      transition: color 0.15s;
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .masthead {
-        flex-direction: column;
-        text-align: center;
-      }
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
+    .close:hover { color: #1a1a18; }
+
+    /* ============================================================
+       EXPERIENCE SUBSECTION LABEL
+    ============================================================ */
+    .sub-heading {
+      font-size: 12px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: #a8a59d;
+      margin-bottom: 20px;
+      margin-top: -10px;
+      padding-left: 2px;
+    }
+
+    .sub-divider {
+      border: none;
+      border-top: 1px solid #eae8e3;
+      margin: 36px 0 28px;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 840px) {
       #navbar {
-        padding: 12px;
+        height: auto;
+        padding: 10px 16px;
+        flex-direction: column;
+        gap: 6px;
       }
-      main {
-        margin-top: 190px;
-      }
-      .gallery img, .gallery video {
-        height: 120px; /* Smaller height on mobile */
-      }
+      .nav-links { flex-wrap: wrap; justify-content: center; }
+      main { margin-top: 115px; }
+    }
+
+    @media (max-width: 640px) {
+      .masthead { flex-direction: column; align-items: flex-start; gap: 22px; }
+      .masthead-photo { width: 120px; height: 120px; }
+      .masthead-name { font-size: 24px; }
+      .masthead-bio { font-size: 15px; }
+      .grid-2 { grid-template-columns: 1fr; gap: 0; }
+      .highlights { flex-direction: column; width: 100%; border-radius: 7px; }
+      .highlight-item { border-right: none; border-bottom: 1px solid #e8e5de; }
+      .highlight-item:last-child { border-bottom: none; }
+      .gallery img, .gallery video { height: 120px; }
+      main { padding: 0 18px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Banner / Navbar -->
+  <!-- ============================================================
+       NAVBAR  —  compact single row
+  ============================================================ -->
   <header id="navbar">
-    <h1>Angel Candelaria's Portfolio</h1>
+    <span class="navbar-brand">Angel Candelaria</span>
     <nav class="nav-links">
-      <button class="active" onclick="switchTab('overview', this)">Overview & Skills</button>
+      <button class="active" onclick="switchTab('overview', this)">Overview</button>
       <button onclick="switchTab('education', this)">Education</button>
-      <button onclick="switchTab('projects', this)">Technical Projects</button>
+      <button onclick="switchTab('projects', this)">Projects</button>
       <button onclick="switchTab('activities', this)">Activities</button>
-      <button onclick="switchTab('experience', this)">Experience & Certs</button>
+      <button onclick="switchTab('experience', this)">Experience</button>
     </nav>
   </header>
 
   <main>
-    <!-- Masthead: Square Photo + Quote -->
+
+    <!-- ============================================================
+         MASTHEAD
+    ============================================================ -->
     <section class="masthead">
-      <img src="CV_photo.png" alt="Angel Candelaria">
+      <img class="masthead-photo" src="CV_photo.png" alt="Angel Candelaria">
+
       <div class="masthead-text">
-        <p class="quote">"My name is Angel. I'm a Mechanical Engineering student at Universidad de Monterrey (UDEM), currently on my way to my 7th semester. I'm mostly interested in multiple topics of engineering, such as: data science, physics, applied math, AI development, electronics, materials, CAD design, manufacturing processes and project management. I'm currently covering my studies at this private university on a 100% scholarship awarded for outstanding academic performance."</p>
+        <h1 class="masthead-name">Angel Candelaria</h1>
+        <p class="masthead-role">B.Eng. Mechanical &amp; Administrative Engineering &nbsp;·&nbsp; UDEM &nbsp;·&nbsp; 7th Semester</p>
+
+        <!-- Professional bio — no "my name is", factual, concise -->
+        <p class="masthead-bio">
+          Full-scholarship engineering student at Universidad de Monterrey, with active research experience in machine learning and data science.
+          Undergraduate research assistant, NASA Space Apps Challenge Global Nominee, and consistent top-of-cohort performer since high school.
+          Interested in the intersection of applied AI, mechanical systems, materials science, and project management.
+        </p>
+
+        <!-- Key highlights strip — scannable in 2 seconds -->
+        <div class="highlights">
+          <div class="highlight-item">
+            <span class="highlight-val">90–91 / 100</span>
+            <span class="highlight-lbl">GPA · UDEM</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-val">Full Merit Scholarship</span>
+            <span class="highlight-lbl">UDEM, 2023–present</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-val">Valedictorian</span>
+            <span class="highlight-lbl">High School, 2023</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-val">NASA Space Apps</span>
+            <span class="highlight-lbl">Global Nominee, 2025</span>
+          </div>
+        </div>
+
         <div class="contact-links">
           <a href="https://www.linkedin.com/in/juan-angel-candelaria-rodriguez-888777361" target="_blank">LinkedIn</a>
-          <span class="separator">|</span>
+          <span class="sep">·</span>
           <a href="https://github.com/acandelariaa" target="_blank">GitHub</a>
-          <span class="separator">|</span>
-          <span>juan.candelaria@udem.edu</span>
-          <span class="separator">|</span>
+          <span class="sep">·</span>
+          <!-- ✅ now a mailto link -->
+          <a href="mailto:juan.candelaria@udem.edu">juan.candelaria@udem.edu</a>
+          <span class="sep">·</span>
           <span>+52 (81) 29 53 91 38</span>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 1: OVERVIEW -->
+
+    <!-- ============================================================
+         SECTION 1 · OVERVIEW & SKILLS
+    ============================================================ -->
     <section id="overview" class="tab-content active">
-      <h2 class="section-title">Overview & Skills</h2>
-      
+      <h2 class="section-title">Overview &amp; Skills</h2>
+
       <div class="grid-2">
         <div class="card">
-          <h3 class="card-title">Personal Info & Scientific Interests</h3>
+          <h3 class="card-title">Personal &amp; Scientific Interests</h3>
           <ul>
-            <li>Born: October 25th of 2005</li>
-            <li>Location: San Pedro Garza García, NL</li>
+            <li>Born October 25th, 2005 &nbsp;·&nbsp; San Pedro Garza García, NL</li>
             <li>Nationality: Mexican</li>
-            <li>Physics & rocket propulsion</li>
-            <li>Astrophysics & exoplanetary science</li>
-            <li>Materials & metallurgy</li>
+            <li>Physics &amp; rocket propulsion</li>
+            <li>Astrophysics &amp; exoplanetary science</li>
+            <li>Materials &amp; metallurgy</li>
             <li>Machine learning applied to data science</li>
-            <li>Mechanical design & manufacturing processes</li>
-            <li>Basic Electronics</li>
+            <li>Mechanical design &amp; manufacturing processes</li>
+            <li>Basic electronics</li>
           </ul>
         </div>
-        
+
         <div class="card">
-          <h3 class="card-title">Technical & Soft Skills</h3>
+          <h3 class="card-title">Technical &amp; Soft Skills</h3>
           <ul>
-            <li>CAD / Design: Siemens NX, SolidWorks, Autodesk Inventor, Fusion 360, HyperMesh</li>
-            <li>Programming & Data Analysis: Python, Google Colab, VS Code (Machine Learning models)</li>
-            <li>Manufacturing: Industrial lathes, precision measurement, layout reading, material testing</li>
-            <li>Office / Docs: Microsoft 365 (Word, PPT, Excel)</li>
-            <li>Languages: Spanish (Native) | English (C1 Advanced, EFSET)</li>
+            <li><strong>CAD / Design:</strong> Siemens NX, SolidWorks, Autodesk Inventor, Fusion 360, HyperMesh</li>
+            <li><strong>Programming &amp; Data:</strong> Python, Google Colab, VS Code — ML models &amp; data pipelines</li>
+            <li><strong>Manufacturing:</strong> Industrial lathes, precision measurement, blueprint reading, material testing</li>
+            <li><strong>Office:</strong> Microsoft 365 (Word, PowerPoint, Excel)</li>
+            <li><strong>Languages:</strong> Spanish (Native) &nbsp;|&nbsp; English (C1 Advanced · EFSET certified)</li>
             <li>Active listening and clear verbal communication</li>
             <li>Adaptability to multidisciplinary environments</li>
-            <li>Collaborative, reliable and easy to work with</li>
+            <li>Collaborative, reliable, and accountable</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: EDUCATION -->
+
+    <!-- ============================================================
+         SECTION 2 · EDUCATION
+    ============================================================ -->
     <section id="education" class="tab-content">
-      <h2 class="section-title">Education & Achievements</h2>
-      
+      <h2 class="section-title">Education &amp; Achievements</h2>
+
       <div class="card">
-        <h3 class="card-title">B. Eng. Mechanical and Administrative Engineering (IMA) (2023 — Present)</h3>
-        <p class="card-subtitle">Universidad de Monterrey (UDEM), San Pedro Garza García, NL.</p>
+        <h3 class="card-title">B.Eng. Mechanical and Administrative Engineering (IMA) &nbsp;·&nbsp; 2023 — Present</h3>
+        <p class="card-subtitle">Universidad de Monterrey (UDEM), San Pedro Garza García, NL</p>
         <ul>
-          <li>Status: Currently on 7th semester, GPA approx. 90-91/100.</li>
-          <li>Full 100% merit scholarship awarded for outstanding academic performance during high school.</li>
-          <li>Relevant coursework: Mechanics of Materials, Thermodynamics, Electronics CAD/CAM, FEA Analysis, Manufacturing Processes, Engineering Data Analysis and Machine Learning.</li>
+          <li>Currently in 7th semester — GPA approx. 90–91 / 100.</li>
+          <li>100% merit scholarship awarded for outstanding academic performance during high school.</li>
+          <li>Relevant coursework: Mechanics of Materials, Thermodynamics, Electronics, CAD/CAM, FEA Analysis, Manufacturing Processes, Engineering Data Analysis, Machine Learning.</li>
         </ul>
         <div class="doc-links">
           <a href="GPA_courses.pdf" target="_blank">GPA and Courses (PDF)</a>
@@ -399,44 +581,44 @@
           <img src="IMG_2288.jpg" alt="UDEM Campus" onclick="openModal(this)">
           <img src="IMG_5604.jpg" alt="UDEM Campus" onclick="openModal(this)">
           <img src="IMG_7557.jpg" alt="UDEM Campus" onclick="openModal(this)">
-          <img src="campus_life.jpg" alt="UDEM Campus" onclick="openModal(this)">
+          <img src="campus_life.jpg" alt="Campus Life" onclick="openModal(this)">
         </div>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Project Management — International Summer Programme (Jul 2026)</h3>
-        <p class="card-subtitle">Universidad Complutense de Madrid, UCM, Madrid, Spain.</p>
+        <h3 class="card-title">Project Management — International Summer Programme &nbsp;·&nbsp; Jul 2026</h3>
+        <p class="card-subtitle">Universidad Complutense de Madrid (UCM), Madrid, Spain</p>
         <ul>
-          <li>Summer programme on Spain, with Administration and Project management strategies.</li>
-          <li>Selected by UDEM due to distinguished academic performance during college.</li>
+          <li>Summer programme on administration and project management strategies.</li>
+          <li>Selected by UDEM for distinguished academic performance during college.</li>
           <li>Awarded a full scholarship covering all travel and programme expenses.</li>
         </ul>
         <div class="doc-links">
-          <a href="Summer_program_acceptance.pdf" target="_blank">Summer Program Acceptance (PDF)</a>
+          <a href="Summer_program_acceptance.pdf" target="_blank">Acceptance Letter (PDF)</a>
           <a href="aceptación_fundación_complutense.pdf" target="_blank">Financial Aid (PDF)</a>
         </div>
         <div class="gallery">
           <img src="IMG_1339.jpg" alt="Summer Programme" onclick="openModal(this)">
           <img src="6d542e87-ad3c-4d86-8d85-af8dacfc7505.jpg" alt="Summer Programme" onclick="openModal(this)">
           <img src="d05fbdca-61ed-4c17-84e2-92a2b6178f17.jpg" alt="Summer Programme" onclick="openModal(this)">
-          <img src="UCM.png" alt="Summer Programme" onclick="openModal(this)">
+          <img src="UCM.png" alt="UCM" onclick="openModal(this)">
         </div>
       </div>
 
       <div class="card">
-        <h3 class="card-title">High School + Technician Degree on Industrial Machinery and Tools (2020 — 2023)</h3>
+        <h3 class="card-title">High School + Technician Degree in Industrial Machinery &amp; Tools &nbsp;·&nbsp; 2020 — 2023</h3>
         <p class="card-subtitle">Preparatoria Politécnica Santa Catarina Fama</p>
         <ul>
-          <li>Graduated as a valedictorian, highest GPA of the entire technical specialty cohort (2023).</li>
-          <li>Full 100% private benefactor scholarship (Martinez Sada Foundation) throughout the entire programme.</li>
+          <li>Graduated as valedictorian — highest GPA of the entire technical specialty cohort (2023).</li>
+          <li>100% private benefactor scholarship (Martínez Sada Foundation) throughout the full programme.</li>
         </ul>
         <div class="doc-links">
           <a href="valedictorian_certificate.pdf" target="_blank">Valedictorian Certificate (PDF)</a>
-          <a href="https://www.udem.edu.mx/es/institucional/noticia/exhortan-graduados-de-preparatoria-politecnica-santa-catarina-servir-la" target="_blank">UDEM / High School — Prom 2023 (Web)</a>
+          <a href="https://www.udem.edu.mx/es/institucional/noticia/exhortan-graduados-de-preparatoria-politecnica-santa-catarina-servir-la" target="_blank">Graduation News (Web)</a>
         </div>
         <div class="gallery">
           <img src="Valedictorian_highschool.jpg" alt="Valedictorian" onclick="openModal(this)">
-          <img src="high_school_technician.jpg" alt="Technician" onclick="openModal(this)">
+          <img src="high_school_technician.jpg" alt="Technician Diploma" onclick="openModal(this)">
           <img src="valedictorian_photo_certificate.jpg" alt="Certificate" onclick="openModal(this)">
           <img src="valedictorian_photos.jpg" alt="Valedictorian Photos" onclick="openModal(this)">
           <video src="valedictorian_prom.mp4" controls></video>
@@ -444,20 +626,23 @@
       </div>
     </section>
 
-    <!-- SECTION 3: PROJECTS -->
+
+    <!-- ============================================================
+         SECTION 3 · TECHNICAL PROJECTS
+    ============================================================ -->
     <section id="projects" class="tab-content">
-      <h2 class="section-title">Research & Technical Projects</h2>
+      <h2 class="section-title">Research &amp; Technical Projects</h2>
 
       <div class="card">
-        <h3 class="card-title">Undergraduate Research Assistant — Cerebral Palsy Risk Prediction (Jan 2025 — May 2026)</h3>
+        <h3 class="card-title">Undergraduate Research Assistant — Cerebral Palsy Risk Prediction &nbsp;·&nbsp; Jan 2025 — May 2026</h3>
         <p class="card-subtitle">UDEM / Instituto Nuevo Amanecer</p>
         <ul>
-          <li>Developed a Machine Learning model in Python to predict dropout risk factors for patients at a cerebral palsy rehabilitation institute.</li>
-          <li>Realized a statistical analysis to find desertion causes and risk factors from psycho-motor and clinical data.</li>
-          <li>Performed data cleaning, processing, feature engineering and model evaluation in Google Colab.</li>
+          <li>Developed a machine learning model in Python to predict dropout risk factors for patients at a cerebral palsy rehabilitation institute.</li>
+          <li>Performed statistical analysis to identify desertion causes and risk factors from psycho-motor and clinical data.</li>
+          <li>Full pipeline: data cleaning, feature engineering, model training, and evaluation in Google Colab.</li>
         </ul>
         <div class="doc-links">
-          <a href="Research_participation_certificate.pdf" target="_blank">AI Research Certificate (PDF)</a>
+          <a href="Research_participation_certificate.pdf" target="_blank">Research Certificate (PDF)</a>
         </div>
         <div class="gallery">
           <img src="desertion_probability.png" alt="Desertion Probability" onclick="openModal(this)">
@@ -468,149 +653,146 @@
       </div>
 
       <div class="card">
-        <h3 class="card-title">Artificial Intelligence 1 — Course Portfolios</h3>
-        <p class="card-subtitle">Data Analysis — Python + Machine Learning</p>
+        <h3 class="card-title">NASA Space Apps Challenge 2025 — Global Hackathon &nbsp;·&nbsp; Oct 2025</h3>
         <ul>
-          <li>Development of comprehensive evidence portfolios for the complete Artificial Intelligence course.</li>
-          <li>Focus on Data Analysis, implementation of supervised/unsupervised learning algorithms, dimensionality reduction (PCA), and recommendation systems.</li>
-          <li>Integration of a complete Machine Learning pipeline using Python, from Exploratory Data Analysis (EDA) to metric evaluation.</li>
-        </ul>
-        <div class="doc-links">
-          <a href="https://acandelariaa.github.io/Portafolio_evidencias_primer_parcial/" target="_blank">1st Partial Portfolio (Web)</a>
-          <a href="https://acandelariaa.github.io/Portafolio-evidencias_segundo_parcial_IA/" target="_blank">2nd Partial Portfolio (Web)</a>
-          <a href="https://acandelariaa.github.io/Tercer_Parcial_Inteligencia_Artificial_1/" target="_blank">3rd Partial & Final Project (Web)</a>
-        </div>
-        <div class="gallery">
-          <img src="Felicidad_vs_pib_log (1).png" alt="Evidence" onclick="openModal(this)">
-          <img src="Matriz_correlación.png" alt="Evidence" onclick="openModal(this)">
-          <img src="MC_RF.png" alt="Evidence" onclick="openModal(this)">
-          <img src="acc_loss_RN.png" alt="Evidence" onclick="openModal(this)">
-          <img src="DSTLDA.png" alt="Evidence" onclick="openModal(this)">
-          <img src="VRBST.png" alt="Evidence" onclick="openModal(this)">
-          <img src="heatmap_valores_faltantes.png" alt="Evidence" onclick="openModal(this)">
-          <img src="top50km.png" alt="Evidence" onclick="openModal(this)">
-          <img src="dendogram.png" alt="Evidence" onclick="openModal(this)">
-          <img src="survival_plt.png" alt="Evidence" onclick="openModal(this)">
-          <img src="KMmad.png" alt="Evidence" onclick="openModal(this)">
-        </div>
-      </div>
-
-      <div class="card">
-        <h3 class="card-title">NASA Space Apps Challenge 2025 — Global Hackathon (Oct 2025)</h3>
-        <ul>
-          <li>Global Hackathon 2025 Global Nominee team.</li>
-          <li>Tackled the challenge of identifying shark migration trajectories from space using geographic, atmospheric, and oceanographic datasets.</li>
-          <li>Developing a model using unsupervised learning, markov chains and montecarlo simulations.</li>
+          <li>Global Nominee team. Tackled shark migration trajectory identification using geographic, atmospheric, and oceanographic datasets.</li>
+          <li>Developed a model using unsupervised learning, Markov chains, and Monte Carlo simulations.</li>
         </ul>
         <div class="doc-links">
           <a href="https://github.com/Isaac24-Y/Sharkmageddon" target="_blank">Documentation Repository (GitHub)</a>
-          <a href="global_nominee_NASA_space_apps_2025.pdf" target="_blank">Global Nominee (PDF)</a>
+          <a href="global_nominee_NASA_space_apps_2025.pdf" target="_blank">Global Nominee Certificate (PDF)</a>
           <a href="NASA_SPACE_APPS_Registration.pdf" target="_blank">Team Registration (PDF)</a>
         </div>
         <div class="gallery">
-          <img src="montecarlo_plots.png" alt="Montecarlo Plots" onclick="openModal(this)">
-          <img src="shark_probability_presence.png" alt="Shark Probability" onclick="openModal(this)">
+          <img src="montecarlo_plots.png" alt="Monte Carlo Plots" onclick="openModal(this)">
+          <img src="shark_probability_presence.png" alt="Shark Probability Map" onclick="openModal(this)">
           <video src="sharkmagedon.mp4" controls></video>
         </div>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Exoplanet Equilibrium Temperature Predictor — Academic Project (Jan 2026)</h3>
+        <h3 class="card-title">Exoplanet Equilibrium Temperature Predictor &nbsp;·&nbsp; Jan 2026</h3>
         <ul>
-          <li>Built a regression model in Python to predict the equilibrium temperature of exoplanets using stellar and orbital parameters.</li>
-          <li>Applied supervised learning techniques with NASA exoplanet archive data.</li>
-          <li>Achieved 90.7% percentage of explained variance R squared for non-linear model.</li>
+          <li>Built a regression model in Python to predict equilibrium temperature of exoplanets using stellar and orbital parameters.</li>
+          <li>Applied supervised learning on NASA exoplanet archive data; achieved R² = 90.7% (non-linear model).</li>
         </ul>
         <div class="doc-links">
           <a href="https://acandelariaa.github.io/Proyecto_primer_parcial_IA/" target="_blank">Documentation (GitHub Page)</a>
         </div>
         <div class="gallery">
-          <img src="distribution_var.png" alt="Distribution Var" onclick="openModal(this)">
-          <img src="eqt_pol.png" alt="Regression Pol" onclick="openModal(this)">
-          <img src="eqt_non_pol.png" alt="Regression Non Pol" onclick="openModal(this)">
+          <img src="distribution_var.png" alt="Distribution" onclick="openModal(this)">
+          <img src="eqt_pol.png" alt="Polynomial Regression" onclick="openModal(this)">
+          <img src="eqt_non_pol.png" alt="Non-Polynomial Regression" onclick="openModal(this)">
           <img src="correlation_matrix.png" alt="Correlation Matrix" onclick="openModal(this)">
-          <img src="eqt_metrics.png" alt="Metrics" onclick="openModal(this)">
+          <img src="eqt_metrics.png" alt="Model Metrics" onclick="openModal(this)">
         </div>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Customer Churn Prediction Using AI Models (Apr 2026)</h3>
+        <h3 class="card-title">Artificial Intelligence 1 — Course Portfolios</h3>
+        <p class="card-subtitle">Data Analysis · Python · Machine Learning</p>
         <ul>
-          <li>Develop a full guide project using Telco Customer — Kaggle Database (public dataset) for churn prediction.</li>
-          <li>Full documentation on IPY-notebook explaining data processing, Principal Component Analysis and more.</li>
-          <li>Created multiple ML models (XGBoost, Support Vector Machine, Logistic Regression + PCA).</li>
-          <li>Reported a comprehensive analysis of the data nature for ideal applications based on each model purpose</li>
+          <li>Comprehensive evidence portfolios covering the full AI curriculum: supervised/unsupervised learning, PCA, and recommendation systems.</li>
+          <li>Full ML pipeline from Exploratory Data Analysis (EDA) to metric evaluation, implemented in Python.</li>
+        </ul>
+        <div class="doc-links">
+          <a href="https://acandelariaa.github.io/Portafolio_evidencias_primer_parcial/" target="_blank">1st Partial Portfolio (Web)</a>
+          <a href="https://acandelariaa.github.io/Portafolio-evidencias_segundo_parcial_IA/" target="_blank">2nd Partial Portfolio (Web)</a>
+          <a href="https://acandelariaa.github.io/Tercer_Parcial_Inteligencia_Artificial_1/" target="_blank">3rd Partial &amp; Final Project (Web)</a>
+        </div>
+        <div class="gallery">
+          <img src="Felicidad_vs_pib_log (1).png" alt="Happiness vs GDP" onclick="openModal(this)">
+          <img src="Matriz_correlación.png" alt="Correlation Matrix" onclick="openModal(this)">
+          <img src="MC_RF.png" alt="Random Forest" onclick="openModal(this)">
+          <img src="acc_loss_RN.png" alt="Neural Net Accuracy" onclick="openModal(this)">
+          <img src="DSTLDA.png" alt="LDA" onclick="openModal(this)">
+          <img src="VRBST.png" alt="Boosting" onclick="openModal(this)">
+          <img src="heatmap_valores_faltantes.png" alt="Missing Values Heatmap" onclick="openModal(this)">
+          <img src="top50km.png" alt="K-Means" onclick="openModal(this)">
+          <img src="dendogram.png" alt="Dendrogram" onclick="openModal(this)">
+          <img src="survival_plt.png" alt="Survival Plot" onclick="openModal(this)">
+          <img src="KMmad.png" alt="K-Means MAD" onclick="openModal(this)">
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Customer Churn Prediction Using AI Models &nbsp;·&nbsp; Apr 2026</h3>
+        <ul>
+          <li>Full-pipeline project using Telco Customer Kaggle dataset for churn prediction.</li>
+          <li>Implemented XGBoost, SVM, Logistic Regression + PCA; comprehensive analysis of each model's strengths and ideal applications.</li>
         </ul>
         <div class="doc-links">
           <a href="Customer_Churn_ML_full PDF.pdf" target="_blank">Full Documentation (PDF)</a>
           <a href="https://payhip.com/b/AKxdE" target="_blank">Online Documentation (Web)</a>
         </div>
         <div class="gallery">
-          <img src="features_churn.png" alt="Features" onclick="openModal(this)">
+          <img src="features_churn.png" alt="Feature Importance" onclick="openModal(this)">
           <img src="ROC_curve_cust_churn.png" alt="ROC Curve" onclick="openModal(this)">
           <img src="scatter_plot_churn.png" alt="Scatter Plot" onclick="openModal(this)">
           <img src="confusion_matrix_ROC.png" alt="Confusion Matrix" onclick="openModal(this)">
-          <img src="PCA_plot.png" alt="PCA Plot" onclick="openModal(this)">
+          <img src="PCA_plot.png" alt="PCA" onclick="openModal(this)">
           <img src="churn_distribution.png" alt="Churn Distribution" onclick="openModal(this)">
         </div>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Tribological Testing of Theoretical Synthetic Lubricants vs Real Vegetable Oils (Apr 2025)</h3>
+        <h3 class="card-title">Tribological Testing: Synthetic Lubricants vs Vegetable Oils &nbsp;·&nbsp; Apr 2025</h3>
         <ul>
-          <li>Executed tribological tests on a four-ball tester, comparing biodegradable vegetable lubricants against theoretical synthetic alternatives.</li>
-          <li>Analyzed friction coefficients and wear patterns; reported findings, friction plots, and recommended optimal use cases.</li>
+          <li>Executed tribological tests on a four-ball tester, comparing biodegradable vegetable lubricants against synthetic alternatives.</li>
+          <li>Analyzed friction coefficients and wear patterns; reported findings and optimal use-case recommendations.</li>
         </ul>
         <div class="doc-links">
           <a href="Bio_lubricant_test.pdf" target="_blank">Full Documentation (PDF)</a>
         </div>
         <div class="gallery">
           <video src="tribo_test.mp4" controls></video>
-          <img src="four_ball_test.jpg" alt="Four-ball tester" onclick="openModal(this)">
+          <img src="four_ball_test.jpg" alt="Four-ball Tester" onclick="openModal(this)">
           <img src="wear_pattern.jpg" alt="Wear Pattern" onclick="openModal(this)">
-          <img src="microscope_wear.jpg" alt="Microscope" onclick="openModal(this)">
-          <img src="tribo_lub_wears.png" alt="Tribo Wears" onclick="openModal(this)">
-          <img src="wear_pattern.png" alt="Wear Pattern" onclick="openModal(this)">
+          <img src="microscope_wear.jpg" alt="Microscope View" onclick="openModal(this)">
+          <img src="tribo_lub_wears.png" alt="Wear Comparison" onclick="openModal(this)">
+          <img src="wear_pattern.png" alt="Wear Pattern Plot" onclick="openModal(this)">
           <img src="tribo_friction_plots.png" alt="Friction Plots" onclick="openModal(this)">
         </div>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Case-Hardened Process to Low Carbon Steel for Fatigue Resistance Upgrade (May 2025)</h3>
+        <h3 class="card-title">Case-Hardening of Low Carbon Steel for Fatigue Resistance &nbsp;·&nbsp; May 2025</h3>
         <ul>
-          <li>Designed fatigue samples on CAD software and manufactured based on previous design.</li>
-          <li>Created sealed environment for evening case-hardened and avoid outside contamination.</li>
-          <li>Fatigue tests on a low carbon steel specimen to evaluate the effect of surface treatment on fatigue life.</li>
-          <li>Reported number of cycles before fracture, microstructure analysis, hardened conditions and superficial hardness on rockwell scale.</li>
+          <li>Designed fatigue specimens in CAD and manufactured them on an industrial lathe.</li>
+          <li>Created a sealed environment for the case-hardening process to prevent contamination.</li>
+          <li>Reported cycles before fracture, microstructure analysis, and Rockwell surface hardness.</li>
         </ul>
         <div class="doc-links">
           <a href="case_hardened_steel.pdf" target="_blank">Full Documentation (PDF)</a>
         </div>
         <div class="gallery">
           <img src="cad_design_specimen.png" alt="CAD Design" onclick="openModal(this)">
-          <img src="web_failure_simulator.png" alt="Failure Sim" onclick="openModal(this)">
+          <img src="web_failure_simulator.png" alt="Failure Simulation" onclick="openModal(this)">
           <img src="lathe_manufacturing.jpg" alt="Lathe" onclick="openModal(this)">
-          <img src="hardened.jpg" alt="Hardened" onclick="openModal(this)">
+          <img src="hardened.jpg" alt="Hardened Sample" onclick="openModal(this)">
           <img src="sealed_box.jpg" alt="Sealed Box" onclick="openModal(this)">
-          <img src="rockwell_hardness.jpg" alt="Hardness" onclick="openModal(this)">
+          <img src="rockwell_hardness.jpg" alt="Rockwell Hardness" onclick="openModal(this)">
           <video src="furnace.mp4" controls></video>
           <video src="micro_structure.mp4" controls></video>
           <img src="martensite.jpg" alt="Martensite" onclick="openModal(this)">
-          <img src="structure1.jpg" alt="Structure" onclick="openModal(this)">
+          <img src="structure1.jpg" alt="Microstructure" onclick="openModal(this)">
         </div>
       </div>
     </section>
 
-    <!-- SECTION 4: ACTIVITIES -->
+
+    <!-- ============================================================
+         SECTION 4 · ACTIVITIES
+    ============================================================ -->
     <section id="activities" class="tab-content">
-      <h2 class="section-title">Competitions & Extracurricular Activities</h2>
+      <h2 class="section-title">Competitions &amp; Extracurricular Activities</h2>
 
       <div class="card">
-        <h3 class="card-title">Astro-UDEM, Astronomy Club Member (2022 — Present)</h3>
+        <h3 class="card-title">Astro-UDEM — Astronomy Club Member &nbsp;·&nbsp; 2022 — Present</h3>
         <ul>
-          <li>Participated as an active member of Astro-UDEM, delivering educational talks, participating in science fairs and organizing club movie nights.</li>
-          <li>Co-organized and attended an astronomical camping trip at the Tlapiani Observatory in Iturbide, NL, conducting stargazing sessions to observe stars and galaxies using the observatory's professional telescope.</li>
-          <li>Collaborated with the Laniakea astronomy club from UANL (Universidad Autónoma de Nuevo León) to foster inter-university scientific outreach.</li>
+          <li>Active member delivering educational talks, participating in science fairs, and organizing outreach events.</li>
+          <li>Co-organized an astronomical camping trip at the Tlapiani Observatory (Iturbide, NL), using the observatory's professional telescope to observe stars and galaxies.</li>
+          <li>Collaborated with Laniakea (UANL astronomy club) for inter-university scientific outreach.</li>
         </ul>
         <div class="gallery">
           <img src="IMG_0505.jpg" alt="Astro-UDEM" onclick="openModal(this)">
@@ -626,59 +808,66 @@
       </div>
 
       <div class="card">
-        <h3 class="card-title">Robo-sumo Competition (May 2024)</h3>
+        <h3 class="card-title">Robo-sumo Competition &nbsp;·&nbsp; May 2024</h3>
         <ul>
           <li>Designed, built, and programmed a fully functional robot as part of a multidisciplinary team.</li>
-          <li>Secured 2nd place demonstrating skills in mechanical design, electronics, and teamwork under pressure.</li>
+          <li>Secured 2nd place, demonstrating skills in mechanical design, electronics, and teamwork under pressure.</li>
         </ul>
         <div class="gallery">
           <img src="robo_sumo.jpeg" alt="Robo-sumo" onclick="openModal(this)">
-          <img src="robo_sumo_event.jpg" alt="Event" onclick="openModal(this)">
-          <img src="robo_sumo2.jpg" alt="Event" onclick="openModal(this)">
+          <img src="robo_sumo_event.jpg" alt="Competition Event" onclick="openModal(this)">
+          <img src="robo_sumo2.jpg" alt="Robot" onclick="openModal(this)">
           <video src="sumo_car.mp4" controls></video>
         </div>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Municipal Education Initiative (2019 — 2020)</h3>
+        <h3 class="card-title">United Nations General Assembly Model &nbsp;·&nbsp; 2022 — 2023</h3>
         <ul>
-          <li>Participated in a municipal programme aimed at improving education access in local schools.</li>
-          <li>Collaborated with local authorities and educators to propose and implement educational improvements on elementary school.</li>
+          <li>Participated as delegate in two consecutive editions, representing assigned nations in structured multilateral debate.</li>
+          <li>2023: proposed infrastructure development, education access expansion, and unemployment reduction strategies.</li>
+          <li>2022: developed and coordinated security and logistical frameworks addressing Middle East regional conflicts.</li>
         </ul>
+        <div class="gallery">
+          <img src="UN1.jpg" alt="UN Model" onclick="openModal(this)">
+          <img src="UN2.jpg" alt="UN Model" onclick="openModal(this)">
+          <img src="UN3.jpg" alt="UN Model" onclick="openModal(this)">
+          <img src="UN4.jpg" alt="UN Model" onclick="openModal(this)">
+          <img src="UN5.jpg" alt="UN Model" onclick="openModal(this)">
+          <img src="UN6.jpg" alt="UN Model" onclick="openModal(this)">
+        </div>
       </div>
 
       <div class="card">
-        <h3 class="card-title">United Nations General Assembly Model (2022 — 2023)</h3>
+        <h3 class="card-title">Municipal Education Initiative &nbsp;·&nbsp; 2019 — 2020</h3>
         <ul>
-          <li>Participated as delegate in two consecutive editions representing assigned nations in structured multilateral debate.</li>
-          <li>2023 edition: proposed infrastructure development, education access expansion, and unemployment reduction strategies.</li>
-          <li>2022 edition: developed and coordinated security and logistical frameworks addressing Middle East regional conflicts.</li>
+          <li>Participated in a municipal programme improving education access in local schools.</li>
+          <li>Collaborated with local authorities and educators to propose and implement improvements at the elementary school level.</li>
         </ul>
-        <div class="gallery">
-          <img src="UN1.jpg" alt="UN Debate" onclick="openModal(this)">
-          <img src="UN2.jpg" alt="UN Debate" onclick="openModal(this)">
-          <img src="UN3.jpg" alt="UN Debate" onclick="openModal(this)">
-          <img src="UN4.jpg" alt="UN Debate" onclick="openModal(this)">
-          <img src="UN5.jpg" alt="UN Debate" onclick="openModal(this)">
-          <img src="UN6.jpg" alt="UN Debate" onclick="openModal(this)">
-        </div>
       </div>
     </section>
 
-    <!-- SECTION 5: EXPERIENCE -->
+
+    <!-- ============================================================
+         SECTION 5 · EXPERIENCE & CERTIFICATIONS
+         Structured: Professional → Additional → Certifications
+    ============================================================ -->
     <section id="experience" class="tab-content">
-      <h2 class="section-title">Experience & Certifications</h2>
+      <h2 class="section-title">Experience &amp; Certifications</h2>
+
+      <!-- PROFESSIONAL EXPERIENCE -->
+      <p class="sub-heading">Professional &amp; Technical</p>
 
       <div class="card">
-        <h3 class="card-title">FRISA Aerospace — Technical Internship (Oct 2022 — Jun 2023)</h3>
+        <h3 class="card-title">FRISA Aerospace — Technical Internship &nbsp;·&nbsp; Oct 2022 — Jun 2023</h3>
         <ul>
-          <li>Recommended by High School to a technical internship on company.</li>
-          <li>Operated industrial lathes and CNC-adjacent equipment in an aerospace manufacturing environment.</li>
-          <li>Used precision measurement tools: vernier, calipers, micrometers, and Mueller gauges.</li>
-          <li>Read and interpreted blueprints and performed tooling changes under supervision.</li>
+          <li>Recommended by high school to a technical internship at this aerospace manufacturing company.</li>
+          <li>Operated industrial lathes and CNC-adjacent equipment in an aerospace-grade environment.</li>
+          <li>Used precision measurement tools: verniers, calipers, micrometers, and Mueller gauges.</li>
+          <li>Read and interpreted blueprints; performed tooling changes under supervision.</li>
         </ul>
         <div class="doc-links">
-          <a href="https://www.frisa.com/es/welcome" target="_blank">Official Website</a>
+          <a href="https://www.frisa.com/es/welcome" target="_blank">FRISA Official Website</a>
         </div>
         <div class="gallery">
           <img src="IMG_FRISA.jpg" alt="FRISA" onclick="openModal(this)">
@@ -688,129 +877,120 @@
       </div>
 
       <div class="card">
-        <h3 class="card-title">Academic Peer Tutor — Mathematics & Engineering Sciences (2025 — Present)</h3>
+        <h3 class="card-title">Academic Peer Tutor — Mathematics &amp; Engineering Sciences &nbsp;·&nbsp; 2025 — Present</h3>
         <ul>
-          <li>Selected by the university to provide academic tutoring to fellow students in advanced mathematics and engineering subjects, including Differential Equations, Integral Calculus, Linear Algebra, Statics and related disciplines.</li>
-          <li>Recognized by the institution through a formal compensation scheme for consistent tutoring performance over 2+ semesters.</li>
-          <li>Ranked top 3 peer tutors in the program due to effective teaching and solid subject domain.</li>
+          <li>Selected by UDEM to tutor fellow students in Differential Equations, Integral Calculus, Linear Algebra, Statics, and related subjects.</li>
+          <li>Recognized through a formal institutional compensation scheme for consistent performance over 2+ semesters.</li>
+          <li>Ranked top 3 peer tutors in the programme for effective teaching and subject mastery.</li>
+        </ul>
+      </div>
+
+      <hr class="sub-divider">
+
+      <!-- ADDITIONAL EXPERIENCE -->
+      <p class="sub-heading">Additional Experience</p>
+
+      <div class="card">
+        <h3 class="card-title">Grafik Spot — Printing &amp; Production &nbsp;·&nbsp; Oct 2022 — Jun 2023</h3>
+        <ul>
+          <li>Large-scale canvas and vinyl printing for panoramic and commercial advertising.</li>
+          <li>Precision cutting of presentation cards; laminating and tabloid production.</li>
         </ul>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Grafik Spot (Local Printing Shop) (Oct 2022 — Jun 2023)</h3>
+        <h3 class="card-title">Cinepolis VIP — Food &amp; Customer Service &nbsp;·&nbsp; Jul 2025</h3>
         <ul>
-          <li>Big scale canvas and vinyl printing for panoramic and local advertisement.</li>
-          <li>Precise cutting of presentation cards.</li>
-          <li>Laminated documents and tabloids.</li>
+          <li>Food runner, waiter, cook, and general intendancy in a high-volume VIP theatre environment.</li>
         </ul>
       </div>
 
       <div class="card">
-        <h3 class="card-title">Cinepolis (VIP Movie Theater) (Jul 2025)</h3>
+        <h3 class="card-title">Social Media Management — Vero y su Vivero &nbsp;·&nbsp; Jul 2019 — Apr 2020</h3>
         <ul>
-          <li>Food runner, waiter, and customer service.</li>
-          <li>Cook.</li>
-          <li>General Intendancy.</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3 class="card-title">Social Media Management — Vero y su Vivero (Jul 2019 — Apr 2020)</h3>
-        <ul>
-          <li>Handled general quotes and customer service via messaging for the local plant nursery.</li>
+          <li>Handled customer service and quotes via messaging for a local plant nursery.</li>
           <li>Created social media posts and promotions to support the business.</li>
         </ul>
       </div>
 
+      <hr class="sub-divider">
+
+      <!-- CERTIFICATIONS -->
+      <p class="sub-heading">Certifications &amp; Diplomas</p>
+
       <div class="card">
-        <h3 class="card-title">Certifications & Diplomas</h3>
         <ul>
-          <li>Project Management — Universidad Complutense de Madrid, Madrid, Spain. Learned organizational skills, effective communication, leadership, and management concepts.</li>
+          <li>Project Management — Universidad Complutense de Madrid, Spain. Organizational skills, leadership, and management concepts.</li>
           <li>Machine Learning Specialization — Stanford University / DeepLearning.AI (Coursera, 2026).</li>
-          <li>Research & AI Product Development (Semilleros de Investigación) — Universidad de Monterrey (2025-2026).</li>
+          <li>Research &amp; AI Product Development (Semilleros de Investigación) — UDEM (2025–2026).</li>
           <li>SolidWorks Basic Course — Intelligy Authorized Training Center (2022).</li>
-          <li>EF SET English Certificate (C1 Advanced) — EF Standard English Test (2024).</li>
+          <li>EF SET English Certificate — C1 Advanced (2024).</li>
           <li>Distinguished High School Graduate (Valedictorian) — Preparatoria Politécnica Santa Catarina (2023).</li>
-          <li>UDEMUN 2022 Delegate — United Nations Simulation, UDEM (2022).</li>
+          <li>UDEMUN 2022 Delegate — United Nations Simulation, UDEM.</li>
         </ul>
         <div class="gallery">
-          <img src="PMP_Madrid_certificado_pages-to-jpg-0001.jpg" alt="PMP Cert" onclick="openModal(this)">
-          <img src="Coursera 8OZUFBAPIP3A.jpeg" alt="Stanford ML" onclick="openModal(this)">
-          <img src="Diploma SEMILLEROS DE INVESTIGACIÓN Juan Ángel.jpeg" alt="Semilleros AI" onclick="openModal(this)">
-          <img src="Solidworks certificate (1).jpeg" alt="SolidWorks" onclick="openModal(this)">
-          <img src="EF SET Certificate (2).jpeg" alt="EF SET" onclick="openModal(this)">
-          <img src="Bachiller distinguido (1).jpeg" alt="Valedictorian" onclick="openModal(this)">
-          <img src="UDEMUN - Juan Angel Candelaria (1).jpeg" alt="UDEMUN Delegate" onclick="openModal(this)">
+          <img src="PMP_Madrid_certificado_pages-to-jpg-0001.jpg" alt="Project Management Certificate" onclick="openModal(this)">
+          <img src="Coursera 8OZUFBAPIP3A.jpeg" alt="Stanford ML Certificate" onclick="openModal(this)">
+          <img src="Diploma SEMILLEROS DE INVESTIGACIÓN Juan Ángel.jpeg" alt="Semilleros AI Diploma" onclick="openModal(this)">
+          <img src="Solidworks certificate (1).jpeg" alt="SolidWorks Certificate" onclick="openModal(this)">
+          <img src="EF SET Certificate (2).jpeg" alt="EF SET C1 Certificate" onclick="openModal(this)">
+          <img src="Bachiller distinguido (1).jpeg" alt="Valedictorian Certificate" onclick="openModal(this)">
+          <img src="UDEMUN - Juan Angel Candelaria (1).jpeg" alt="UDEMUN Delegate Certificate" onclick="openModal(this)">
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Fullscreen Image Modal -->
+  <!-- FULLSCREEN IMAGE MODAL -->
   <div id="imageModal" class="modal">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <img class="modal-content" id="fullImage">
+    <span class="close" onclick="closeModal()" title="Close">&times;</span>
+    <img class="modal-content" id="fullImage" alt="">
   </div>
 
   <script>
-    // Tab Switching Logic
+    /* ── Tab switching ── */
     function switchTab(tabId, button) {
-      // Hide all tabs
-      const tabs = document.querySelectorAll('.tab-content');
-      tabs.forEach(tab => {
-        tab.classList.remove('active');
-      });
-
-      // Remove active class from all buttons
-      const buttons = document.querySelectorAll('.nav-links button');
-      buttons.forEach(btn => {
-        btn.classList.remove('active');
-      });
-
-      // Show selected tab and set button as active
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
       button.classList.add('active');
-
-      // Scroll to top automatically
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Hide/Show Navbar on Scroll Logic
-    let prevScrollPos = window.pageYOffset;
+    /* ── Navbar hide / show on scroll ── */
     const navbar = document.getElementById("navbar");
+    let prevScrollPos = window.pageYOffset;
 
-    window.onscroll = function() {
-      let currentScrollPos = window.pageYOffset;
-      // If scrolling up or at the very top, show the navbar
-      if (prevScrollPos > currentScrollPos || currentScrollPos < 50) {
-        navbar.style.top = "0";
-      } else {
-        // If scrolling down, hide the navbar
-        navbar.style.top = "-150px"; 
-      }
+    window.addEventListener('scroll', () => {
+      const currentScrollPos = window.pageYOffset;
+      // ✅ corrected offset: matches the 54px compact navbar
+      navbar.style.top = (prevScrollPos > currentScrollPos || currentScrollPos < 50) ? "0" : "-70px";
       prevScrollPos = currentScrollPos;
-    }
+    }, { passive: true });
 
-    // Modal Image Viewer Logic
-    const modal = document.getElementById("imageModal");
+    /* ── Modal image viewer ── */
+    const modal    = document.getElementById("imageModal");
     const modalImg = document.getElementById("fullImage");
 
-    function openModal(element) {
+    function openModal(el) {
       modal.style.display = "block";
-      modalImg.src = element.src;
+      modalImg.src = el.src;
+      modalImg.alt = el.alt;
     }
 
     function closeModal() {
       modal.style.display = "none";
     }
 
-    // Close modal when clicking outside the image
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+
+    /* ── Close modal on Escape ── */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') modal.style.display = "none";
+    });
   </script>
 </body>
 </html>
