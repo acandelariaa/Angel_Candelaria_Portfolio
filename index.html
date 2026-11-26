@@ -11,1387 +11,2239 @@
   <meta property="og:description" content="Portfolio and extended CV of Angel Candelaria, 7th-semester engineering student at Universidad de Monterrey. ML research, materials science, aerospace internship.">
   <meta property="og:image" content="CV_photo.png">
   <meta property="og:type" content="website">
+  <meta name="theme-color" content="#F3F0E8">
+
+  <!-- Fonts: Space Grotesk (display) · Inter (body) · JetBrains Mono (labels) · Instrument Serif (accents) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Marks JS as available so reveal animations never hide content without it -->
+  <script>document.documentElement.classList.add('js');</script>
 
   <style>
     /* ============================================================
        RESET
     ============================================================ */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    img, video { display: block; max-width: 100%; }
+    button { font: inherit; color: inherit; }
 
     /* ============================================================
        DESIGN TOKENS
-       Palette: warm off-white base · sage green accent · muted ink text
+       Palette: warm paper · ink black · electric cobalt · acid lime
     ============================================================ */
     :root {
-      --bg:           #F6F3EE;
-      --bg-card:      #FDFCF9;
-      --bg-hover:     #EEE9E1;
-      --border:       #DDD8CF;
-      --border-light: #EAE6DF;
-      --text:         #282520;
-      --text-muted:   #7A7568;
-      --text-light:   #A09890;
-      --accent:       #6E8F7A;        /* sage green — calm, engineering */
-      --accent-pale:  #E6EFE9;
-      --accent-dark:  #4E6B58;
-      --tag-bg:       #EEE9E1;
-      --tag-border:   #D9D3CA;
+      --paper:      #F3F0E8;
+      --paper-2:    #EAE6DB;
+      --card:       #FBFAF6;
+      --ink:        #121212;
+      --ink-2:      #34322D;
+      --muted:      #6B675D;
+      --line:       #DAD5C8;
+      --blue:       #2E3BFF;
+      --blue-dark:  #1E28C7;
+      --blue-pale:  #E4E6FF;
+      --lime:       #D6FF3D;
+      --lime-dark:  #B8E01C;
+
+      --f-display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+      --f-body:    "Inter", "Helvetica Neue", Arial, sans-serif;
+      --f-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+      --f-serif:   "Instrument Serif", Georgia, serif;
+
+      --radius:    18px;
+      --nav-h:     64px;
+      --shadow-hard: 6px 6px 0 var(--ink);
+      --ease: cubic-bezier(.2, .7, .2, 1);
     }
 
     /* ============================================================
-       BASE TYPOGRAPHY — Georgia throughout
+       BASE
     ============================================================ */
     body {
-      font-family: Georgia, "Times New Roman", Times, serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.72;
-      font-size: 15.5px;
+      font-family: var(--f-body);
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--ink-2);
+      background-color: var(--paper);
+      /* subtle engineering "graph paper" dot grid */
+      background-image: radial-gradient(rgba(18, 18, 18, .075) 1px, transparent 1px);
+      background-size: 22px 22px;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      overflow-x: clip;
     }
 
     h1, h2, h3, h4 {
-      font-family: Georgia, "Times New Roman", Times, serif;
-      font-weight: normal;
-      color: var(--text);
-      line-height: 1.3;
+      font-family: var(--f-display);
+      color: var(--ink);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
     }
 
-    a {
-      color: var(--accent-dark);
-      text-decoration: none;
-      transition: color 0.15s;
+    a { color: inherit; text-decoration: none; }
+    strong { color: var(--ink); font-weight: 600; }
+
+    ::selection { background: var(--lime); color: var(--ink); }
+
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: 6px;
     }
 
-    a:hover { color: var(--text); }
+    .wrap {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
 
-    strong {
-      font-weight: bold;
-      color: var(--text);
+    /* highlighter mark */
+    .hl {
+      background: linear-gradient(180deg, transparent 58%, var(--lime) 58%, var(--lime) 92%, transparent 92%);
+      color: var(--ink);
+      padding: 0 2px;
     }
 
     /* ============================================================
-       LAYOUT WRAPPER
+       SCROLL PROGRESS
     ============================================================ */
-    .page-shell {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* ============================================================
-       SIDEBAR — fixed left column, 240px wide
-    ============================================================ */
-    #sidebar {
+    .progress {
       position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 100%;
+      background: var(--blue);
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      z-index: 1001;
+    }
+
+    /* ============================================================
+       TOP BAR
+    ============================================================ */
+    .topbar {
+      position: sticky;
       top: 0;
-      left: 0;
-      height: 100vh;
-      width: 240px;
-      background-color: #FDFCF9;
-      border-right: 1px solid var(--border);
+      z-index: 1000;
+      height: var(--nav-h);
+      background: rgba(243, 240, 232, .82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar .wrap {
+      height: 100%;
       display: flex;
-      flex-direction: column;
-      padding: 36px 24px 32px;
-      z-index: 100;
-      overflow-y: auto;
+      align-items: center;
+      gap: 20px;
     }
 
-    /* ── Profile block ── */
-    .sidebar-profile {
-      text-align: center;
-      margin-bottom: 32px;
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
     }
 
-    .sidebar-photo {
-      width: 108px;
-      height: 108px;
-      object-fit: cover;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      display: block;
-      margin: 0 auto 14px;
+    .logo-mark {
+      position: relative;
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--f-display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: .5px;
+      display: grid;
+      place-items: center;
     }
 
-    .sidebar-name {
-      font-size: 15.5px;
-      letter-spacing: 0.3px;
-      color: var(--text);
-      margin-bottom: 4px;
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      right: -3px; top: -3px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--lime);
+      border: 2px solid var(--paper);
     }
 
-    .sidebar-role {
-      font-size: 11.5px;
-      color: var(--text-light);
-      font-style: italic;
-      line-height: 1.5;
+    .logo-text {
+      font-family: var(--f-display);
+      font-weight: 600;
+      color: var(--ink);
+      font-size: 15px;
+      white-space: nowrap;
     }
 
-    /* ── Nav ── */
-    .sidebar-nav {
+    .nav {
       display: flex;
-      flex-direction: column;
-      gap: 2px;
-      margin-bottom: 32px;
+      gap: 4px;
+      margin-left: auto;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav::-webkit-scrollbar { display: none; }
+
+    .nav a {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+      transition: background-color .2s, color .2s;
     }
 
-    .nav-btn {
+    .nav a span { color: var(--blue); margin-right: 4px; }
+    .nav a:hover { color: var(--ink); background: var(--paper-2); }
+    .nav a.active { background: var(--ink); color: var(--paper); }
+    .nav a.active span { color: var(--lime); }
+
+    .btn-contact {
+      flex-shrink: 0;
+      font-family: var(--f-display);
+      font-weight: 600;
+      font-size: 14px;
+      color: #fff;
+      background: var(--blue);
+      padding: 9px 16px;
+      border-radius: 999px;
+      transition: background-color .2s, transform .2s var(--ease);
+    }
+    .btn-contact:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero { padding: 72px 0 56px; overflow-x: hidden; overflow-x: clip; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, .75fr);
+      gap: 56px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
       display: flex;
       align-items: center;
       gap: 10px;
-      background: none;
-      border: none;
-      border-radius: 7px;
-      font-family: Georgia, "Times New Roman", Times, serif;
-      font-size: 14px;
-      cursor: pointer;
-      color: var(--text-muted);
-      padding: 9px 12px;
-      text-align: left;
-      width: 100%;
-      transition: background-color 0.14s, color 0.14s;
+      margin-bottom: 22px;
     }
 
-    .nav-btn:hover {
-      background-color: var(--bg-hover);
-      color: var(--text);
+    .eyebrow .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 4px var(--blue-pale);
+      animation: pulse 2.4s ease-in-out infinite;
     }
 
-    .nav-btn.active {
-      background-color: var(--accent-pale);
-      color: var(--accent-dark);
-      font-style: italic;
-    }
-
-    /* small icon beside nav label */
-    .nav-icon {
-      font-size: 13px;
-      opacity: 0.6;
-      width: 16px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    /* ── Contact block ── */
-    .sidebar-contact {
-      margin-top: auto;
-      border-top: 1px solid var(--border-light);
-      padding-top: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .contact-item a {
-      font-size: 12px;
-      color: var(--text-muted);
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.15s, color 0.15s;
-    }
-
-    .contact-item a:hover {
-      color: var(--text);
-      border-bottom-color: var(--border);
-    }
-
-    .contact-icon {
-      font-size: 11px;
-      opacity: 0.5;
-      width: 14px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    /* ============================================================
-       MAIN CONTENT — offset for sidebar
-    ============================================================ */
-    main {
-      margin-left: 240px;
-      flex: 1;
-      padding: 52px 56px 80px;
-      max-width: 900px;
-    }
-
-    /* ============================================================
-       HERO STRIP — name, bio, highlights (top of main)
-    ============================================================ */
-    .hero {
-      padding-bottom: 44px;
-      border-bottom: 1px solid var(--border-light);
-      margin-bottom: 52px;
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--blue-pale); }
+      50%      { box-shadow: 0 0 0 8px rgba(46, 59, 255, .08); }
     }
 
     .hero-name {
-      font-size: 34px;
-      letter-spacing: -0.3px;
-      color: var(--text);
-      margin-bottom: 6px;
+      font-size: clamp(56px, 9.6vw, 132px);
+      font-weight: 700;
+      line-height: .9;
+      letter-spacing: -0.045em;
+      margin-bottom: 26px;
     }
 
-    .hero-title {
-      font-size: 14px;
-      color: var(--text-light);
+    .hero-name .serif {
+      display: block;
+      font-family: var(--f-serif);
       font-style: italic;
-      margin-bottom: 22px;
-      letter-spacing: 0.2px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: var(--blue);
+      padding-left: .5em;
+    }
+
+    .hero-tagline {
+      font-family: var(--f-display);
+      font-size: clamp(19px, 2.1vw, 24px);
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.35;
+      max-width: 620px;
+      margin-bottom: 18px;
     }
 
     .hero-bio {
-      font-size: 15.5px;
-      color: #3D3A35;
-      line-height: 1.78;
-      max-width: 620px;
+      font-size: 16px;
+      color: var(--ink-2);
+      max-width: 600px;
       margin-bottom: 30px;
     }
 
-    /* ── Highlights row ── */
-    .highlights {
+    .hero-actions {
       display: flex;
       flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
       gap: 10px;
+      font-family: var(--f-display);
+      font-weight: 600;
+      font-size: 15px;
+      padding: 13px 22px;
+      border-radius: 999px;
+      border: 1.5px solid var(--ink);
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease), background-color .2s, color .2s;
     }
 
-    .highlight-pill {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 16px;
+    .btn .arr { transition: transform .25s var(--ease); }
+    .btn:hover .arr { transform: translateX(3px); }
+
+    .btn-primary { background: var(--ink); color: var(--paper); }
+    .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--blue); }
+
+    .btn-ghost { background: transparent; color: var(--ink); }
+    .btn-ghost:hover { background: var(--lime); transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
+
+    .chips {
       display: flex;
-      flex-direction: column;
-      gap: 2px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
-    .highlight-val {
-      font-size: 13.5px;
-      color: var(--text);
+    .chip {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--ink-2);
+      padding: 5px 11px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: 999px;
       white-space: nowrap;
     }
 
-    .highlight-lbl {
-      font-size: 10px;
-      letter-spacing: 0.9px;
+    /* Photo + rotating badge */
+    .hero-photo {
+      position: relative;
+      justify-self: center;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .photo-frame {
+      position: relative;
+      border: 1.5px solid var(--ink);
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--paper-2);
+      box-shadow: 10px 10px 0 var(--blue);
+      transform: rotate(2deg);
+      transition: transform .5s var(--ease);
+      aspect-ratio: 4 / 5;
+    }
+
+    .hero-photo:hover .photo-frame { transform: rotate(0deg); }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-tag {
+      position: absolute;
+      top: 18px; right: -14px;
+      background: var(--lime);
+      color: var(--ink);
+      border: 1.5px solid var(--ink);
+      font-family: var(--f-mono);
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      padding: 6px 12px;
+      border-radius: 999px;
+      transform: rotate(6deg);
+      box-shadow: 3px 3px 0 var(--ink);
+      z-index: 2;
+      white-space: nowrap;
+    }
+
+    .badge {
+      position: absolute;
+      left: -38px; bottom: -34px;
+      width: 124px; height: 124px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--paper);
+      display: grid;
+      place-items: center;
+      z-index: 2;
+    }
+
+    .badge svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      animation: spin 16s linear infinite;
+    }
+
+    .badge text {
+      font-family: var(--f-mono);
+      font-size: 9px;
+      letter-spacing: 1.2px;
+      fill: var(--paper);
       text-transform: uppercase;
-      color: var(--text-light);
-      white-space: nowrap;
     }
+
+    .badge-star {
+      font-size: 26px;
+      color: var(--lime);
+      line-height: 1;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ============================================================
-       TAB CONTENT
+       MARQUEE
     ============================================================ */
-    .tab-content { display: none; }
-    .tab-content.active {
-      display: block;
-      animation: fadeUp 0.22s ease;
+    .marquee {
+      background: var(--ink);
+      color: var(--paper);
+      overflow: hidden;
+      border-top: 1.5px solid var(--ink);
+      border-bottom: 1.5px solid var(--ink);
+      transform: rotate(-1.2deg);
+      margin: 26px -20px 0;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ============================================================
-       SECTION HEADER
-    ============================================================ */
-    .section-header {
+    .marquee-track {
       display: flex;
-      align-items: baseline;
-      gap: 14px;
-      margin-bottom: 36px;
+      width: max-content;
+      animation: marquee 34s linear infinite;
     }
 
-    .section-title {
-      font-size: 22px;
-      font-weight: normal;
-      color: var(--text);
-      letter-spacing: 0.2px;
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+
+    .marquee-group {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
     }
 
-    .section-rule {
-      flex: 1;
-      height: 1px;
-      background-color: var(--border-light);
+    .marquee-item {
+      font-family: var(--f-display);
+      font-weight: 600;
+      font-size: clamp(18px, 2.4vw, 26px);
+      letter-spacing: -0.01em;
+      padding: 14px 0;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
     }
+
+    .marquee-item::after {
+      content: "✦";
+      color: var(--lime);
+      margin: 0 28px;
+      font-size: .8em;
+    }
+
+    .marquee-item:nth-child(even) {
+      font-family: var(--f-serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(20px, 2.7vw, 30px);
+    }
+
+    @keyframes marquee { to { transform: translateX(-50%); } }
 
     /* ============================================================
-       SUB-SECTION LABEL
+       STATS
     ============================================================ */
+    .stats {
+      margin-top: 64px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1.5px solid var(--ink);
+      border-radius: var(--radius);
+      background: var(--card);
+      overflow: hidden;
+    }
+
+    .stat {
+      padding: 26px 26px 24px;
+      border-right: 1px solid var(--line);
+      position: relative;
+      transition: background-color .25s;
+    }
+    .stat:last-child { border-right: none; }
+    .stat:hover { background: var(--lime); }
+
+    .stat-val {
+      font-family: var(--f-display);
+      font-weight: 700;
+      font-size: clamp(30px, 3.6vw, 44px);
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .stat-val small {
+      font-size: .45em;
+      letter-spacing: 0;
+      color: var(--muted);
+      font-weight: 500;
+      margin-left: 2px;
+    }
+
+    .stat-lbl {
+      font-family: var(--f-mono);
+      font-size: 11.5px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .stat:hover .stat-lbl, .stat:hover .stat-val small { color: var(--ink); }
+
+    /* ============================================================
+       SECTIONS
+    ============================================================ */
+    section.block {
+      padding: 104px 0 24px;
+      scroll-margin-top: calc(var(--nav-h) - 40px);
+    }
+
+    .sec-head {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: end;
+      gap: 22px;
+      padding-bottom: 22px;
+      margin-bottom: 40px;
+      border-bottom: 1.5px solid var(--ink);
+    }
+
+    .sec-num {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      color: var(--ink);
+      background: var(--lime);
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
+      padding: 4px 12px;
+      margin-bottom: 10px;
+    }
+
+    .sec-title {
+      font-size: clamp(36px, 5.4vw, 66px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: .95;
+    }
+
+    .sec-title em {
+      font-family: var(--f-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--blue);
+      letter-spacing: -0.02em;
+    }
+
+    .sec-kicker {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: right;
+      max-width: 220px;
+      margin-bottom: 8px;
+    }
+
     .sub-label {
-      font-size: 10.5px;
-      letter-spacing: 1.8px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 20px;
-      margin-top: 2px;
+      color: var(--muted);
+      margin: 56px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
-
-    .sub-divider {
-      border: none;
-      border-top: 1px solid var(--border-light);
-      margin: 44px 0 32px;
-    }
+    .sub-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    .sub-label:first-of-type { margin-top: 0; }
 
     /* ============================================================
        CARDS
     ============================================================ */
     .card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-light);
-      border-radius: 10px;
-      padding: 24px 26px;
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px 30px;
       margin-bottom: 20px;
-      transition: border-color 0.15s;
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
     }
 
-    .card:hover {
-      border-color: var(--border);
+    .card.lift:hover {
+      transform: translate(-3px, -3px);
+      border-color: var(--ink);
+      box-shadow: var(--shadow-hard);
     }
 
-    .card-header {
+    .card-top {
       display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 6px;
-    }
-
-    .card-title {
-      font-size: 16px;
-      font-weight: normal;
-      color: var(--text);
-      line-height: 1.4;
-    }
-
-    .card-date {
-      font-size: 12px;
-      color: var(--text-light);
-      white-space: nowrap;
-      flex-shrink: 0;
-      margin-top: 2px;
-      font-style: italic;
-    }
-
-    .card-subtitle {
-      font-size: 13px;
-      font-style: italic;
-      color: var(--text-muted);
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 10px;
       margin-bottom: 14px;
     }
 
-    /* ── Accent left bar on a card — optional ── */
-    .card-accent {
-      border-left: 3px solid var(--accent);
-      padding-left: 22px;
+    .idx {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--blue);
+      font-weight: 500;
     }
 
-    /* ============================================================
-       LISTS
-    ============================================================ */
-    ul {
-      margin-left: 18px;
-      margin-top: 10px;
-      margin-bottom: 10px;
+    .cat {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--ink);
+      color: var(--ink);
+    }
+    .cat.blue { background: var(--blue-pale); border-color: var(--blue); color: var(--blue-dark); }
+    .cat.lime { background: var(--lime); }
+    .cat.ink  { background: var(--ink); color: var(--paper); }
+
+    .date {
+      margin-left: auto;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
     }
 
-    li {
+    .card-title {
+      font-size: clamp(20px, 2.2vw, 25px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
       margin-bottom: 6px;
-      color: #3A3730;
-      font-size: 15px;
-      line-height: 1.65;
     }
 
-    /* ============================================================
-       GRID 2-col
-    ============================================================ */
+    .card-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .metric {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-family: var(--f-mono);
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--lime);
+      border: 1.5px solid var(--ink);
+      border-radius: 8px;
+      padding: 5px 10px;
+    }
+    .metric::before { content: "▲"; font-size: 9px; }
+
+    /* Lists */
+    .list {
+      list-style: none;
+      margin: 16px 0 4px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 22px;
+      font-size: 15.5px;
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 2px; top: .62em;
+      width: 7px; height: 7px;
+      background: var(--blue);
+      transform: rotate(45deg);
+    }
+
+    /* Grids */
     .grid-2 {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 20px;
     }
+    .grid-2 > .card { margin-bottom: 0; }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .grid-3 > .card { margin-bottom: 0; }
 
     /* ============================================================
-       SKILLS TAGS
+       TAGS / SKILLS
     ============================================================ */
-    .skill-group {
-      margin-top: 10px;
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 26px 32px;
+      margin-top: 20px;
     }
 
     .skill-group-label {
-      font-size: 11px;
-      letter-spacing: 1.2px;
+      font-family: var(--f-mono);
+      font-size: 11.5px;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 8px;
-      margin-top: 14px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-group-label::before {
+      content: "";
+      width: 14px; height: 2px;
+      background: var(--blue);
     }
 
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 
     .tag {
-      background-color: var(--tag-bg);
-      border: 1px solid var(--tag-border);
-      border-radius: 5px;
-      padding: 3px 10px;
-      font-size: 13px;
-      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 5px 11px;
+      transition: background-color .2s, border-color .2s, transform .2s var(--ease);
+    }
+    .tag:hover { background: var(--blue); border-color: var(--blue); color: #fff; transform: translateY(-2px); }
+
+    .interest-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .interest-list li {
+      font-size: 14.5px;
+      color: var(--ink);
+      font-weight: 500;
+      padding: 10px 12px;
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      line-height: 1.35;
+      transition: border-color .2s, background-color .2s;
+    }
+    .interest-list li:hover { border-color: var(--ink); border-style: solid; background: var(--paper); }
+    .interest-list li::before {
+      content: attr(data-n);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      color: var(--blue);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Language meters */
+    .lang { margin-top: 18px; display: grid; gap: 16px; }
+    .lang-row { display: grid; gap: 7px; }
+    .lang-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+    .lang-name { font-family: var(--f-display); font-weight: 600; color: var(--ink); font-size: 17px; }
+    .lang-lvl { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+    .meter { height: 8px; border-radius: 999px; background: var(--paper-2); overflow: hidden; border: 1px solid var(--line); }
+    .meter i { display: block; height: 100%; background: var(--blue); border-radius: 999px; width: 0; transition: width 1.2s var(--ease); }
+    .in .meter i, html:not(.js) .meter i { width: var(--w); }
+
+    /* ============================================================
+       EDUCATION (year rail)
+    ============================================================ */
+    .edu {
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 30px;
+    }
+
+    .edu-year {
+      font-family: var(--f-display);
+      font-weight: 700;
+      font-size: 34px;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .edu-year span {
+      display: block;
+      font-family: var(--f-mono);
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: .06em;
+      color: var(--muted);
+      margin-top: 10px;
+      text-transform: uppercase;
     }
 
     /* ============================================================
        DOC LINKS
     ============================================================ */
     .doc-links {
-      margin-top: 14px;
+      margin-top: 18px;
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
 
     .doc-links a {
-      font-size: 12.5px;
-      color: var(--text-muted);
-      padding: 4px 11px;
-      background-color: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 5px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--ink);
+      padding: 7px 12px;
+      background: transparent;
+      border: 1.5px solid var(--ink);
+      border-radius: 999px;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      transition: background-color 0.14s, color 0.14s;
+      gap: 6px;
+      transition: background-color .2s, color .2s, transform .2s var(--ease);
     }
 
-    .doc-links a::before {
-      content: "↗";
-      font-size: 10px;
-      opacity: 0.5;
-    }
-
-    .doc-links a:hover {
-      background-color: var(--accent-pale);
-      color: var(--accent-dark);
-      border-color: #C0D4C5;
-    }
+    .doc-links a::after { content: "↗"; transition: transform .2s var(--ease); }
+    .doc-links a:hover { background: var(--blue); border-color: var(--blue); color: #fff; transform: translateY(-2px); }
+    .doc-links a:hover::after { transform: translate(2px, -2px); }
 
     /* ============================================================
-       GALLERY
+       GALLERY — horizontal scroll strip
     ============================================================ */
+    .gallery-meta {
+      margin-top: 22px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--f-mono);
+      font-size: 11.5px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .gallery-nav { display: flex; gap: 6px; }
+
+    .gallery-nav button {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 1.5px solid var(--ink);
+      background: var(--card);
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1;
+      transition: background-color .2s;
+    }
+    .gallery-nav button:hover { background: var(--lime); }
+
     .gallery {
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      padding: 2px 2px 12px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--ink) transparent;
     }
+
+    .gallery::-webkit-scrollbar { height: 6px; }
+    .gallery::-webkit-scrollbar-thumb { background: var(--ink); border-radius: 999px; }
+    .gallery::-webkit-scrollbar-track { background: transparent; }
 
     .gallery img,
     .gallery video {
-      height: 160px;
+      flex: 0 0 auto;
+      height: 190px;
       width: auto;
-      max-width: 100%;
-      border: 1px solid var(--border-light);
-      border-radius: 9px;
+      min-width: 120px;
+      max-width: 340px;
       object-fit: cover;
-      background-color: var(--bg);
-      transition: box-shadow 0.15s, transform 0.15s;
-      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--paper-2);
+      scroll-snap-align: start;
     }
 
-    .gallery img { cursor: zoom-in; }
-
-    .gallery img:hover {
-      box-shadow: 0 4px 18px rgba(0,0,0,0.09);
-      transform: translateY(-1px);
+    .gallery img {
+      cursor: zoom-in;
+      transition: transform .3s var(--ease), border-color .3s, filter .3s;
     }
+    .gallery img:hover { transform: translateY(-3px); border-color: var(--ink); }
 
     /* ============================================================
-       IMAGE MODAL
+       PROJECT FILTER
+    ============================================================ */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .filters button {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1.5px solid var(--ink);
+      background: transparent;
+      cursor: pointer;
+      transition: background-color .2s, color .2s;
+    }
+    .filters button:hover { background: var(--paper-2); }
+    .filters button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+    .filters button .count { opacity: .55; margin-left: 4px; }
+
+    .project.hidden { display: none; }
+
+    /* Featured (dark) card */
+    .card.dark {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #D9D6CE;
+    }
+    .card.dark .card-title { color: var(--paper); }
+    .card.dark .card-sub, .card.dark .date { color: #9C988E; }
+    .card.dark .idx { color: var(--lime); }
+    .card.dark .list li { color: #D9D6CE; }
+    .card.dark .list li::before { background: var(--lime); }
+    .card.dark .doc-links a { color: var(--paper); border-color: var(--paper); }
+    .card.dark .doc-links a:hover { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+    .card.dark .gallery-meta { color: #9C988E; }
+    .card.dark .gallery img, .card.dark .gallery video { border-color: #333; }
+    .card.dark .gallery-nav button { background: transparent; border-color: var(--paper); color: var(--paper); }
+    .card.dark .gallery-nav button:hover { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+    .card.dark .gallery { scrollbar-color: var(--lime) transparent; }
+    .card.dark .gallery::-webkit-scrollbar-thumb { background: var(--lime); }
+    .card.dark.lift:hover { box-shadow: 6px 6px 0 var(--blue); }
+
+    /* ============================================================
+       TIMELINE (experience)
+    ============================================================ */
+    .timeline {
+      position: relative;
+      padding-left: 34px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 9px; top: 8px; bottom: 30px;
+      width: 2px;
+      background: var(--ink);
+    }
+
+    .timeline .card::before {
+      content: "";
+      position: absolute;
+      left: -32px; top: 32px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--lime);
+      border: 2px solid var(--ink);
+    }
+
+    .mini .card-title { font-size: 18px; }
+    .mini .list li { font-size: 14.5px; }
+    .mini.card { padding: 22px 22px; }
+    .mini .date { margin-left: 0; }
+
+    /* ============================================================
+       CERTIFICATIONS
+    ============================================================ */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 12px;
+    }
+
+    .cert {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: border-color .2s, background-color .2s;
+    }
+    .cert:hover { border-color: var(--ink); background: var(--card); }
+
+    .cert-top { display: flex; justify-content: space-between; gap: 10px; }
+    .cert-n { font-family: var(--f-mono); font-size: 11px; color: var(--blue); }
+    .cert-year { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+    .cert-name { font-family: var(--f-display); font-weight: 600; color: var(--ink); font-size: 16px; line-height: 1.25; }
+    .cert-org { font-size: 13.5px; color: var(--muted); line-height: 1.45; }
+
+    /* ============================================================
+       FOOTER / CONTACT
+    ============================================================ */
+    .footer {
+      margin-top: 110px;
+      background: var(--ink);
+      color: #CFCBC2;
+      padding: 96px 0 36px;
+      position: relative;
+      overflow: hidden;
+      scroll-margin-top: var(--nav-h);
+    }
+
+    .footer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, .06) 1px, transparent 1px);
+      background-size: 22px 22px;
+      pointer-events: none;
+    }
+
+    .footer .wrap { position: relative; }
+
+    .footer-kicker {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--lime);
+      margin-bottom: 20px;
+    }
+
+    .footer-title {
+      color: var(--paper);
+      font-size: clamp(44px, 8vw, 110px);
+      font-weight: 700;
+      letter-spacing: -0.045em;
+      line-height: .92;
+      margin-bottom: 40px;
+    }
+
+    .footer-title em {
+      font-family: var(--f-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--lime);
+    }
+
+    .footer-mail {
+      display: inline-block;
+      font-family: var(--f-display);
+      font-weight: 500;
+      font-size: clamp(20px, 3vw, 34px);
+      color: var(--paper);
+      border-bottom: 3px solid var(--lime);
+      padding-bottom: 4px;
+      margin-bottom: 44px;
+      word-break: break-all;
+      transition: color .2s;
+    }
+    .footer-mail:hover { color: var(--lime); }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-links a, .footer-links span {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      color: var(--paper);
+      border: 1.5px solid #3A3A3A;
+      border-radius: 999px;
+      padding: 9px 16px;
+      transition: border-color .2s, background-color .2s, color .2s;
+    }
+    .footer-links a:hover { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+
+    .footer-bottom {
+      margin-top: 80px;
+      padding-top: 22px;
+      border-top: 1px solid #2B2B2B;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: #8A867D;
+    }
+
+    .to-top { color: #8A867D; }
+    .to-top:hover { color: var(--lime); }
+
+    /* ============================================================
+       IMAGE MODAL / LIGHTBOX
     ============================================================ */
     .modal {
-      display: none;
       position: fixed;
-      z-index: 2000;
       inset: 0;
-      background-color: rgba(246, 243, 238, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      overflow: auto;
-    }
-
-    .modal-content {
-      display: block;
-      margin: 2.5% auto;
-      max-width: 90%;
-      max-height: 92vh;
-      object-fit: contain;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-    }
-
-    .modal-close {
-      position: fixed;
-      top: 20px;
-      right: 28px;
-      font-size: 24px;
-      cursor: pointer;
-      color: var(--text-muted);
-      line-height: 1;
-      transition: color 0.15s;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      display: flex;
+      z-index: 2000;
+      background: rgba(18, 18, 18, .93);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
       align-items: center;
       justify-content: center;
+      padding: 70px 80px;
     }
+    .modal.open { display: flex; animation: fade .25s ease; }
 
-    .modal-close:hover { color: var(--text); }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
-    /* ============================================================
-       INTEREST ICONS STRIP (Overview)
-    ============================================================ */
-    .interest-list {
-      list-style: none;
-      margin-left: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px 20px;
-    }
-
-    .interest-list li {
+    .modal figure {
       display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      font-size: 14.5px;
-      color: var(--text-muted);
-      padding: 4px 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      max-width: 100%;
+      max-height: 100%;
     }
 
-    .interest-list li::before {
-      content: "—";
-      color: var(--accent);
-      flex-shrink: 0;
-      font-size: 13px;
-      margin-top: 2px;
+    .modal-img {
+      max-width: 100%;
+      max-height: calc(100vh - 170px);
+      object-fit: contain;
+      border-radius: 14px;
+      background: var(--paper-2);
     }
 
-    /* ============================================================
-       CERT LIST (plain, clean)
-    ============================================================ */
-    .cert-list {
-      list-style: none;
-      margin-left: 0;
+    .modal figcaption {
+      font-family: var(--f-mono);
+      font-size: 12.5px;
+      color: #CFCBC2;
+      letter-spacing: .04em;
+      text-align: center;
     }
+    .modal figcaption b { color: var(--lime); font-weight: 500; margin-right: 8px; }
 
-    .cert-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 11px 0;
-      border-bottom: 1px solid var(--border-light);
-      font-size: 14.5px;
-    }
-
-    .cert-list li:last-child { border-bottom: none; }
-
-    .cert-dot {
-      width: 7px;
-      height: 7px;
+    .modal-btn {
+      position: fixed;
+      width: 46px; height: 46px;
       border-radius: 50%;
-      background-color: var(--accent);
-      flex-shrink: 0;
-      margin-top: 7px;
+      border: 1.5px solid var(--paper);
+      background: transparent;
+      color: var(--paper);
+      font-size: 18px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background-color .2s, color .2s, border-color .2s;
     }
+    .modal-btn:hover { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+    .modal-close { top: 18px; right: 22px; }
+    .modal-prev  { left: 20px; top: 50%; transform: translateY(-50%); }
+    .modal-next  { right: 20px; top: 50%; transform: translateY(-50%); }
+
+    /* ============================================================
+       REVEAL ON SCROLL
+    ============================================================ */
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+      transition-delay: var(--d, 0s);
+    }
+    .js .reveal.in { opacity: 1; transform: none; }
 
     /* ============================================================
        RESPONSIVE
     ============================================================ */
-    @media (max-width: 860px) {
-      #sidebar {
-        position: static;
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 12px;
-        padding: 16px 20px;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .sidebar-profile {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        text-align: left;
-        margin-bottom: 0;
-        flex: 1;
-      }
-
-      .sidebar-photo { width: 52px; height: 52px; margin: 0; border-radius: 10px; }
-
-      .sidebar-nav {
-        flex-direction: row;
-        flex-wrap: wrap;
-        margin-bottom: 0;
-        gap: 4px;
-      }
-
-      .nav-btn { padding: 7px 12px; width: auto; }
-
-      .sidebar-contact { display: none; }
-
-      .page-shell { flex-direction: column; }
-      main { margin-left: 0; padding: 32px 22px 60px; }
+    @media (max-width: 960px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 64px; }
+      .hero-photo { max-width: 300px; justify-self: start; margin-left: 40px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(2) { border-right: none; }
+      .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .edu { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+      .edu-year { font-size: 28px; }
+      .edu-year span { display: inline; margin-left: 10px; }
+      .logo-text { display: none; }
     }
 
-    @media (max-width: 600px) {
-      .grid-2 { grid-template-columns: 1fr; }
-      .hero-name { font-size: 26px; }
-      .highlights { gap: 8px; }
+    @media (max-width: 720px) {
+      :root { --nav-h: 58px; }
+      .wrap { padding: 0 16px; }
+      .btn-contact { display: none; }
+      .nav { margin-left: 8px; }
+      .nav a { padding: 7px 10px; font-size: 11px; }
+      .nav a span { display: none; }
+      .hero { padding: 44px 0 40px; }
+      .hero-name .serif { padding-left: .25em; }
+      .hero-photo { max-width: 250px; margin-left: 36px; }
+      .badge { width: 104px; height: 104px; left: -30px; bottom: -28px; }
+      .grid-2, .grid-3, .skill-grid { grid-template-columns: minmax(0, 1fr); }
       .interest-list { grid-template-columns: 1fr; }
-      main { padding: 24px 16px 60px; }
+      .sec-head { grid-template-columns: 1fr; gap: 10px; }
+      .sec-num { justify-self: start; margin-bottom: 0; }
+      .sec-kicker { text-align: left; max-width: none; margin-bottom: 0; }
+      section.block { padding-top: 76px; }
+      .card { padding: 22px 18px; }
+      .date { margin-left: 0; width: 100%; }
+      .gallery img, .gallery video { height: 160px; max-width: 260px; }
+      .timeline { padding-left: 26px; }
+      .timeline::before { left: 6px; }
+      .timeline .card::before { left: -27px; }
+      .modal { padding: 64px 12px 90px; }
+      .modal-prev, .modal-next { top: auto; bottom: 22px; transform: none; }
+      .modal-prev { left: calc(50% - 56px); }
+      .modal-next { right: calc(50% - 56px); }
+      .marquee { margin: 26px -6px 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .js .reveal { opacity: 1; transform: none; }
+      .meter i { width: var(--w); }
     }
   </style>
 </head>
 <body>
 
-<div class="page-shell">
+<div class="progress" aria-hidden="true"></div>
 
-  <!-- ============================================================
-       SIDEBAR
-  ============================================================ -->
-  <aside id="sidebar">
+<!-- ============================================================
+     TOP BAR
+============================================================ -->
+<header class="topbar">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="Angel Candelaria — home">
+      <span class="logo-mark">AC</span>
+      <span class="logo-text">Angel Candelaria</span>
+    </a>
 
-    <div class="sidebar-profile">
-      <img class="sidebar-photo" src="CV_photo.png" alt="Angel Candelaria">
-      <h1 class="sidebar-name">Angel Candelaria</h1>
-      <p class="sidebar-role">B.Eng. Mechanical &amp; Administrative Eng.<br>UDEM · 7th Semester</p>
-    </div>
-
-    <nav class="sidebar-nav">
-      <button class="nav-btn active" onclick="switchTab('overview', this)">
-        <span class="nav-icon">◈</span> Overview
-      </button>
-      <button class="nav-btn" onclick="switchTab('education', this)">
-        <span class="nav-icon">◇</span> Education
-      </button>
-      <button class="nav-btn" onclick="switchTab('projects', this)">
-        <span class="nav-icon">◈</span> Projects
-      </button>
-      <button class="nav-btn" onclick="switchTab('activities', this)">
-        <span class="nav-icon">◇</span> Activities
-      </button>
-      <button class="nav-btn" onclick="switchTab('experience', this)">
-        <span class="nav-icon">◈</span> Experience
-      </button>
+    <nav class="nav" aria-label="Sections">
+      <a href="#overview"><span>01</span>Overview</a>
+      <a href="#education"><span>02</span>Education</a>
+      <a href="#projects"><span>03</span>Projects</a>
+      <a href="#activities"><span>04</span>Activities</a>
+      <a href="#experience"><span>05</span>Experience</a>
     </nav>
 
-    <div class="sidebar-contact">
-      <div class="contact-item">
-        <span class="contact-icon">✉</span>
-        <a href="mailto:juan.candelaria@udem.edu">juan.candelaria@udem.edu</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-icon">↗</span>
-        <a href="https://www.linkedin.com/in/juan-angel-candelaria-rodriguez-888777361" target="_blank">LinkedIn</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-icon">↗</span>
-        <a href="https://github.com/acandelariaa" target="_blank">GitHub</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-icon">☏</span>
-        <span>+52 (81) 29 53 91 38</span>
+    <a href="#contact" class="btn-contact">Let's talk →</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+
+        <div class="hero-copy">
+          <p class="eyebrow reveal"><span class="dot"></span>Portfolio · Monterrey, MX · 2026</p>
+
+          <h1 class="hero-name reveal" style="--d:.05s">
+            Angel
+            <span class="serif">Candelaria</span>
+          </h1>
+
+          <p class="hero-tagline reveal" style="--d:.1s">
+            Mechanical &amp; Administrative Engineering student building at the intersection of
+            <span class="hl">machine learning</span>, materials and mechanical systems.
+          </p>
+
+          <p class="hero-bio reveal" style="--d:.15s">
+            Full-scholarship engineering student at Universidad de Monterrey, with active research experience in machine learning and data science.
+            Undergraduate research assistant, NASA Space Apps Challenge Global Nominee, and consistent top-of-cohort performer since high school.
+            Interested in the intersection of applied AI, mechanical systems, materials science, and project management.
+          </p>
+
+          <div class="hero-actions reveal" style="--d:.2s">
+            <a href="#projects" class="btn btn-primary">See my projects <span class="arr">↓</span></a>
+            <a href="#contact" class="btn btn-ghost">Get in touch <span class="arr">→</span></a>
+          </div>
+
+          <div class="chips reveal" style="--d:.25s">
+            <span class="chip">UDEM · 7th semester</span>
+            <span class="chip">ES native · EN C1</span>
+            <span class="chip">Python · ML</span>
+            <span class="chip">CAD · FEA · Manufacturing</span>
+          </div>
+        </div>
+
+        <div class="hero-photo reveal" style="--d:.15s">
+          <span class="photo-tag">★ Full merit scholarship</span>
+          <div class="photo-frame">
+            <img src="CV_photo.png" alt="Angel Candelaria">
+          </div>
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 120 120">
+              <defs>
+                <path id="badgeCircle" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"></path>
+              </defs>
+              <text>
+                <textPath href="#badgeCircle" textLength="286" lengthAdjust="spacing">NASA Space Apps · Global Nominee · 2025 ·</textPath>
+              </text>
+            </svg>
+            <span class="badge-star">✦</span>
+          </div>
+        </div>
+
       </div>
     </div>
 
-  </aside>
-
-  <!-- ============================================================
-       MAIN
-  ============================================================ -->
-  <main>
-
-    <!-- ── HERO — always visible ── -->
-    <section class="hero">
-      <h2 class="hero-name">Angel Candelaria</h2>
-      <p class="hero-title">Mechanical &amp; Administrative Engineering &nbsp;·&nbsp; Universidad de Monterrey &nbsp;·&nbsp; 7th Semester</p>
-
-      <p class="hero-bio">
-        Full-scholarship engineering student at Universidad de Monterrey, with active research experience in machine learning and data science.
-        Undergraduate research assistant, NASA Space Apps Challenge Global Nominee, and consistent top-of-cohort performer since high school.
-        Interested in the intersection of applied AI, mechanical systems, materials science, and project management.
-      </p>
-
-      <div class="highlights">
-        <div class="highlight-pill">
-          <span class="highlight-val">90–91 / 100</span>
-          <span class="highlight-lbl">GPA · UDEM</span>
+    <!-- Marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span class="marquee-item">Mechanical Engineering</span>
+          <span class="marquee-item">machine learning</span>
+          <span class="marquee-item">Materials Science</span>
+          <span class="marquee-item">aerospace manufacturing</span>
+          <span class="marquee-item">Data Science</span>
+          <span class="marquee-item">project management</span>
+          <span class="marquee-item">Astrophysics</span>
+          <span class="marquee-item">rocket propulsion</span>
         </div>
-        <div class="highlight-pill">
-          <span class="highlight-val">Full Merit Scholarship</span>
-          <span class="highlight-lbl">UDEM, 2023 – present</span>
-        </div>
-        <div class="highlight-pill">
-          <span class="highlight-val">Valedictorian</span>
-          <span class="highlight-lbl">High School, 2023</span>
-        </div>
-        <div class="highlight-pill">
-          <span class="highlight-val">NASA Space Apps</span>
-          <span class="highlight-lbl">Global Nominee, 2025</span>
+        <div class="marquee-group">
+          <span class="marquee-item">Mechanical Engineering</span>
+          <span class="marquee-item">machine learning</span>
+          <span class="marquee-item">Materials Science</span>
+          <span class="marquee-item">aerospace manufacturing</span>
+          <span class="marquee-item">Data Science</span>
+          <span class="marquee-item">project management</span>
+          <span class="marquee-item">Astrophysics</span>
+          <span class="marquee-item">rocket propulsion</span>
         </div>
       </div>
-    </section>
+    </div>
+
+    <!-- Stats -->
+    <div class="wrap">
+      <div class="stats reveal">
+        <div class="stat">
+          <div class="stat-val">90–91<small>/100</small></div>
+          <div class="stat-lbl">GPA · UDEM</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">100%</div>
+          <div class="stat-lbl">Merit scholarship<br>2023 – present</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">#1</div>
+          <div class="stat-lbl">Valedictorian<br>High school · 2023</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">Global</div>
+          <div class="stat-lbl">Nominee · NASA<br>Space Apps 2025</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 
-    <!-- ============================================================
-         TAB: OVERVIEW & SKILLS
-    ============================================================ -->
-    <section id="overview" class="tab-content active">
+  <!-- ============================================================
+       01 · OVERVIEW & SKILLS
+  ============================================================ -->
+  <section id="overview" class="block">
+    <div class="wrap">
 
-      <div class="section-header">
-        <h2 class="section-title">Overview &amp; Skills</h2>
-        <div class="section-rule"></div>
+      <div class="sec-head reveal">
+        <span class="sec-num">01</span>
+        <h2 class="sec-title">Overview <em>&amp; skills</em></h2>
+        <span class="sec-kicker">What I know · what drives me</span>
       </div>
 
       <div class="grid-2">
 
-        <!-- Personal & Interests -->
-        <div class="card">
+        <div class="card reveal">
+          <div class="card-top"><span class="idx">About</span></div>
           <h3 class="card-title">Personal &amp; Scientific Interests</h3>
-          <p class="card-subtitle">Born Oct 25, 2005 · San Pedro Garza García, NL · Mexican</p>
+          <p class="card-sub">Born Oct 25, 2005 · San Pedro Garza García, NL · Mexican</p>
           <ul class="interest-list">
-            <li>Physics &amp; rocket propulsion</li>
-            <li>Astrophysics &amp; exoplanetary science</li>
-            <li>Materials &amp; metallurgy</li>
-            <li>Machine learning &amp; data science</li>
-            <li>Mechanical design &amp; manufacturing</li>
-            <li>Basic electronics</li>
+            <li data-n="01">Physics &amp; rocket propulsion</li>
+            <li data-n="02">Astrophysics &amp; exoplanetary science</li>
+            <li data-n="03">Materials &amp; metallurgy</li>
+            <li data-n="04">Machine learning &amp; data science</li>
+            <li data-n="05">Mechanical design &amp; manufacturing</li>
+            <li data-n="06">Basic electronics</li>
           </ul>
         </div>
 
-        <!-- Languages -->
-        <div class="card">
+        <div class="card reveal" style="--d:.08s">
+          <div class="card-top"><span class="idx">Communication</span></div>
           <h3 class="card-title">Languages</h3>
-          <div class="skill-group">
-            <div class="skill-group-label">Proficiency</div>
-            <div class="tags">
-              <span class="tag">Spanish — Native</span>
-              <span class="tag">English — C1 Advanced (EFSET)</span>
+          <div class="lang">
+            <div class="lang-row">
+              <div class="lang-head"><span class="lang-name">Spanish</span><span class="lang-lvl">Native</span></div>
+              <div class="meter"><i style="--w:100%"></i></div>
+            </div>
+            <div class="lang-row">
+              <div class="lang-head"><span class="lang-name">English</span><span class="lang-lvl">C1 Advanced · EF SET</span></div>
+              <div class="meter"><i style="--w:85%"></i></div>
             </div>
           </div>
 
-          <div class="skill-group">
-            <div class="skill-group-label">Soft Skills</div>
-            <div class="tags">
-              <span class="tag">Active listening</span>
-              <span class="tag">Clear verbal communication</span>
-              <span class="tag">Adaptability</span>
-              <span class="tag">Collaborative</span>
-              <span class="tag">Accountable</span>
-            </div>
+          <div class="skill-group-label" style="margin-top:26px;">Soft skills</div>
+          <div class="tags">
+            <span class="tag">Active listening</span>
+            <span class="tag">Clear verbal communication</span>
+            <span class="tag">Adaptability</span>
+            <span class="tag">Collaborative</span>
+            <span class="tag">Accountable</span>
           </div>
         </div>
 
       </div>
 
-      <!-- Technical Skills — full width -->
-      <div class="card" style="margin-top:4px;">
+      <div class="card reveal" style="margin-top:20px;">
+        <div class="card-top"><span class="idx">Toolbox</span></div>
         <h3 class="card-title">Technical Skills</h3>
 
-        <div class="skill-group">
-          <div class="skill-group-label">CAD / Design</div>
-          <div class="tags">
-            <span class="tag">Siemens NX</span>
-            <span class="tag">SolidWorks</span>
-            <span class="tag">Autodesk Inventor</span>
-            <span class="tag">Fusion 360</span>
-            <span class="tag">HyperMesh</span>
+        <div class="skill-grid">
+          <div>
+            <div class="skill-group-label">CAD / Design</div>
+            <div class="tags">
+              <span class="tag">Siemens NX</span>
+              <span class="tag">SolidWorks</span>
+              <span class="tag">Autodesk Inventor</span>
+              <span class="tag">Fusion 360</span>
+              <span class="tag">HyperMesh</span>
+            </div>
           </div>
-        </div>
 
-        <div class="skill-group">
-          <div class="skill-group-label">Programming &amp; Data Science</div>
-          <div class="tags">
-            <span class="tag">Python</span>
-            <span class="tag">Machine Learning Pipelines</span>
-            <span class="tag">Google Colab</span>
-            <span class="tag">VS Code</span>
-            <span class="tag">Statistical Analysis</span>
+          <div>
+            <div class="skill-group-label">Programming &amp; Data Science</div>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Machine Learning Pipelines</span>
+              <span class="tag">Google Colab</span>
+              <span class="tag">VS Code</span>
+              <span class="tag">Statistical Analysis</span>
+            </div>
           </div>
-        </div>
 
-        <div class="skill-group">
-          <div class="skill-group-label">Manufacturing &amp; Measurement</div>
-          <div class="tags">
-            <span class="tag">Industrial Lathes</span>
-            <span class="tag">Precision Measurement</span>
-            <span class="tag">Blueprint Reading</span>
-            <span class="tag">Material Testing</span>
+          <div>
+            <div class="skill-group-label">Manufacturing &amp; Measurement</div>
+            <div class="tags">
+              <span class="tag">Industrial Lathes</span>
+              <span class="tag">Precision Measurement</span>
+              <span class="tag">Blueprint Reading</span>
+              <span class="tag">Material Testing</span>
+            </div>
           </div>
-        </div>
 
-        <div class="skill-group">
-          <div class="skill-group-label">Office &amp; Productivity</div>
-          <div class="tags">
-            <span class="tag">Microsoft Word</span>
-            <span class="tag">Microsoft Excel</span>
-            <span class="tag">PowerPoint</span>
+          <div>
+            <div class="skill-group-label">Office &amp; Productivity</div>
+            <div class="tags">
+              <span class="tag">Microsoft Word</span>
+              <span class="tag">Microsoft Excel</span>
+              <span class="tag">PowerPoint</span>
+            </div>
           </div>
         </div>
       </div>
 
-    </section>
+    </div>
+  </section>
 
 
-    <!-- ============================================================
-         TAB: EDUCATION
-    ============================================================ -->
-    <section id="education" class="tab-content">
+  <!-- ============================================================
+       02 · EDUCATION
+  ============================================================ -->
+  <section id="education" class="block">
+    <div class="wrap">
 
-      <div class="section-header">
-        <h2 class="section-title">Education &amp; Achievements</h2>
-        <div class="section-rule"></div>
+      <div class="sec-head reveal">
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">Education <em>&amp; achievements</em></h2>
+        <span class="sec-kicker">Where I've trained</span>
       </div>
 
       <!-- UDEM -->
-      <div class="card card-accent">
-        <div class="card-header">
-          <h3 class="card-title">B.Eng. Mechanical and Administrative Engineering (IMA)</h3>
-          <span class="card-date">2023 — Present</span>
-        </div>
-        <p class="card-subtitle">Universidad de Monterrey (UDEM) · San Pedro Garza García, NL</p>
-        <ul>
-          <li>Currently in 7th semester — GPA approx. 90–91 / 100.</li>
-          <li>100% merit scholarship awarded for outstanding academic performance during high school.</li>
-          <li>Relevant coursework: Mechanics of Materials, Thermodynamics, Electronics, CAD/CAM, FEA Analysis, Manufacturing Processes, Engineering Data Analysis, Machine Learning.</li>
-        </ul>
-        <div class="doc-links">
-          <a href="GPA_courses.pdf" target="_blank">GPA and Courses (PDF)</a>
-        </div>
-        <div class="gallery">
-          <img src="UDEM_campus.jpg" alt="UDEM Campus" onclick="openModal(this)">
-          <img src="IMG_1085.jpg" alt="UDEM Campus" onclick="openModal(this)">
-          <img src="IMG_1216.jpg" alt="UDEM Campus" onclick="openModal(this)">
-          <img src="IMG_2288.jpg" alt="UDEM Campus" onclick="openModal(this)">
-          <img src="IMG_5604.jpg" alt="UDEM Campus" onclick="openModal(this)">
-          <img src="IMG_7557.jpg" alt="UDEM Campus" onclick="openModal(this)">
-          <img src="campus_life.jpg" alt="Campus Life" onclick="openModal(this)">
+      <div class="card lift reveal">
+        <div class="edu">
+          <div class="edu-year">2023→<span>Present</span></div>
+          <div>
+            <div class="card-top">
+              <span class="cat blue">Bachelor's</span>
+              <span class="cat lime">100% scholarship</span>
+            </div>
+            <h3 class="card-title">B.Eng. Mechanical and Administrative Engineering (IMA)</h3>
+            <p class="card-sub">Universidad de Monterrey (UDEM) · San Pedro Garza García, NL</p>
+            <ul class="list">
+              <li>Currently in 7th semester — GPA approx. 90–91 / 100.</li>
+              <li>100% merit scholarship awarded for outstanding academic performance during high school.</li>
+              <li>Relevant coursework: Mechanics of Materials, Thermodynamics, Electronics, CAD/CAM, FEA Analysis, Manufacturing Processes, Engineering Data Analysis, Machine Learning.</li>
+            </ul>
+            <div class="doc-links">
+              <a href="GPA_courses.pdf" target="_blank" rel="noopener">GPA and Courses (PDF)</a>
+            </div>
+            <div class="gallery">
+              <img src="UDEM_campus.jpg" alt="UDEM Campus" loading="lazy">
+              <img src="IMG_1085.jpg" alt="UDEM Campus" loading="lazy">
+              <img src="IMG_1216.jpg" alt="UDEM Campus" loading="lazy">
+              <img src="IMG_2288.jpg" alt="UDEM Campus" loading="lazy">
+              <img src="IMG_5604.jpg" alt="UDEM Campus" loading="lazy">
+              <img src="IMG_7557.jpg" alt="UDEM Campus" loading="lazy">
+              <img src="campus_life.jpg" alt="Campus Life" loading="lazy">
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- UCM -->
-      <div class="card card-accent">
-        <div class="card-header">
-          <h3 class="card-title">Project Management — International Summer Programme</h3>
-          <span class="card-date">Jul 2026</span>
-        </div>
-        <p class="card-subtitle">Universidad Complutense de Madrid (UCM) · Madrid, Spain</p>
-        <ul>
-          <li>Summer programme on administration and project management strategies.</li>
-          <li>Selected by UDEM for distinguished academic performance during college.</li>
-          <li>Awarded a full scholarship covering all travel and programme expenses.</li>
-        </ul>
-        <div class="doc-links">
-          <a href="Summer_program_acceptance.pdf" target="_blank">Acceptance Letter (PDF)</a>
-          <a href="aceptación_fundación_complutense.pdf" target="_blank">Financial Aid (PDF)</a>
-        </div>
-        <div class="gallery">
-          <img src="IMG_1339.jpg" alt="Summer Programme" onclick="openModal(this)">
-          <img src="6d542e87-ad3c-4d86-8d85-af8dacfc7505.jpg" alt="Summer Programme" onclick="openModal(this)">
-          <img src="d05fbdca-61ed-4c17-84e2-92a2b6178f17.jpg" alt="Summer Programme" onclick="openModal(this)">
-          <img src="UCM.png" alt="UCM" onclick="openModal(this)">
+      <div class="card lift reveal">
+        <div class="edu">
+          <div class="edu-year">2026<span>Jul · Madrid</span></div>
+          <div>
+            <div class="card-top">
+              <span class="cat blue">International</span>
+              <span class="cat lime">Full scholarship</span>
+            </div>
+            <h3 class="card-title">Project Management — International Summer Programme</h3>
+            <p class="card-sub">Universidad Complutense de Madrid (UCM) · Madrid, Spain</p>
+            <ul class="list">
+              <li>Summer programme on administration and project management strategies.</li>
+              <li>Selected by UDEM for distinguished academic performance during college.</li>
+              <li>Awarded a full scholarship covering all travel and programme expenses.</li>
+            </ul>
+            <div class="doc-links">
+              <a href="Summer_program_acceptance.pdf" target="_blank" rel="noopener">Acceptance Letter (PDF)</a>
+              <a href="aceptación_fundación_complutense.pdf" target="_blank" rel="noopener">Financial Aid (PDF)</a>
+            </div>
+            <div class="gallery">
+              <img src="IMG_1339.jpg" alt="Summer Programme" loading="lazy">
+              <img src="6d542e87-ad3c-4d86-8d85-af8dacfc7505.jpg" alt="Summer Programme" loading="lazy">
+              <img src="d05fbdca-61ed-4c17-84e2-92a2b6178f17.jpg" alt="Summer Programme" loading="lazy">
+              <img src="UCM.png" alt="UCM" loading="lazy">
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- High School -->
-      <div class="card card-accent">
-        <div class="card-header">
-          <h3 class="card-title">High School + Technician Degree in Industrial Machinery &amp; Tools</h3>
-          <span class="card-date">2020 — 2023</span>
-        </div>
-        <p class="card-subtitle">Preparatoria Politécnica Santa Catarina Fama</p>
-        <ul>
-          <li>Graduated as valedictorian — highest GPA of the entire technical specialty cohort (2023).</li>
-          <li>100% private benefactor scholarship (Martínez Sada Foundation) throughout the full programme.</li>
-        </ul>
-        <div class="doc-links">
-          <a href="valedictorian_certificate.pdf" target="_blank">Valedictorian Certificate (PDF)</a>
-          <a href="https://www.udem.edu.mx/es/institucional/noticia/exhortan-graduados-de-preparatoria-politecnica-santa-catarina-servir-la" target="_blank">Graduation News (Web)</a>
-        </div>
-        <div class="gallery">
-          <img src="Valedictorian_highschool.jpg" alt="Valedictorian" onclick="openModal(this)">
-          <img src="high_school_technician.jpg" alt="Technician Diploma" onclick="openModal(this)">
-          <img src="valedictorian_photo_certificate.jpg" alt="Certificate" onclick="openModal(this)">
-          <img src="valedictorian_photos.jpg" alt="Valedictorian Photos" onclick="openModal(this)">
-          <video src="valedictorian_prom.mp4" controls style="border-radius:9px;"></video>
+      <div class="card lift reveal">
+        <div class="edu">
+          <div class="edu-year">2020–23<span>High school</span></div>
+          <div>
+            <div class="card-top">
+              <span class="cat blue">Technician degree</span>
+              <span class="cat lime">Valedictorian</span>
+            </div>
+            <h3 class="card-title">High School + Technician Degree in Industrial Machinery &amp; Tools</h3>
+            <p class="card-sub">Preparatoria Politécnica Santa Catarina Fama</p>
+            <ul class="list">
+              <li>Graduated as valedictorian — highest GPA of the entire technical specialty cohort (2023).</li>
+              <li>100% private benefactor scholarship (Martínez Sada Foundation) throughout the full programme.</li>
+            </ul>
+            <div class="doc-links">
+              <a href="valedictorian_certificate.pdf" target="_blank" rel="noopener">Valedictorian Certificate (PDF)</a>
+              <a href="https://www.udem.edu.mx/es/institucional/noticia/exhortan-graduados-de-preparatoria-politecnica-santa-catarina-servir-la" target="_blank" rel="noopener">Graduation News (Web)</a>
+            </div>
+            <div class="gallery">
+              <img src="Valedictorian_highschool.jpg" alt="Valedictorian" loading="lazy">
+              <img src="high_school_technician.jpg" alt="Technician Diploma" loading="lazy">
+              <img src="valedictorian_photo_certificate.jpg" alt="Certificate" loading="lazy">
+              <img src="valedictorian_photos.jpg" alt="Valedictorian Photos" loading="lazy">
+              <video src="valedictorian_prom.mp4" controls preload="metadata" playsinline></video>
+            </div>
+          </div>
         </div>
       </div>
 
-    </section>
+    </div>
+  </section>
 
 
-    <!-- ============================================================
-         TAB: PROJECTS
-    ============================================================ -->
-    <section id="projects" class="tab-content">
+  <!-- ============================================================
+       03 · PROJECTS
+  ============================================================ -->
+  <section id="projects" class="block">
+    <div class="wrap">
 
-      <div class="section-header">
-        <h2 class="section-title">Research &amp; Technical Projects</h2>
-        <div class="section-rule"></div>
+      <div class="sec-head reveal">
+        <span class="sec-num">03</span>
+        <h2 class="sec-title">Research <em>&amp; projects</em></h2>
+        <span class="sec-kicker">Things I've built, tested &amp; shipped</span>
       </div>
 
-      <!-- Research: Cerebral Palsy -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Undergraduate Research Assistant — Cerebral Palsy Risk Prediction</h3>
-          <span class="card-date">Jan 2025 — May 2026</span>
+      <div class="filters reveal" role="group" aria-label="Filter projects">
+        <button type="button" data-filter="all" aria-pressed="true">All<span class="count"></span></button>
+        <button type="button" data-filter="ml" aria-pressed="false">Data &amp; ML<span class="count"></span></button>
+        <button type="button" data-filter="materials" aria-pressed="false">Materials &amp; Manufacturing<span class="count"></span></button>
+      </div>
+
+      <!-- P/01 Research: Cerebral Palsy -->
+      <article class="card lift project reveal" data-cat="ml">
+        <div class="card-top">
+          <span class="idx">P/01</span>
+          <span class="cat blue">ML · Research</span>
+          <span class="date">Jan 2025 — May 2026</span>
         </div>
-        <p class="card-subtitle">UDEM / Instituto Nuevo Amanecer</p>
-        <ul>
+        <h3 class="card-title">Undergraduate Research Assistant — Cerebral Palsy Risk Prediction</h3>
+        <p class="card-sub">UDEM / Instituto Nuevo Amanecer</p>
+        <ul class="list">
           <li>Developed a machine learning model in Python to predict dropout risk factors for patients at a cerebral palsy rehabilitation institute.</li>
           <li>Performed statistical analysis to identify desertion causes and risk factors from psycho-motor and clinical data.</li>
           <li>Full pipeline: data cleaning, feature engineering, model training, and evaluation in Google Colab.</li>
         </ul>
         <div class="doc-links">
-          <a href="Research_participation_certificate.pdf" target="_blank">Research Certificate (PDF)</a>
+          <a href="Research_participation_certificate.pdf" target="_blank" rel="noopener">Research Certificate (PDF)</a>
         </div>
         <div class="gallery">
-          <img src="desertion_probability.png" alt="Desertion Probability" onclick="openModal(this)">
-          <img src="model_performance.png" alt="Model Performance" onclick="openModal(this)">
-          <img src="feature_importance.png" alt="Feature Importance" onclick="openModal(this)">
-          <img src="desertion_over_time.png" alt="Desertion Over Time" onclick="openModal(this)">
+          <img src="desertion_probability.png" alt="Desertion Probability" loading="lazy">
+          <img src="model_performance.png" alt="Model Performance" loading="lazy">
+          <img src="feature_importance.png" alt="Feature Importance" loading="lazy">
+          <img src="desertion_over_time.png" alt="Desertion Over Time" loading="lazy">
         </div>
-      </div>
+      </article>
 
-      <!-- NASA -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">NASA Space Apps Challenge 2025 — Global Hackathon</h3>
-          <span class="card-date">Oct 2025</span>
+      <!-- P/02 NASA — featured dark card -->
+      <article class="card lift dark project reveal" data-cat="ml">
+        <div class="card-top">
+          <span class="idx">P/02</span>
+          <span class="cat lime">Hackathon · Global Nominee</span>
+          <span class="date">Oct 2025</span>
         </div>
-        <ul>
+        <h3 class="card-title">NASA Space Apps Challenge 2025 — Global Hackathon</h3>
+        <ul class="list">
           <li>Global Nominee team. Tackled shark migration trajectory identification using geographic, atmospheric, and oceanographic datasets.</li>
           <li>Developed a model using unsupervised learning, Markov chains, and Monte Carlo simulations.</li>
         </ul>
         <div class="doc-links">
-          <a href="https://github.com/Isaac24-Y/Sharkmageddon" target="_blank">Documentation Repository (GitHub)</a>
-          <a href="global_nominee_NASA_space_apps_2025.pdf" target="_blank">Global Nominee Certificate (PDF)</a>
-          <a href="NASA_SPACE_APPS_Registration.pdf" target="_blank">Team Registration (PDF)</a>
+          <a href="https://github.com/Isaac24-Y/Sharkmageddon" target="_blank" rel="noopener">Documentation Repository (GitHub)</a>
+          <a href="global_nominee_NASA_space_apps_2025.pdf" target="_blank" rel="noopener">Global Nominee Certificate (PDF)</a>
+          <a href="NASA_SPACE_APPS_Registration.pdf" target="_blank" rel="noopener">Team Registration (PDF)</a>
         </div>
         <div class="gallery">
-          <img src="montecarlo_plots.png" alt="Monte Carlo Plots" onclick="openModal(this)">
-          <img src="shark_probability_presence.png" alt="Shark Probability Map" onclick="openModal(this)">
-          <video src="sharkmagedon.mp4" controls style="border-radius:9px;"></video>
+          <img src="montecarlo_plots.png" alt="Monte Carlo Plots" loading="lazy">
+          <img src="shark_probability_presence.png" alt="Shark Probability Map" loading="lazy">
+          <video src="sharkmagedon.mp4" controls preload="metadata" playsinline></video>
         </div>
-      </div>
+      </article>
 
-      <!-- Exoplanet -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Exoplanet Equilibrium Temperature Predictor</h3>
-          <span class="card-date">Jan 2026</span>
+      <!-- P/03 Exoplanet -->
+      <article class="card lift project reveal" data-cat="ml">
+        <div class="card-top">
+          <span class="idx">P/03</span>
+          <span class="cat blue">ML · Astrophysics</span>
+          <span class="date">Jan 2026</span>
         </div>
-        <ul>
+        <h3 class="card-title">Exoplanet Equilibrium Temperature Predictor</h3>
+        <span class="metric">R² = 90.7% · non-linear model</span>
+        <ul class="list">
           <li>Built a regression model in Python to predict equilibrium temperature of exoplanets using stellar and orbital parameters.</li>
           <li>Applied supervised learning on NASA exoplanet archive data; achieved R² = 90.7% (non-linear model).</li>
         </ul>
         <div class="doc-links">
-          <a href="https://acandelariaa.github.io/Proyecto_primer_parcial_IA/" target="_blank">Documentation (GitHub Page)</a>
+          <a href="https://acandelariaa.github.io/Proyecto_primer_parcial_IA/" target="_blank" rel="noopener">Documentation (GitHub Page)</a>
         </div>
         <div class="gallery">
-          <img src="distribution_var.png" alt="Distribution" onclick="openModal(this)">
-          <img src="eqt_pol.png" alt="Polynomial Regression" onclick="openModal(this)">
-          <img src="eqt_non_pol.png" alt="Non-Polynomial Regression" onclick="openModal(this)">
-          <img src="correlation_matrix.png" alt="Correlation Matrix" onclick="openModal(this)">
-          <img src="eqt_metrics.png" alt="Model Metrics" onclick="openModal(this)">
+          <img src="distribution_var.png" alt="Distribution" loading="lazy">
+          <img src="eqt_pol.png" alt="Polynomial Regression" loading="lazy">
+          <img src="eqt_non_pol.png" alt="Non-Polynomial Regression" loading="lazy">
+          <img src="correlation_matrix.png" alt="Correlation Matrix" loading="lazy">
+          <img src="eqt_metrics.png" alt="Model Metrics" loading="lazy">
         </div>
-      </div>
+      </article>
 
-      <!-- AI Course Portfolios -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Artificial Intelligence 1 — Course Portfolios</h3>
+      <!-- P/04 AI Course Portfolios -->
+      <article class="card lift project reveal" data-cat="ml">
+        <div class="card-top">
+          <span class="idx">P/04</span>
+          <span class="cat blue">ML · Coursework</span>
         </div>
-        <p class="card-subtitle">Data Analysis · Python · Machine Learning</p>
-        <ul>
+        <h3 class="card-title">Artificial Intelligence 1 — Course Portfolios</h3>
+        <p class="card-sub">Data Analysis · Python · Machine Learning</p>
+        <ul class="list">
           <li>Comprehensive evidence portfolios covering the full AI curriculum: supervised/unsupervised learning, PCA, and recommendation systems.</li>
           <li>Full ML pipeline from Exploratory Data Analysis (EDA) to metric evaluation, implemented in Python.</li>
         </ul>
         <div class="doc-links">
-          <a href="https://acandelariaa.github.io/Portafolio_evidencias_primer_parcial/" target="_blank">1st Partial Portfolio (Web)</a>
-          <a href="https://acandelariaa.github.io/Portafolio-evidencias_segundo_parcial_IA/" target="_blank">2nd Partial Portfolio (Web)</a>
-          <a href="https://acandelariaa.github.io/Tercer_Parcial_Inteligencia_Artificial_1/" target="_blank">3rd Partial &amp; Final Project (Web)</a>
+          <a href="https://acandelariaa.github.io/Portafolio_evidencias_primer_parcial/" target="_blank" rel="noopener">1st Partial Portfolio (Web)</a>
+          <a href="https://acandelariaa.github.io/Portafolio-evidencias_segundo_parcial_IA/" target="_blank" rel="noopener">2nd Partial Portfolio (Web)</a>
+          <a href="https://acandelariaa.github.io/Tercer_Parcial_Inteligencia_Artificial_1/" target="_blank" rel="noopener">3rd Partial &amp; Final Project (Web)</a>
         </div>
         <div class="gallery">
-          <img src="Felicidad_vs_pib_log (1).png" alt="Happiness vs GDP" onclick="openModal(this)">
-          <img src="Matriz_correlación.png" alt="Correlation Matrix" onclick="openModal(this)">
-          <img src="MC_RF.png" alt="Random Forest" onclick="openModal(this)">
-          <img src="acc_loss_RN.png" alt="Neural Net Accuracy" onclick="openModal(this)">
-          <img src="DSTLDA.png" alt="LDA" onclick="openModal(this)">
-          <img src="VRBST.png" alt="Boosting" onclick="openModal(this)">
-          <img src="heatmap_valores_faltantes.png" alt="Missing Values Heatmap" onclick="openModal(this)">
-          <img src="top50km.png" alt="K-Means" onclick="openModal(this)">
-          <img src="dendogram.png" alt="Dendrogram" onclick="openModal(this)">
-          <img src="survival_plt.png" alt="Survival Plot" onclick="openModal(this)">
-          <img src="KMmad.png" alt="K-Means MAD" onclick="openModal(this)">
+          <img src="Felicidad_vs_pib_log (1).png" alt="Happiness vs GDP" loading="lazy">
+          <img src="Matriz_correlación.png" alt="Correlation Matrix" loading="lazy">
+          <img src="MC_RF.png" alt="Random Forest" loading="lazy">
+          <img src="acc_loss_RN.png" alt="Neural Net Accuracy" loading="lazy">
+          <img src="DSTLDA.png" alt="LDA" loading="lazy">
+          <img src="VRBST.png" alt="Boosting" loading="lazy">
+          <img src="heatmap_valores_faltantes.png" alt="Missing Values Heatmap" loading="lazy">
+          <img src="top50km.png" alt="K-Means" loading="lazy">
+          <img src="dendogram.png" alt="Dendrogram" loading="lazy">
+          <img src="survival_plt.png" alt="Survival Plot" loading="lazy">
+          <img src="KMmad.png" alt="K-Means MAD" loading="lazy">
         </div>
-      </div>
+      </article>
 
-      <!-- Customer Churn -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Customer Churn Prediction Using AI Models</h3>
-          <span class="card-date">Apr 2026</span>
+      <!-- P/05 Customer Churn -->
+      <article class="card lift project reveal" data-cat="ml">
+        <div class="card-top">
+          <span class="idx">P/05</span>
+          <span class="cat blue">ML · Business</span>
+          <span class="date">Apr 2026</span>
         </div>
-        <ul>
+        <h3 class="card-title">Customer Churn Prediction Using AI Models</h3>
+        <span class="metric">XGBoost · SVM · Logistic Regression + PCA</span>
+        <ul class="list">
           <li>Full-pipeline project using Telco Customer Kaggle dataset for churn prediction.</li>
           <li>Implemented XGBoost, SVM, Logistic Regression + PCA; comprehensive analysis of each model's strengths and ideal applications.</li>
         </ul>
         <div class="doc-links">
-          <a href="Customer_Churn_ML_full PDF.pdf" target="_blank">Full Documentation (PDF)</a>
-          <a href="https://payhip.com/b/AKxdE" target="_blank">Online Documentation (Web)</a>
+          <a href="Customer_Churn_ML_full PDF.pdf" target="_blank" rel="noopener">Full Documentation (PDF)</a>
+          <a href="https://payhip.com/b/AKxdE" target="_blank" rel="noopener">Online Documentation (Web)</a>
         </div>
         <div class="gallery">
-          <img src="features_churn.png" alt="Feature Importance" onclick="openModal(this)">
-          <img src="ROC_curve_cust_churn.png" alt="ROC Curve" onclick="openModal(this)">
-          <img src="scatter_plot_churn.png" alt="Scatter Plot" onclick="openModal(this)">
-          <img src="confusion_matrix_ROC.png" alt="Confusion Matrix" onclick="openModal(this)">
-          <img src="PCA_plot.png" alt="PCA" onclick="openModal(this)">
-          <img src="churn_distribution.png" alt="Churn Distribution" onclick="openModal(this)">
+          <img src="features_churn.png" alt="Feature Importance" loading="lazy">
+          <img src="ROC_curve_cust_churn.png" alt="ROC Curve" loading="lazy">
+          <img src="scatter_plot_churn.png" alt="Scatter Plot" loading="lazy">
+          <img src="confusion_matrix_ROC.png" alt="Confusion Matrix" loading="lazy">
+          <img src="PCA_plot.png" alt="PCA" loading="lazy">
+          <img src="churn_distribution.png" alt="Churn Distribution" loading="lazy">
         </div>
-      </div>
+      </article>
 
-      <!-- Tribology -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Tribological Testing: Synthetic Lubricants vs Vegetable Oils</h3>
-          <span class="card-date">Apr 2025</span>
+      <!-- P/06 Tribology -->
+      <article class="card lift project reveal" data-cat="materials">
+        <div class="card-top">
+          <span class="idx">P/06</span>
+          <span class="cat lime">Materials · Tribology</span>
+          <span class="date">Apr 2025</span>
         </div>
-        <ul>
+        <h3 class="card-title">Tribological Testing: Synthetic Lubricants vs Vegetable Oils</h3>
+        <span class="metric">Four-ball tester · friction &amp; wear</span>
+        <ul class="list">
           <li>Executed tribological tests on a four-ball tester, comparing biodegradable vegetable lubricants against synthetic alternatives.</li>
           <li>Analyzed friction coefficients and wear patterns; reported findings and optimal use-case recommendations.</li>
         </ul>
         <div class="doc-links">
-          <a href="Bio_lubricant_test.pdf" target="_blank">Full Documentation (PDF)</a>
+          <a href="Bio_lubricant_test.pdf" target="_blank" rel="noopener">Full Documentation (PDF)</a>
         </div>
         <div class="gallery">
-          <video src="tribo_test.mp4" controls style="border-radius:9px;"></video>
-          <img src="four_ball_test.jpg" alt="Four-ball Tester" onclick="openModal(this)">
-          <img src="wear_pattern.jpg" alt="Wear Pattern" onclick="openModal(this)">
-          <img src="microscope_wear.jpg" alt="Microscope View" onclick="openModal(this)">
-          <img src="tribo_lub_wears.png" alt="Wear Comparison" onclick="openModal(this)">
-          <img src="wear_pattern.png" alt="Wear Pattern Plot" onclick="openModal(this)">
-          <img src="tribo_friction_plots.png" alt="Friction Plots" onclick="openModal(this)">
+          <video src="tribo_test.mp4" controls preload="metadata" playsinline></video>
+          <img src="four_ball_test.jpg" alt="Four-ball Tester" loading="lazy">
+          <img src="wear_pattern.jpg" alt="Wear Pattern" loading="lazy">
+          <img src="microscope_wear.jpg" alt="Microscope View" loading="lazy">
+          <img src="tribo_lub_wears.png" alt="Wear Comparison" loading="lazy">
+          <img src="wear_pattern.png" alt="Wear Pattern Plot" loading="lazy">
+          <img src="tribo_friction_plots.png" alt="Friction Plots" loading="lazy">
         </div>
-      </div>
+      </article>
 
-      <!-- Case Hardening -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Case-Hardening of Low Carbon Steel for Fatigue Resistance</h3>
-          <span class="card-date">May 2025</span>
+      <!-- P/07 Case Hardening -->
+      <article class="card lift project reveal" data-cat="materials">
+        <div class="card-top">
+          <span class="idx">P/07</span>
+          <span class="cat lime">Materials · Manufacturing</span>
+          <span class="date">May 2025</span>
         </div>
-        <ul>
+        <h3 class="card-title">Case-Hardening of Low Carbon Steel for Fatigue Resistance</h3>
+        <span class="metric">CAD → lathe → furnace → fatigue &amp; Rockwell</span>
+        <ul class="list">
           <li>Designed fatigue specimens in CAD and manufactured them on an industrial lathe.</li>
           <li>Created a sealed environment for the case-hardening process to prevent contamination.</li>
           <li>Reported cycles before fracture, microstructure analysis, and Rockwell surface hardness.</li>
         </ul>
         <div class="doc-links">
-          <a href="case_hardened_steel.pdf" target="_blank">Full Documentation (PDF)</a>
+          <a href="case_hardened_steel.pdf" target="_blank" rel="noopener">Full Documentation (PDF)</a>
         </div>
         <div class="gallery">
-          <img src="cad_design_specimen.png" alt="CAD Design" onclick="openModal(this)">
-          <img src="web_failure_simulator.png" alt="Failure Simulation" onclick="openModal(this)">
-          <img src="lathe_manufacturing.jpg" alt="Lathe" onclick="openModal(this)">
-          <img src="hardened.jpg" alt="Hardened Sample" onclick="openModal(this)">
-          <img src="sealed_box.jpg" alt="Sealed Box" onclick="openModal(this)">
-          <img src="rockwell_hardness.jpg" alt="Rockwell Hardness" onclick="openModal(this)">
-          <video src="furnace.mp4" controls style="border-radius:9px;"></video>
-          <video src="micro_structure.mp4" controls style="border-radius:9px;"></video>
-          <img src="martensite.jpg" alt="Martensite" onclick="openModal(this)">
-          <img src="structure1.jpg" alt="Microstructure" onclick="openModal(this)">
+          <img src="cad_design_specimen.png" alt="CAD Design" loading="lazy">
+          <img src="web_failure_simulator.png" alt="Failure Simulation" loading="lazy">
+          <img src="lathe_manufacturing.jpg" alt="Lathe" loading="lazy">
+          <img src="hardened.jpg" alt="Hardened Sample" loading="lazy">
+          <img src="sealed_box.jpg" alt="Sealed Box" loading="lazy">
+          <img src="rockwell_hardness.jpg" alt="Rockwell Hardness" loading="lazy">
+          <video src="furnace.mp4" controls preload="metadata" playsinline></video>
+          <video src="micro_structure.mp4" controls preload="metadata" playsinline></video>
+          <img src="martensite.jpg" alt="Martensite" loading="lazy">
+          <img src="structure1.jpg" alt="Microstructure" loading="lazy">
         </div>
-      </div>
+      </article>
 
-    </section>
+    </div>
+  </section>
 
 
-    <!-- ============================================================
-         TAB: ACTIVITIES
-    ============================================================ -->
-    <section id="activities" class="tab-content">
+  <!-- ============================================================
+       04 · ACTIVITIES
+  ============================================================ -->
+  <section id="activities" class="block">
+    <div class="wrap">
 
-      <div class="section-header">
-        <h2 class="section-title">Competitions &amp; Extracurricular Activities</h2>
-        <div class="section-rule"></div>
+      <div class="sec-head reveal">
+        <span class="sec-num">04</span>
+        <h2 class="sec-title">Beyond <em>the classroom</em></h2>
+        <span class="sec-kicker">Competitions &amp; extracurriculars</span>
       </div>
 
       <!-- Astro-UDEM -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Astro-UDEM — Astronomy Club Member</h3>
-          <span class="card-date">2022 — Present</span>
+      <article class="card lift reveal">
+        <div class="card-top">
+          <span class="idx">A/01</span>
+          <span class="cat blue">Science outreach</span>
+          <span class="date">2022 — Present</span>
         </div>
-        <ul>
+        <h3 class="card-title">Astro-UDEM — Astronomy Club Member</h3>
+        <ul class="list">
           <li>Active member delivering educational talks, participating in science fairs, and organizing outreach events.</li>
           <li>Co-organized an astronomical camping trip at the Tlapiani Observatory (Iturbide, NL), using the observatory's professional telescope to observe stars and galaxies.</li>
           <li>Collaborated with Laniakea (UANL astronomy club) for inter-university scientific outreach.</li>
         </ul>
         <div class="gallery">
-          <img src="IMG_0505.jpg" alt="Astro-UDEM" onclick="openModal(this)">
-          <img src="IMG_4943.jpg" alt="Astro-UDEM" onclick="openModal(this)">
-          <img src="IMG_5756.jpg" alt="Astro-UDEM" onclick="openModal(this)">
-          <img src="IMG_5822.jpg" alt="Astro-UDEM" onclick="openModal(this)">
-          <img src="IMG_5807.jpg" alt="Astro-UDEM" onclick="openModal(this)">
-          <img src="galaxy_gaze.jpg" alt="Observatory" onclick="openModal(this)">
-          <img src="IMG_7564.jpg" alt="Observatory" onclick="openModal(this)">
-          <img src="IMG_7569.jpg" alt="Observatory" onclick="openModal(this)">
-          <img src="IMG_7575.jpg" alt="Observatory" onclick="openModal(this)">
+          <img src="IMG_0505.jpg" alt="Astro-UDEM" loading="lazy">
+          <img src="IMG_4943.jpg" alt="Astro-UDEM" loading="lazy">
+          <img src="IMG_5756.jpg" alt="Astro-UDEM" loading="lazy">
+          <img src="IMG_5822.jpg" alt="Astro-UDEM" loading="lazy">
+          <img src="IMG_5807.jpg" alt="Astro-UDEM" loading="lazy">
+          <img src="galaxy_gaze.jpg" alt="Observatory" loading="lazy">
+          <img src="IMG_7564.jpg" alt="Observatory" loading="lazy">
+          <img src="IMG_7569.jpg" alt="Observatory" loading="lazy">
+          <img src="IMG_7575.jpg" alt="Observatory" loading="lazy">
         </div>
-      </div>
+      </article>
 
       <!-- Robo-sumo -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Robo-sumo Competition</h3>
-          <span class="card-date">May 2024</span>
+      <article class="card lift reveal">
+        <div class="card-top">
+          <span class="idx">A/02</span>
+          <span class="cat ink">Robotics competition</span>
+          <span class="date">May 2024</span>
         </div>
-        <ul>
+        <h3 class="card-title">Robo-sumo Competition</h3>
+        <span class="metric">2nd place</span>
+        <ul class="list">
           <li>Designed, built, and programmed a fully functional robot as part of a multidisciplinary team.</li>
           <li>Secured 2nd place, demonstrating skills in mechanical design, electronics, and teamwork under pressure.</li>
         </ul>
         <div class="gallery">
-          <img src="robo_sumo.jpeg" alt="Robo-sumo" onclick="openModal(this)">
-          <img src="robo_sumo_event.jpg" alt="Competition Event" onclick="openModal(this)">
-          <img src="robo_sumo2.jpg" alt="Robot" onclick="openModal(this)">
-          <video src="sumo_car.mp4" controls style="border-radius:9px;"></video>
+          <img src="robo_sumo.jpeg" alt="Robo-sumo" loading="lazy">
+          <img src="robo_sumo_event.jpg" alt="Competition Event" loading="lazy">
+          <img src="robo_sumo2.jpg" alt="Robot" loading="lazy">
+          <video src="sumo_car.mp4" controls preload="metadata" playsinline></video>
         </div>
-      </div>
+      </article>
 
       <!-- UN Model -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">United Nations General Assembly Model</h3>
-          <span class="card-date">2022 — 2023</span>
+      <article class="card lift reveal">
+        <div class="card-top">
+          <span class="idx">A/03</span>
+          <span class="cat blue">Debate · Diplomacy</span>
+          <span class="date">2022 — 2023</span>
         </div>
-        <ul>
+        <h3 class="card-title">United Nations General Assembly Model</h3>
+        <ul class="list">
           <li>Participated as delegate in two consecutive editions, representing assigned nations in structured multilateral debate.</li>
           <li>2023: proposed infrastructure development, education access expansion, and unemployment reduction strategies.</li>
           <li>2022: developed and coordinated security and logistical frameworks addressing Middle East regional conflicts.</li>
         </ul>
         <div class="gallery">
-          <img src="UN1.jpg" alt="UN Model" onclick="openModal(this)">
-          <img src="UN2.jpg" alt="UN Model" onclick="openModal(this)">
-          <img src="UN3.jpg" alt="UN Model" onclick="openModal(this)">
-          <img src="UN4.jpg" alt="UN Model" onclick="openModal(this)">
-          <img src="UN5.jpg" alt="UN Model" onclick="openModal(this)">
-          <img src="UN6.jpg" alt="UN Model" onclick="openModal(this)">
+          <img src="UN1.jpg" alt="UN Model" loading="lazy">
+          <img src="UN2.jpg" alt="UN Model" loading="lazy">
+          <img src="UN3.jpg" alt="UN Model" loading="lazy">
+          <img src="UN4.jpg" alt="UN Model" loading="lazy">
+          <img src="UN5.jpg" alt="UN Model" loading="lazy">
+          <img src="UN6.jpg" alt="UN Model" loading="lazy">
         </div>
-      </div>
+      </article>
 
       <!-- Municipal Education -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Municipal Education Initiative</h3>
-          <span class="card-date">2019 — 2020</span>
+      <article class="card lift reveal">
+        <div class="card-top">
+          <span class="idx">A/04</span>
+          <span class="cat blue">Community</span>
+          <span class="date">2019 — 2020</span>
         </div>
-        <ul>
+        <h3 class="card-title">Municipal Education Initiative</h3>
+        <ul class="list">
           <li>Participated in a municipal programme improving education access in local schools.</li>
           <li>Collaborated with local authorities and educators to propose and implement improvements at the elementary school level.</li>
         </ul>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       05 · EXPERIENCE & CERTIFICATIONS
+  ============================================================ -->
+  <section id="experience" class="block">
+    <div class="wrap">
+
+      <div class="sec-head reveal">
+        <span class="sec-num">05</span>
+        <h2 class="sec-title">Experience <em>&amp; certifications</em></h2>
+        <span class="sec-kicker">Work, teaching &amp; credentials</span>
       </div>
 
-    </section>
+      <p class="sub-label reveal">Professional &amp; technical</p>
 
-
-    <!-- ============================================================
-         TAB: EXPERIENCE & CERTIFICATIONS
-    ============================================================ -->
-    <section id="experience" class="tab-content">
-
-      <div class="section-header">
-        <h2 class="section-title">Experience &amp; Certifications</h2>
-        <div class="section-rule"></div>
-      </div>
-
-      <!-- Professional -->
-      <p class="sub-label">Professional &amp; Technical</p>
-
-      <div class="card card-accent">
-        <div class="card-header">
+      <div class="timeline">
+        <article class="card lift reveal">
+          <div class="card-top">
+            <span class="cat ink">Aerospace</span>
+            <span class="date">Oct 2022 — Jun 2023</span>
+          </div>
           <h3 class="card-title">FRISA Aerospace — Technical Internship</h3>
-          <span class="card-date">Oct 2022 — Jun 2023</span>
-        </div>
-        <ul>
-          <li>Recommended by high school to a technical internship at this aerospace manufacturing company.</li>
-          <li>Operated industrial lathes and CNC-adjacent equipment in an aerospace-grade environment.</li>
-          <li>Used precision measurement tools: verniers, calipers, micrometers, and Mueller gauges.</li>
-          <li>Read and interpreted blueprints; performed tooling changes under supervision.</li>
-        </ul>
-        <div class="doc-links">
-          <a href="https://www.frisa.com/es/welcome" target="_blank">FRISA Official Website</a>
-        </div>
-        <div class="gallery">
-          <img src="IMG_FRISA.jpg" alt="FRISA" onclick="openModal(this)">
-          <img src="IMG_FRISA1.jpg" alt="FRISA" onclick="openModal(this)">
-          <img src="IMG_FRISA2.jpg" alt="FRISA" onclick="openModal(this)">
-        </div>
-      </div>
+          <ul class="list">
+            <li>Recommended by high school to a technical internship at this aerospace manufacturing company.</li>
+            <li>Operated industrial lathes and CNC-adjacent equipment in an aerospace-grade environment.</li>
+            <li>Used precision measurement tools: verniers, calipers, micrometers, and Mueller gauges.</li>
+            <li>Read and interpreted blueprints; performed tooling changes under supervision.</li>
+          </ul>
+          <div class="doc-links">
+            <a href="https://www.frisa.com/es/welcome" target="_blank" rel="noopener">FRISA Official Website</a>
+          </div>
+          <div class="gallery">
+            <img src="IMG_FRISA.jpg" alt="FRISA" loading="lazy">
+            <img src="IMG_FRISA1.jpg" alt="FRISA" loading="lazy">
+            <img src="IMG_FRISA2.jpg" alt="FRISA" loading="lazy">
+          </div>
+        </article>
 
-      <div class="card card-accent">
-        <div class="card-header">
+        <article class="card lift reveal">
+          <div class="card-top">
+            <span class="cat blue">Teaching</span>
+            <span class="date">2025 — Present</span>
+          </div>
           <h3 class="card-title">Academic Peer Tutor — Mathematics &amp; Engineering Sciences</h3>
-          <span class="card-date">2025 — Present</span>
-        </div>
-        <ul>
-          <li>Selected by UDEM to tutor fellow students in Differential Equations, Integral Calculus, Linear Algebra, Statics, and related subjects.</li>
-          <li>Recognized through a formal institutional compensation scheme for consistent performance over 2+ semesters.</li>
-          <li>Ranked top 3 peer tutors in the programme for effective teaching and subject mastery.</li>
-        </ul>
+          <span class="metric">Top 3 peer tutors in the programme</span>
+          <ul class="list">
+            <li>Selected by UDEM to tutor fellow students in Differential Equations, Integral Calculus, Linear Algebra, Statics, and related subjects.</li>
+            <li>Recognized through a formal institutional compensation scheme for consistent performance over 2+ semesters.</li>
+            <li>Ranked top 3 peer tutors in the programme for effective teaching and subject mastery.</li>
+          </ul>
+        </article>
       </div>
 
-      <hr class="sub-divider">
+      <p class="sub-label reveal">Additional experience</p>
 
-      <!-- Additional -->
-      <p class="sub-label">Additional Experience</p>
-
-      <div class="card">
-        <div class="card-header">
+      <div class="grid-3">
+        <article class="card mini reveal">
+          <div class="card-top"><span class="date">Oct 2022 — Jun 2023</span></div>
           <h3 class="card-title">Grafik Spot — Printing &amp; Production</h3>
-          <span class="card-date">Oct 2022 — Jun 2023</span>
-        </div>
-        <ul>
-          <li>Large-scale canvas and vinyl printing for panoramic and commercial advertising.</li>
-          <li>Precision cutting of presentation cards; laminating and tabloid production.</li>
-        </ul>
-      </div>
+          <ul class="list">
+            <li>Large-scale canvas and vinyl printing for panoramic and commercial advertising.</li>
+            <li>Precision cutting of presentation cards; laminating and tabloid production.</li>
+          </ul>
+        </article>
 
-      <div class="card">
-        <div class="card-header">
+        <article class="card mini reveal" style="--d:.08s">
+          <div class="card-top"><span class="date">Jul 2025</span></div>
           <h3 class="card-title">Cinepolis VIP — Food &amp; Customer Service</h3>
-          <span class="card-date">Jul 2025</span>
-        </div>
-        <ul>
-          <li>Food runner, waiter, cook, and general intendancy in a high-volume VIP theatre environment.</li>
-        </ul>
-      </div>
+          <ul class="list">
+            <li>Food runner, waiter, cook, and general intendancy in a high-volume VIP theatre environment.</li>
+          </ul>
+        </article>
 
-      <div class="card">
-        <div class="card-header">
+        <article class="card mini reveal" style="--d:.16s">
+          <div class="card-top"><span class="date">Jul 2019 — Apr 2020</span></div>
           <h3 class="card-title">Social Media Management — Vero y su Vivero</h3>
-          <span class="card-date">Jul 2019 — Apr 2020</span>
-        </div>
-        <ul>
-          <li>Handled customer service and quotes via messaging for a local plant nursery.</li>
-          <li>Created social media posts and promotions to support the business.</li>
-        </ul>
+          <ul class="list">
+            <li>Handled customer service and quotes via messaging for a local plant nursery.</li>
+            <li>Created social media posts and promotions to support the business.</li>
+          </ul>
+        </article>
       </div>
 
-      <hr class="sub-divider">
+      <p class="sub-label reveal">Certifications &amp; diplomas</p>
 
-      <!-- Certifications -->
-      <p class="sub-label">Certifications &amp; Diplomas</p>
+      <div class="card reveal">
+        <div class="cert-grid">
+          <div class="cert">
+            <div class="cert-top"><span class="cert-n">C/01</span><span class="cert-year">2026</span></div>
+            <div class="cert-name">Project Management</div>
+            <div class="cert-org">Universidad Complutense de Madrid, Spain. Organizational skills, leadership, and management concepts.</div>
+          </div>
+          <div class="cert">
+            <div class="cert-top"><span class="cert-n">C/02</span><span class="cert-year">2026</span></div>
+            <div class="cert-name">Machine Learning Specialization</div>
+            <div class="cert-org">Stanford University / DeepLearning.AI (Coursera).</div>
+          </div>
+          <div class="cert">
+            <div class="cert-top"><span class="cert-n">C/03</span><span class="cert-year">2025–2026</span></div>
+            <div class="cert-name">Research &amp; AI Product Development</div>
+            <div class="cert-org">Semilleros de Investigación — UDEM.</div>
+          </div>
+          <div class="cert">
+            <div class="cert-top"><span class="cert-n">C/04</span><span class="cert-year">2022</span></div>
+            <div class="cert-name">SolidWorks Basic Course</div>
+            <div class="cert-org">Intelligy Authorized Training Center.</div>
+          </div>
+          <div class="cert">
+            <div class="cert-top"><span class="cert-n">C/05</span><span class="cert-year">2024</span></div>
+            <div class="cert-name">EF SET English Certificate</div>
+            <div class="cert-org">C1 Advanced.</div>
+          </div>
+          <div class="cert">
+            <div class="cert-top"><span class="cert-n">C/06</span><span class="cert-year">2023</span></div>
+            <div class="cert-name">Distinguished High School Graduate (Valedictorian)</div>
+            <div class="cert-org">Preparatoria Politécnica Santa Catarina.</div>
+          </div>
+          <div class="cert">
+            <div class="cert-top"><span class="cert-n">C/07</span><span class="cert-year">2022</span></div>
+            <div class="cert-name">UDEMUN 2022 Delegate</div>
+            <div class="cert-org">United Nations Simulation, UDEM.</div>
+          </div>
+        </div>
 
-      <div class="card">
-        <ul class="cert-list">
-          <li>
-            <span class="cert-dot"></span>
-            <span><strong>Project Management</strong> — Universidad Complutense de Madrid, Spain. Organizational skills, leadership, and management concepts.</span>
-          </li>
-          <li>
-            <span class="cert-dot"></span>
-            <span><strong>Machine Learning Specialization</strong> — Stanford University / DeepLearning.AI (Coursera, 2026).</span>
-          </li>
-          <li>
-            <span class="cert-dot"></span>
-            <span><strong>Research &amp; AI Product Development</strong> (Semilleros de Investigación) — UDEM (2025–2026).</span>
-          </li>
-          <li>
-            <span class="cert-dot"></span>
-            <span><strong>SolidWorks Basic Course</strong> — Intelligy Authorized Training Center (2022).</span>
-          </li>
-          <li>
-            <span class="cert-dot"></span>
-            <span><strong>EF SET English Certificate</strong> — C1 Advanced (2024).</span>
-          </li>
-          <li>
-            <span class="cert-dot"></span>
-            <span><strong>Distinguished High School Graduate (Valedictorian)</strong> — Preparatoria Politécnica Santa Catarina (2023).</span>
-          </li>
-          <li>
-            <span class="cert-dot"></span>
-            <span><strong>UDEMUN 2022 Delegate</strong> — United Nations Simulation, UDEM.</span>
-          </li>
-        </ul>
         <div class="gallery">
-          <img src="PMP_Madrid_certificado_pages-to-jpg-0001.jpg" alt="Project Management Certificate" onclick="openModal(this)">
-          <img src="Coursera 8OZUFBAPIP3A.jpeg" alt="Stanford ML Certificate" onclick="openModal(this)">
-          <img src="Diploma SEMILLEROS DE INVESTIGACIÓN Juan Ángel.jpeg" alt="Semilleros AI Diploma" onclick="openModal(this)">
-          <img src="Solidworks certificate (1).jpeg" alt="SolidWorks Certificate" onclick="openModal(this)">
-          <img src="EF SET Certificate (2).jpeg" alt="EF SET C1 Certificate" onclick="openModal(this)">
-          <img src="Bachiller distinguido (1).jpeg" alt="Valedictorian Certificate" onclick="openModal(this)">
-          <img src="UDEMUN - Juan Angel Candelaria (1).jpeg" alt="UDEMUN Delegate Certificate" onclick="openModal(this)">
+          <img src="PMP_Madrid_certificado_pages-to-jpg-0001.jpg" alt="Project Management Certificate" loading="lazy">
+          <img src="Coursera 8OZUFBAPIP3A.jpeg" alt="Stanford ML Certificate" loading="lazy">
+          <img src="Diploma SEMILLEROS DE INVESTIGACIÓN Juan Ángel.jpeg" alt="Semilleros AI Diploma" loading="lazy">
+          <img src="Solidworks certificate (1).jpeg" alt="SolidWorks Certificate" loading="lazy">
+          <img src="EF SET Certificate (2).jpeg" alt="EF SET C1 Certificate" loading="lazy">
+          <img src="Bachiller distinguido (1).jpeg" alt="Valedictorian Certificate" loading="lazy">
+          <img src="UDEMUN - Juan Angel Candelaria (1).jpeg" alt="UDEMUN Delegate Certificate" loading="lazy">
         </div>
       </div>
 
-    </section>
+    </div>
+  </section>
 
-  </main>
-</div>
+</main>
 
 
-<!-- ── IMAGE MODAL ── -->
-<div id="imageModal" class="modal" onclick="if(event.target===this)closeModal()">
-  <span class="modal-close" onclick="closeModal()" title="Close">✕</span>
-  <img class="modal-content" id="fullImage" alt="">
+<!-- ============================================================
+     CONTACT / FOOTER
+============================================================ -->
+<footer id="contact" class="footer">
+  <div class="wrap">
+    <p class="footer-kicker reveal">✦ Contact</p>
+    <h2 class="footer-title reveal">Let's build<br><em>something together.</em></h2>
+    <a class="footer-mail reveal" href="mailto:juan.candelaria@udem.edu">juan.candelaria@udem.edu</a>
+
+    <div class="footer-links reveal">
+      <a href="https://www.linkedin.com/in/juan-angel-candelaria-rodriguez-888777361" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://github.com/acandelariaa" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="tel:+528129539138">+52 (81) 29 53 91 38</a>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Angel Candelaria · Monterrey, MX</span>
+      <a href="#top" class="to-top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ── LIGHTBOX ── -->
+<div id="imageModal" class="modal" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="modal-btn modal-close" type="button" aria-label="Close">✕</button>
+  <button class="modal-btn modal-prev" type="button" aria-label="Previous image">←</button>
+  <figure>
+    <img class="modal-img" id="fullImage" alt="">
+    <figcaption id="modalCaption"></figcaption>
+  </figure>
+  <button class="modal-btn modal-next" type="button" aria-label="Next image">→</button>
 </div>
 
 
 <script>
-  /* ── Tab switching ── */
-  function switchTab(tabId, btn) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    btn.classList.add('active');
-    // On mobile, scroll main to top; on desktop, window scroll
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+(function () {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Scroll progress bar ── */
+  const bar = document.querySelector('.progress');
+  let ticking = false;
+  function updateProgress() {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(updateProgress); ticking = true; }
+  }, { passive: true });
+  updateProgress();
+
+  /* ── Reveal on scroll ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in'));
   }
 
-  /* ── Modal ── */
+  /* ── Active section in nav ── */
+  const navLinks = [...document.querySelectorAll('.nav a')];
+  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+  if ('IntersectionObserver' in window) {
+    const navIO = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+          const active = navLinks.find(a => a.classList.contains('active'));
+          if (active) active.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(s => s && navIO.observe(s));
+  }
+
+  /* ── Galleries: counter + arrow buttons ── */
+  document.querySelectorAll('.gallery').forEach(g => {
+    const items = g.children.length;
+    const meta = document.createElement('div');
+    meta.className = 'gallery-meta';
+    meta.innerHTML =
+      '<span>' + String(items).padStart(2, '0') + ' items · scroll →</span>' +
+      '<span class="gallery-nav">' +
+        '<button type="button" aria-label="Scroll gallery left">←</button>' +
+        '<button type="button" aria-label="Scroll gallery right">→</button>' +
+      '</span>';
+    g.parentNode.insertBefore(meta, g);
+    const [left, right] = meta.querySelectorAll('button');
+    const step = () => Math.max(220, g.clientWidth * 0.7);
+    left.addEventListener('click',  () => g.scrollBy({ left: -step(), behavior: reduceMotion ? 'auto' : 'smooth' }));
+    right.addEventListener('click', () => g.scrollBy({ left:  step(), behavior: reduceMotion ? 'auto' : 'smooth' }));
+  });
+
+  /* ── Project filter ── */
+  const filterBtns = document.querySelectorAll('.filters button');
+  const projects = document.querySelectorAll('.project');
+  filterBtns.forEach(btn => {
+    const f = btn.dataset.filter;
+    const n = f === 'all' ? projects.length : [...projects].filter(p => p.dataset.cat === f).length;
+    btn.querySelector('.count').textContent = ' ' + n;
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+      projects.forEach(p => {
+        const show = f === 'all' || p.dataset.cat === f;
+        p.classList.toggle('hidden', !show);
+        if (show) p.classList.add('in');
+      });
+    });
+  });
+
+  /* ── Lightbox with prev/next ── */
   const modal    = document.getElementById('imageModal');
   const modalImg = document.getElementById('fullImage');
+  const caption  = document.getElementById('modalCaption');
+  let group = [], index = 0, lastFocus = null;
 
-  function openModal(el) {
-    modal.style.display = 'block';
-    modalImg.src = el.src;
-    modalImg.alt = el.alt;
+  function show(i) {
+    index = (i + group.length) % group.length;
+    const img = group[index];
+    modalImg.src = img.currentSrc || img.src;
+    modalImg.alt = img.alt;
+    caption.innerHTML = '<b>' + String(index + 1).padStart(2, '0') + ' / ' +
+      String(group.length).padStart(2, '0') + '</b>' + (img.alt || '');
+    const multi = group.length > 1;
+    modal.querySelector('.modal-prev').style.display = multi ? '' : 'none';
+    modal.querySelector('.modal-next').style.display = multi ? '' : 'none';
+  }
+
+  function openModal(imgs, i) {
+    group = imgs;
+    lastFocus = document.activeElement;
+    show(i);
+    modal.classList.add('open');
     document.body.style.overflow = 'hidden';
+    modal.querySelector('.modal-close').focus();
   }
 
   function closeModal() {
-    modal.style.display = 'none';
+    modal.classList.remove('open');
     document.body.style.overflow = '';
+    modalImg.removeAttribute('src');
+    if (lastFocus) lastFocus.focus();
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
+  document.querySelectorAll('.gallery').forEach(g => {
+    const imgs = [...g.querySelectorAll('img')];
+    imgs.forEach((img, i) => {
+      img.tabIndex = 0;
+      img.setAttribute('role', 'button');
+      img.addEventListener('click', () => openModal(imgs, i));
+      img.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(imgs, i); }
+      });
+    });
   });
+
+  modal.querySelector('.modal-close').addEventListener('click', closeModal);
+  modal.querySelector('.modal-prev').addEventListener('click', () => show(index - 1));
+  modal.querySelector('.modal-next').addEventListener('click', () => show(index + 1));
+  modal.addEventListener('click', e => { if (e.target === modal || e.target.tagName === 'FIGURE') closeModal(); });
+
+  document.addEventListener('keydown', e => {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft')  show(index - 1);
+    if (e.key === 'ArrowRight') show(index + 1);
+  });
+
+  /* swipe on touch devices */
+  let x0 = null;
+  modal.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  modal.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
+})();
 </script>
 </body>
 </html>
